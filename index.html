@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>📝 中级监控 · 三套精准题库</title>
+  <title>📝 中级监控 · 智能答题系统</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif; }
     body { background: #f2f5f9; height: 100vh; display: flex; justify-content: center; align-items: center; }
-    .app { display: flex; width: 1300px; height: 800px; background: #ffffff; border-radius: 32px; box-shadow: 0 20px 40px rgba(0, 20, 30, 0.15); overflow: hidden; }
+    .app { display: flex; width: 1300px; height: 800px; background: #ffffff; border-radius: 32px; box-shadow: 0 20px 40px rgba(0, 20, 30, 0.15); overflow: hidden; position: relative; }
+    
     /* 左侧答题卡 */
     .answer-card { width: 300px; background: #f8fafd; border-right: 1px solid #e2e8f0; display: flex; flex-direction: column; padding: 24px 18px; flex-shrink: 0; }
     .stats { display: flex; justify-content: space-between; background: #ffffff; padding: 16px 12px; border-radius: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); margin-bottom: 24px; border: 1px solid #e9edf4; }
@@ -17,20 +18,38 @@
     .stat-value.answered { color: #2a7a4b; }
     .stat-value.unanswered { color: #b13e3e; }
     .divider { width: 1px; background: #e2e8f0; margin: 0 4px; }
-    .paper-selector { margin-bottom: 20px; }
+    
+    .paper-selector { margin-bottom: 16px; }
     .paper-btn { width: 100%; background: #1e2b3c; color: white; border: none; padding: 14px 16px; border-radius: 18px; font-size: 16px; font-weight: 600; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: background 0.2s; box-shadow: 0 6px 12px rgba(0,0,0,0.08); }
     .paper-btn:hover { background: #14202e; }
     .paper-btn span:last-child { font-size: 20px; line-height: 1; }
-    .card-title { font-size: 15px; font-weight: 600; color: #3a4b62; margin: 18px 0 12px 6px; letter-spacing: 0.3px; display: flex; align-items: center; gap: 6px; }
+    
+    .action-btns { display: flex; gap: 8px; margin-bottom: 16px; }
+    .action-btn { flex: 1; padding: 12px; border: none; border-radius: 16px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+    .action-btn.submit { background: #2a7a4b; color: white; }
+    .action-btn.submit:hover { background: #1e5e38; }
+    .action-btn.reset { background: #eef2f8; color: #2e405b; }
+    .action-btn.reset:hover { background: #e1e9f2; }
+    .action-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    
+    .random-check { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; padding: 8px 12px; background: #fff; border-radius: 12px; border: 1px solid #e9edf4; font-size: 14px; color: #2e405b; cursor: pointer; }
+    .random-check input { width: 18px; height: 18px; accent-color: #1e2b3c; cursor: pointer; }
+    
+    .card-title { font-size: 15px; font-weight: 600; color: #3a4b62; margin: 8px 0 12px 6px; letter-spacing: 0.3px; display: flex; align-items: center; gap: 6px; }
     .question-grid { display: flex; flex-wrap: wrap; gap: 8px; overflow-y: auto; padding: 4px 4px 10px 4px; flex: 1; align-content: flex-start; }
     .question-btn { width: 46px; height: 46px; border-radius: 14px; background: #ffffff; border: 1.5px solid #dce2ec; font-weight: 600; font-size: 14px; color: #1f2c3f; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
     .question-btn:hover { border-color: #8099b3; background: #f0f5ff; }
     .question-btn.answered { background: #e3f5e9; border-color: #2a7a4b; color: #1d5e38; }
     .question-btn.active { background: #1e2b3c; border-color: #1e2b3c; color: white; box-shadow: 0 8px 14px rgba(0,0,0,0.15); }
     .question-btn.answered.active { background: #1e2b3c; border-color: #1e2b3c; color: white; }
+    .question-btn.correct { background: #d4edda; border-color: #28a745; color: #155724; }
+    .question-btn.wrong { background: #f8d7da; border-color: #dc3545; color: #721c24; }
+    .question-btn.correct.active { background: #1e2b3c; border-color: #1e2b3c; color: white; }
+    .question-btn.wrong.active { background: #1e2b3c; border-color: #1e2b3c; color: white; }
+    
     /* 右侧试卷内容 */
-    .paper-area { flex: 1; display: flex; flex-direction: column; background: #ffffff; }
-    .paper-header { padding: 24px 32px 12px 32px; border-bottom: 1px solid #edf2f9; }
+    .paper-area { flex: 1; display: flex; flex-direction: column; background: #ffffff; position: relative; }
+    .paper-header { padding: 32px 32px 12px 32px; border-bottom: 1px solid #edf2f9; }
     .paper-title { font-size: 22px; font-weight: 700; color: #0b1a2b; letter-spacing: -0.2px; margin-bottom: 6px; }
     .paper-sub { font-size: 14px; color: #6f7f96; }
     .questions-container { flex: 1; overflow-y: auto; padding: 20px 32px 32px 32px; scroll-behavior: smooth; }
@@ -42,10 +61,43 @@
     .options { display: flex; flex-direction: column; gap: 8px; margin-left: 8px; }
     .option { display: flex; align-items: flex-start; gap: 12px; padding: 8px 12px; border-radius: 14px; transition: background 0.1s; cursor: pointer; }
     .option:hover { background: #f5f9ff; }
-    .option input[type="radio"] { width: 18px; height: 18px; accent-color: #1e2b3c; cursor: pointer; margin: 4px 0 0 0; flex-shrink: 0; }
+    .option input[type="radio"], .option input[type="checkbox"] { width: 18px; height: 18px; accent-color: #1e2b3c; cursor: pointer; margin: 4px 0 0 0; flex-shrink: 0; }
     .option label { font-size: 15px; color: #26384e; cursor: pointer; flex: 1; line-height: 1.4; }
-    .explain { margin-top: 12px; padding: 10px 14px; background: #f4f8ff; border-radius: 12px; font-size: 14px; color: #3a506b; border-left: 4px solid #7a9bcb; }
-    .explain strong { color: #1e2b3c; }
+    
+    /* 答题结果样式 */
+    .result-section { margin-top: 16px; padding: 16px; border-radius: 16px; background: #fafcff; border: 1px solid #e9edf4; }
+    .result-row { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 10px; }
+    .result-item { display: flex; align-items: center; gap: 8px; font-size: 15px; }
+    .result-label { font-weight: 600; color: #3a4b62; }
+    .result-value { font-weight: 500; }
+    .result-value.correct { color: #28a745; }
+    .result-value.wrong { color: #dc3545; }
+    .result-options { margin-top: 8px; font-size: 14px; color: #3a506b; line-height: 1.6; }
+    .result-options span { display: inline-block; margin-right: 16px; }
+    .result-options .correct-opt { color: #28a745; font-weight: 600; }
+    .result-options .wrong-opt { color: #dc3545; text-decoration: line-through; }
+    .result-options .selected-opt { background: #fff3cd; padding: 2px 6px; border-radius: 6px; }
+    .result-options .correct-answer { color: #28a745; font-weight: 600; }
+    
+    .no-highlight-check { display: flex; align-items: center; gap: 8px; margin-top: 12px; padding: 8px 12px; background: #fff; border-radius: 12px; border: 1px solid #e9edf4; font-size: 14px; color: #2e405b; cursor: pointer; }
+    .no-highlight-check input { width: 18px; height: 18px; accent-color: #1e2b3c; cursor: pointer; }
+    
+    /* 历史成绩 */
+    .history-section { margin-top: 16px; border-top: 1px solid #e9edf4; padding-top: 12px; }
+    .history-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; padding: 8px 12px; background: #f6f9fe; border-radius: 12px; font-size: 14px; font-weight: 600; color: #2e405b; user-select: none; }
+    .history-header:hover { background: #eef3fa; }
+    .history-header .arrow { transition: transform 0.2s; font-size: 12px; }
+    .history-header .arrow.open { transform: rotate(180deg); }
+    .history-list { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .history-list.open { max-height: 300px; overflow-y: auto; }
+    .history-item { display: flex; justify-content: space-between; padding: 8px 12px; border-bottom: 1px solid #f0f4fa; font-size: 13px; color: #3a506b; }
+    .history-item:last-child { border-bottom: none; }
+    .history-item .score { font-weight: 700; }
+    .history-item .score.pass { color: #28a745; }
+    .history-item .score.fail { color: #dc3545; }
+    .clear-history { text-align: center; padding: 8px; color: #b13e3e; cursor: pointer; font-size: 13px; font-weight: 500; }
+    .clear-history:hover { background: #fff5f5; border-radius: 8px; }
+    
     /* 弹窗 */
     .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); backdrop-filter: blur(3px); display: none; justify-content: center; align-items: center; z-index: 1000; }
     .modal-overlay.show { display: flex; }
@@ -60,15 +112,34 @@
     .close-modal:hover { background: #e1e9f2; }
     .empty-paper { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #7a8aa3; font-size: 16px; gap: 12px; user-select: none; }
     .empty-paper span { font-size: 48px; opacity: 0.4; }
+    
+    /* 提交确认弹窗 */
+    .confirm-modal .modal-content { text-align: center; }
+    .confirm-modal .modal-content p { font-size: 16px; color: #2e405b; margin-bottom: 24px; line-height: 1.5; }
+    .confirm-modal .modal-content .btns { display: flex; gap: 12px; }
+    .confirm-modal .modal-content .btns button { flex: 1; padding: 12px; border: none; border-radius: 16px; font-size: 16px; font-weight: 600; cursor: pointer; }
+    .confirm-modal .modal-content .btns .cancel { background: #eef2f8; color: #2e405b; }
+    .confirm-modal .modal-content .btns .confirm { background: #2a7a4b; color: white; }
+    
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: #f0f4fa; }
     ::-webkit-scrollbar-thumb { background: #b9c8db; border-radius: 10px; }
     ::-webkit-scrollbar-thumb:hover { background: #93a9c4; }
+    
+    .score-banner { padding: 16px 24px; background: #f0f7ff; border-radius: 20px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #d4e4f7; }
+    .score-banner .total-score { font-size: 28px; font-weight: 800; color: #1e2b3c; }
+    .score-banner .total-score.pass { color: #28a745; }
+    .score-banner .total-score.fail { color: #dc3545; }
+    .score-banner .score-label { font-size: 14px; color: #5b6e8c; }
+    .score-banner .result-status { font-size: 18px; font-weight: 700; padding: 6px 18px; border-radius: 30px; }
+    .score-banner .result-status.pass { background: #d4edda; color: #155724; }
+    .score-banner .result-status.fail { background: #f8d7da; color: #721c24; }
   </style>
 </head>
 <body>
-<div class="app">
-  <aside class="answer-card">
+<div class="app" id="app">
+  <!-- 左侧答题卡 -->
+  <aside class="answer-card" id="answerCard">
     <div class="stats">
       <div class="stat-item"><div class="stat-label">总题</div><div class="stat-value" id="totalCount">0</div></div>
       <div class="divider"></div>
@@ -76,13 +147,36 @@
       <div class="divider"></div>
       <div class="stat-item"><div class="stat-label">未答</div><div class="stat-value unanswered" id="unansweredCount">0</div></div>
     </div>
-    <div class="paper-selector">
+    
+    <!-- 选择试卷按钮 / 提交重置按钮 -->
+    <div class="paper-selector" id="paperSelector">
       <button class="paper-btn" id="selectPaperBtn"><span>📄 选择试卷</span><span>▾</span></button>
     </div>
-    <div class="card-title"><span>🔢 答题卡</span><span style="font-size:12px;background:#e2e8f0;padding:2px 8px;border-radius:20px;color:#2e405b;" id="cardPaperName">未选择</span></div>
+    <div class="action-btns" id="actionBtns" style="display: none;">
+      <button class="action-btn submit" id="submitBtn">提交试卷</button>
+      <button class="action-btn reset" id="resetBtn">重置试卷</button>
+    </div>
+    
+    <!-- 随机答题选项 -->
+    <label class="random-check" id="randomCheckWrap" style="display: none;">
+      <input type="checkbox" id="randomCheck"> 随机答题（打乱题目顺序）
+    </label>
+    
+    <div class="card-title" id="cardTitle"><span>🔢 答题卡</span><span style="font-size:12px;background:#e2e8f0;padding:2px 8px;border-radius:20px;color:#2e405b;" id="cardPaperName">未选择</span></div>
     <div class="question-grid" id="questionGrid"></div>
+    
+    <!-- 历史成绩区域（仅在答题结果显示时显示） -->
+    <div class="history-section" id="historySection" style="display: none;">
+      <div class="history-header" id="historyHeader">
+        <span>📊 历史成绩</span>
+        <span class="arrow" id="historyArrow">▼</span>
+      </div>
+      <div class="history-list" id="historyList"></div>
+    </div>
   </aside>
-  <main class="paper-area">
+  
+  <!-- 右侧试卷内容 -->
+  <main class="paper-area" id="paperArea">
     <div class="paper-header">
       <div class="paper-title" id="paperTitle">请选择试卷</div>
       <div class="paper-sub" id="paperSub">点击左侧「选择试卷」开始考试</div>
@@ -93,6 +187,7 @@
   </main>
 </div>
 
+<!-- 试卷选择弹窗 -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <h3>📑 选择试卷</h3>
@@ -101,8 +196,22 @@
   </div>
 </div>
 
+<!-- 提交确认弹窗 -->
+<div class="modal-overlay" id="confirmOverlay">
+  <div class="modal confirm-modal">
+    <div class="modal-content">
+      <h3>📝 确认提交</h3>
+      <p>提交后无法修改答案，是否确认提交？</p>
+      <div class="btns">
+        <button class="cancel" id="cancelSubmitBtn">取消</button>
+        <button class="confirm" id="confirmSubmitBtn">确认提交</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
-  // ========== 三套试卷数据（完整题库） ==========
+  // ========== 三套试卷数据 ==========
   const papers = [
     {
       id: 'paper1',
@@ -209,7 +318,7 @@
         { id:98, type:'single', text:'监管报警信号是具有监管功能的集中控制器接收除火灾报警、故障信号、联动控制信号之外的其他输入信号时，应在（）s内发出的报警声、光信号。（C）', options:['10','50','100','120'], answer:2, explanation:'应在100s内发出。' },
         { id:99, type:'single', text:'大理石属于（）材料。（A）', options:['A级','B级','A1级','B1级'], answer:0, explanation:'大理石属于A级材料。' },
         { id:100, type:'single', text:'火灾发生后，当自动启动的消防主泵故障时，设定的消防备泵（）接替主泵正常启动。（B）', options:['能手动','能自动','能联动','连锁控制'], answer:1, explanation:'消防备泵应能自动接替正常启动。' },
-        // 多选题 101-140
+        // 多选题
         { id:101, type:'multiple', text:'应急照明控制器是控制并显示（）等工作状态的装置。（ABC）', options:['集中控制型消防应急灯具','应急照明集中电源','应急照明配电箱及相关附件','消防紧急照明灯具','非集中控制型消防应急灯具'], answer:[0,1,2], explanation:'应急照明控制器控制并显示集中控制型消防应急灯具、应急照明集中电源、应急照明配电箱及相关附件等工作状态。' },
         { id:102, type:'multiple', text:'避难层的设置应满足（）等要求。（ABCE）', options:['从首层到第一个避难层之间及两个避难层之间的高度不应大于50m','通向避难层的疏散楼梯应在避难层分隔、同层错位或上下层断开','避难层的净面积应能满足设计避难人数避难的要求，宜按5人/㎡计算','避难层不可与设备层结合布置','应设置消防电梯出口'], answer:[0,1,2,4], explanation:'避难层可与设备层结合布置，故D错误。' },
         { id:103, type:'multiple', text:'可以通过以下哪些方法发布火警信息？（）（ABCE）', options:['应急广播系统','警铃','室内电话','逐一通知','喊话'], answer:[0,1,2,4], explanation:'可利用应急广播系统、警铃、室内电话等设施设备以及通过喊话等方式发布火警信息。' },
@@ -250,7 +359,7 @@
         { id:138, type:'multiple', text:'储存物品的火灾危险性根据储存物品的性质和储存物品中的可燃物数量等因素划分为（）类。（ABCDE）', options:['戊','丙','乙','甲','丁'], answer:[0,1,2,3,4], explanation:'分为甲、乙、丙、丁、戊类。' },
         { id:139, type:'multiple', text:'刷新频率越（），屏幕上图像闪烁感就越（），对视力的保护也越（）。（ABC）', options:['高','小','好','一般','差'], answer:[0,1,2], explanation:'刷新频率越高，闪烁感越小，对视力的保护越好。' },
         { id:140, type:'multiple', text:'地方各级人民政府应当将（）等内容的消防规划纳入城乡规划，并负责组织实施。（ABCDE）', options:['消防站','消防安全布局','消防供水','消防车通道','消防装备'], answer:[0,1,2,3,4], explanation:'包括消防安全布局、消防站、消防供水、消防通信、消防车通道、消防装备等。' },
-        // 判断题 141-200
+        // 判断题
         { id:141, type:'judge', text:'超过2层或建筑面积大于1000㎡的地下建筑（室）应设置消防水泵接合器。（错）', options:['对','错'], answer:1, explanation:'应为超过2层或建筑面积大于10000㎡的地下建筑（室）。' },
         { id:142, type:'judge', text:'撤掉减光片，手动操作火灾报警控制器的复位键后火灾报警控制器应处于正常监视状态，线型光束感烟火灾探测器的火警确认灯应常亮。（错）', options:['对','错'], answer:1, explanation:'火警确认灯应熄灭。' },
         { id:143, type:'judge', text:'在任一时刻，沿任一闭合回路循环一周，回路中各段电压的代数和恒等于零。（对）', options:['对','错'], answer:0, explanation:'此为基尔霍夫电压定律。' },
@@ -395,7 +504,7 @@
         { id:75, type:'single', text:'不用安装，下载解压后可以直接使用的软件又称（A）？', options:['绿色软件','OFFICE系列软件','系统软件','应用软件'], answer:0, explanation:'不用安装的绿色软件，下载解压后可以直接使用。' },
         { id:76, type:'single', text:'以下属于A级材料的是（A）？', options:['金属复合板','矿棉板','胶合板','水泥刨花板'], answer:0, explanation:'金属复合板属于A级材料。' },
         { id:77, type:'single', text:'电气火灾监控器在接收到（A）的报警信息，经报警确认判断，将驱动安装在保护区域现场的声光警报装置发出声光警报？', options:['电气火灾监控探测器','火灾报警控制器','消防联动控制器','图形显示装置'], answer:0, explanation:'电气火灾监控器在接收到电气火灾监控探测器的报警信息，经报警确认判断，将驱动声光警报装置发出声光警报。' },
-        // 多选题 78-114
+        // 多选题
         { id:78, type:'multiple', text:'下列关于老年人照料设施平面布置的说法，正确的是（ABCDE）？', options:['对于一、二级耐火等级建筑，不应布置在楼地面设计标高大于54m的楼层上','对于三级耐火等级建筑，应布置在首层或二层','老年人公共活动用房、康复与医疗用房，应布置在地下一层及以上楼层，当布置在半地下或地下一层、地上四层及以上楼层时，每个房间的建筑面积不应大于200m2且使用人数不应大于30人','居室和休息室不应布置在地下或半地下','老年人照料设施应采用防火门、防火窗、耐火极限不低于2.00h的防火隔墙和耐火极限不低于1.00h的楼板与其他区域分隔'], answer:[0,1,2,3,4], explanation:'以上说法均正确。' },
         { id:79, type:'multiple', text:'火场发生回燃前有哪些征兆（BCDE）？', options:['空中烟气降至地面1m左右','开口流出脉动式热烟气','有烟气被倒吸入室内的现象','热烟气层中出现蓝色火焰','听见吸气声或呼啸声'], answer:[1,2,3,4], explanation:'回燃发生前征兆：开口流出脉动式热烟气；有烟气被倒吸入室内的现象；热烟气层中出现蓝色火焰；听见吸气声或呼啸声。' },
         { id:80, type:'multiple', text:'下列（ACDE）部位应设置排烟防火阀？', options:['垂直主排烟管道与每层水平排烟管道交接处的水平管段','垂直主排烟管道与每层水平排烟管道交接处的垂直管段','负担多个防烟分区的排烟支管处','排烟风机入口处','排烟管道穿越防火分区处'], answer:[0,2,3,4], explanation:'机械排烟系统的垂直主排烟管道与每层水平排烟管道交接处的水平管段、负担多个防烟分区的排烟支管处、排烟风机入口处、排烟管道穿越防火分区处均应设置排烟防火阀。' },
@@ -436,7 +545,7 @@
         { id:115, type:'multiple', text:'热对流只能发生在流体（气体和液体中），是指流体中质点发生相对位移而引起的、由空间的一处向另一处传播热能的现象，热对流分为以下几种（AC）？', options:['气体对流','固体传导','液体对流','强制对流','自然对流'], answer:[0,2], explanation:'热对流分为气体对流和液体对流。' },
         { id:116, type:'multiple', text:'消除静电危害的措施主要有（ABCDE）？', options:['接地法','泄露法','中和法','工艺控制法','导除法'], answer:[0,1,2,3,4], explanation:'消除静电危害的措施主要有：接地法、泄漏法、中和法、工艺控制法和导除法。' },
         { id:117, type:'multiple', text:'消防水源包括（ABCD）？', options:['市政给水','消防水池','高位消防水池','天然水源','消防水泵接合器'], answer:[0,1,2,3], explanation:'消防水源包括市政给水、消防水池、高位消防水池和天然水源等。' },
-        // 判断题 118-158
+        // 判断题
         { id:118, type:'judge', text:'剩余电流式电气火灾监控探测器在供电线路泄漏电流大于500mA时，宜设置在其下一级配电柜（箱）。（对）', options:['对','错'], answer:0, explanation:'表述正确。' },
         { id:119, type:'judge', text:'消防电话总机能为消防电话分机供电，能与消防电话分机进行半双工通话。（错）', options:['对','错'], answer:1, explanation:'消防电话总机能为消防电话分机和消防电话插孔供电，能与消防电话分机进行全双工通话。' },
         { id:120, type:'judge', text:'气体灭火系统按照应用方式分为组合分配和单元独立。（错）', options:['对','错'], answer:1, explanation:'气体灭火系统按应用方式分为全淹没和局部应用灭火系统。' },
@@ -585,7 +694,7 @@
         { id:79, type:'single', text:'对集中火灾报警控制器、消防联动控制器、消防控制室图形显示装置的打印机的保养方法中正确是（A）。', options:['打印机走纸不正常或者打印文字不清晰应及时修复','打印机不宜长时间通电','打印纸无备量','打印机不应设置为即时打印'], answer:0, explanation:'打印机走纸不正常或者打印文字不清晰应及时修复。' },
         { id:80, type:'single', text:'《石油库设计规范》中根据（C），将液体分为易燃液体和可燃液体两种类型。', options:['燃点','自燃点','闪点','氧指数'], answer:2, explanation:'根据闪点将液体分为易燃液体和可燃液体。' },
         { id:81, type:'single', text:'对于采用（B）消防给水系统的高层或多层建筑，当高位消防水箱的设置不能满足系统最不利点处的静压要求时，应在建筑消防给水系统中设置增(稳)压设施，并采取配套设置气压罐等防止稳压泵频繁启停的技术措施。', options:['高压','临时高压','低压','常压'], answer:1, explanation:'对于采用临时高压消防给水系统的高层或多层建筑。' },
-        // 多选题 82-117
+        // 多选题
         { id:82, type:'multiple', text:'火灾自动报警系统的工作状态可以通过（ACE）等方式显示出来。', options:['面板指示灯','火警指示状态','提示音','消音状态','文字'], answer:[0,2,4], explanation:'工作状态可通过面板指示灯、提示音和文字等方式显示出来。' },
         { id:83, type:'multiple', text:'机关，团体，企业，事业等单位应当落实消防安全主体责任，履行（ABCD）等职责。', options:['按照相关要求标准配备消防设施及器材','保障疏散通道、安全出口等符合消防技术标准','明确各级各岗位消防安全责任人','保证防火检查巡查','建立消防档案确定消防安全重点部位'], answer:[0,1,2,3], explanation:'E选项是消防安全重点单位应履行的职责。' },
         { id:84, type:'multiple', text:'根据所安装喷头的结构形式，自动喷水灭火系统可分为开式系统和闭式系统两大类，（ABCE）属于闭式系统。', options:['湿式系统','干式系统','预作用系统','雨淋系统','重复启闭预作用系统'], answer:[0,1,2,4], explanation:'湿式、干式、预作用、重复启闭预作用系统属于闭式系统。' },
@@ -618,7 +727,7 @@
         { id:111, type:'multiple', text:'对于消防控制室图形显示装置应先断开（ABC），使装置完全处于无源状态。', options:['交流电源','UPS电源','网络连接','EPS电源','蓄电池电源'], answer:[0,1,2], explanation:'先断开交流电源、UPS电源和网络连接。' },
         { id:112, type:'multiple', text:'防火卷帘通常可按照（BCE）等进行分类。', options:['厚度','材质','启闭方式','动作温度','帘面数量'], answer:[1,2,4], explanation:'防火卷帘通常可按照材质、帘面数量、启闭方式等进行分类。' },
         { id:113, type:'multiple', text:'防火间距由于场地等原因，难以满足国家规范的要求时，可根据建筑的实际情况采取（ABCDE）措施。', options:['改变建筑的生产和使用性质，尽量降低建筑的火灾危险性','改变房屋部分结构的耐火性能，提高建筑的耐火等级','建筑的普通外墙改造为防火墙或减小相邻建筑的开口面积','拆除部分耐火等级低、占地面积小、存在价值低且与新建筑相邻的原有陈旧建筑','设置独立的室外防火墙'], answer:[0,1,2,3,4], explanation:'以上措施均可采取。' },
-        // 判断题 114-161
+        // 判断题
         { id:114, type:'judge', text:'火灾显示盘的信息显示应按火灾报警、故障、监管报警的顺序由高至低排列显示等级。（错）', options:['对','错'], answer:1, explanation:'火灾显示盘的信息显示应按火灾报警、监管报警、故障的顺序由高至低排列显示等级。' },
         { id:115, type:'judge', text:'激光光束线型感烟火灾探测器可分为对射型和反射型两种。（错）', options:['对','错'], answer:1, explanation:'红外光束线型感烟火灾探测器可分为对射型和反射型两种。' },
         { id:116, type:'judge', text:'开机密码是指在开机后，进入操作系统之前要求用户输入的密码，密码正确才可以进行操作系统的启动该密码可以防止非授权用户开机。（对）', options:['对','错'], answer:0, explanation:'表述正确。' },
@@ -675,12 +784,19 @@
     }
   ];
 
-  // ========== 应用状态 ==========
-  let currentPaper = null;
-  let userAnswers = {}; // { [paperId]: { questionId: answer } }
-  let activeQuestionId = null;
+  // ========== 全局状态 ==========
+  let currentPaper = null;               // 当前试卷对象
+  let currentQuestions = [];            // 当前试卷的题目数组（可能被随机打乱）
+  let userAnswers = {};                 // { paperId: { questionId: answer } }
+  let activeQuestionId = null;          // 当前高亮的题目id
+  let isSubmitted = false;              // 是否已提交
+  let score = 0;                        // 得分
+  let randomMode = false;              // 是否随机答题
+  let noHighlight = false;             // 是否不高亮（1秒后恢复）
+  let historyVisible = false;          // 历史成绩是否展开
+  let historyRecords = [];              // 历史成绩记录
 
-  // DOM
+  // DOM 元素
   const totalCountEl = document.getElementById('totalCount');
   const answeredCountEl = document.getElementById('answeredCount');
   const unansweredCountEl = document.getElementById('unansweredCount');
@@ -693,17 +809,56 @@
   const paperList = document.getElementById('paperList');
   const closeModalBtn = document.getElementById('closeModalBtn');
   const cardPaperName = document.getElementById('cardPaperName');
+  const actionBtns = document.getElementById('actionBtns');
+  const submitBtn = document.getElementById('submitBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const randomCheckWrap = document.getElementById('randomCheckWrap');
+  const randomCheck = document.getElementById('randomCheck');
+  const confirmOverlay = document.getElementById('confirmOverlay');
+  const cancelSubmitBtn = document.getElementById('cancelSubmitBtn');
+  const confirmSubmitBtn = document.getElementById('confirmSubmitBtn');
+  const historySection = document.getElementById('historySection');
+  const historyHeader = document.getElementById('historyHeader');
+  const historyArrow = document.getElementById('historyArrow');
+  const historyList = document.getElementById('historyList');
+  const answerCard = document.getElementById('answerCard');
+
+  // ---------- 工具函数 ----------
+  function shuffleArray(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  // 按题型分组并打乱组内顺序
+  function shuffleQuestions(questions) {
+    const singles = questions.filter(q => q.type === 'single');
+    const multiples = questions.filter(q => q.type === 'multiple');
+    const judges = questions.filter(q => q.type === 'judge');
+    return [
+      ...shuffleArray(singles),
+      ...shuffleArray(multiples),
+      ...shuffleArray(judges)
+    ];
+  }
 
   // 初始化答案结构
   function initAnswersForPaper(paperId) {
     if (!userAnswers[paperId]) userAnswers[paperId] = {};
   }
 
-  // 获取已答数量（按题目id计）
-  function getAnsweredCount(paper) {
-    if (!paper) return 0;
-    const answers = userAnswers[paper.id] || {};
-    return Object.keys(answers).length;
+  // 获取已答数量
+  function getAnsweredCount(paperId, questions) {
+    if (!paperId || !questions) return 0;
+    const answers = userAnswers[paperId] || {};
+    let count = 0;
+    questions.forEach(q => {
+      if (answers[q.id] !== undefined) count++;
+    });
+    return count;
   }
 
   // 更新统计
@@ -714,8 +869,8 @@
       unansweredCountEl.textContent = '0';
       return;
     }
-    const total = currentPaper.questions.length;
-    const answered = getAnsweredCount(currentPaper);
+    const total = currentQuestions.length;
+    const answered = getAnsweredCount(currentPaper.id, currentQuestions);
     totalCountEl.textContent = total;
     answeredCountEl.textContent = answered;
     unansweredCountEl.textContent = total - answered;
@@ -726,14 +881,35 @@
     if (!currentPaper) { questionGrid.innerHTML = ''; return; }
     const answers = userAnswers[currentPaper.id] || {};
     let html = '';
-    currentPaper.questions.forEach(q => {
+    currentQuestions.forEach(q => {
       const isAnswered = answers[q.id] !== undefined;
       const isActive = activeQuestionId === q.id;
-      const answeredClass = isAnswered ? 'answered' : '';
+      let extraClass = '';
+      if (isSubmitted) {
+        // 提交后显示对错
+        const correct = isAnswerCorrect(q, answers[q.id]);
+        extraClass = correct ? 'correct' : 'wrong';
+      } else {
+        extraClass = isAnswered ? 'answered' : '';
+      }
       const activeClass = isActive ? 'active' : '';
-      html += `<button class="question-btn ${answeredClass} ${activeClass}" data-qid="${q.id}">${q.id}</button>`;
+      html += `<button class="question-btn ${extraClass} ${activeClass}" data-qid="${q.id}">${q.id}</button>`;
     });
     questionGrid.innerHTML = html;
+  }
+
+  // 判断答案是否正确
+  function isAnswerCorrect(q, answer) {
+    if (answer === undefined) return false;
+    if (q.type === 'single' || q.type === 'judge') {
+      return answer === q.answer;
+    } else if (q.type === 'multiple') {
+      if (!Array.isArray(answer) || !Array.isArray(q.answer)) return false;
+      const a = [...answer].sort((x,y)=>x-y);
+      const b = [...q.answer].sort((x,y)=>x-y);
+      return a.length === b.length && a.every((v,i) => v === b[i]);
+    }
+    return false;
   }
 
   // 高亮当前题目
@@ -753,28 +929,28 @@
     activeQuestionId = questionId;
     renderQuestionButtons();
     updateActiveQuestionHighlight();
+    if (noHighlight) {
+      setTimeout(() => {
+        document.querySelectorAll('.question-item').forEach(el => el.classList.remove('active-question'));
+      }, 1000);
+    }
   }
 
   // 处理答案选择
   function handleAnswerSelect(paperId, questionId, answerValue, type) {
-    if (!currentPaper || currentPaper.id !== paperId) return;
+    if (!currentPaper || currentPaper.id !== paperId || isSubmitted) return;
     initAnswersForPaper(paperId);
-
-    if (type === 'single') {
+    if (type === 'single' || type === 'judge') {
       userAnswers[paperId][questionId] = answerValue;
     } else if (type === 'multiple') {
-      // answerValue 为数组
-      userAnswers[paperId][questionId] = answerValue;
-    } else if (type === 'judge') {
       userAnswers[paperId][questionId] = answerValue;
     }
-
     updateStats();
     renderQuestionButtons();
     // 保留当前高亮
   }
 
-  // 渲染试卷内容
+  // 渲染试卷内容（答题模式）
   function renderPaperContent() {
     if (!currentPaper) {
       paperTitle.textContent = '请选择试卷';
@@ -791,7 +967,7 @@
     const answers = userAnswers[currentPaper.id] || {};
     let html = '';
 
-    currentPaper.questions.forEach(q => {
+    currentQuestions.forEach(q => {
       const saved = answers[q.id];
       html += `<div class="question-item" data-qid="${q.id}">`;
       html += `<div class="q-header"><span class="q-index">第 ${q.id} 题</span><span class="q-text">${q.text}</span></div>`;
@@ -827,6 +1003,7 @@
     // 绑定单选和判断
     document.querySelectorAll('input[type="radio"]').forEach(radio => {
       radio.addEventListener('change', (e) => {
+        if (isSubmitted) return;
         const qid = parseInt(e.target.dataset.qid);
         const optIndex = parseInt(e.target.dataset.optindex);
         const type = e.target.dataset.type;
@@ -837,10 +1014,8 @@
     // 绑定多选
     document.querySelectorAll('input[type="checkbox"]').forEach(chk => {
       chk.addEventListener('change', (e) => {
+        if (isSubmitted) return;
         const qid = parseInt(e.target.dataset.qid);
-        const optIndex = parseInt(e.target.dataset.optindex);
-        // 收集该题所有选中的
-        const name = `chk_${currentPaper.id}_${qid}`;
         const checked = [];
         document.querySelectorAll(`input[data-qid="${qid}"][data-type="multiple"]`).forEach(cb => {
           if (cb.checked) checked.push(parseInt(cb.dataset.optindex));
@@ -849,21 +1024,221 @@
       });
     });
 
-    // 恢复高亮
     if (activeQuestionId) {
-      const exists = currentPaper.questions.some(q => q.id === activeQuestionId);
+      const exists = currentQuestions.some(q => q.id === activeQuestionId);
       if (!exists) activeQuestionId = null;
     }
     updateActiveQuestionHighlight();
+  }
+
+  // 渲染答题结果
+  function renderResultContent() {
+    if (!currentPaper) return;
+    paperTitle.textContent = `${currentPaper.name} · 答题结果`;
+    const totalScore = currentQuestions.length * 0.5;
+    const passScore = 60;
+    const status = score >= passScore ? 'pass' : 'fail';
+    const statusText = score >= passScore ? '及格' : '不及格';
+
+    let html = `<div class="score-banner">
+      <div><span class="score-label">总分</span> <span class="total-score ${status}">${score.toFixed(1)}</span> <span class="score-label">/ ${totalScore.toFixed(1)}</span></div>
+      <div class="result-status ${status}">${statusText}</div>
+    </div>`;
+
+    const answers = userAnswers[currentPaper.id] || {};
+
+    currentQuestions.forEach(q => {
+      const userAns = answers[q.id];
+      const correct = isAnswerCorrect(q, userAns);
+      html += `<div class="question-item" data-qid="${q.id}">`;
+      html += `<div class="q-header"><span class="q-index">第 ${q.id} 题</span><span class="q-text">${q.text}</span></div>`;
+
+      // 显示用户答案和正确答案
+      let userAnswerStr = '未作答';
+      let correctAnswerStr = '';
+
+      if (q.type === 'single' || q.type === 'judge') {
+        if (userAns !== undefined) {
+          userAnswerStr = `${String.fromCharCode(65+userAns)}. ${q.options[userAns]}`;
+        }
+        correctAnswerStr = `${String.fromCharCode(65+q.answer)}. ${q.options[q.answer]}`;
+      } else if (q.type === 'multiple') {
+        if (Array.isArray(userAns) && userAns.length > 0) {
+          userAnswerStr = userAns.map(i => `${String.fromCharCode(65+i)}. ${q.options[i]}`).join('； ');
+        }
+        correctAnswerStr = q.answer.map(i => `${String.fromCharCode(65+i)}. ${q.options[i]}`).join('； ');
+      }
+
+      html += `<div class="result-section">
+        <div class="result-row">
+          <div class="result-item"><span class="result-label">你的答案：</span><span class="result-value ${correct ? 'correct' : 'wrong'}">${userAnswerStr}</span></div>
+          <div class="result-item"><span class="result-label">标准答案：</span><span class="result-value correct">${correctAnswerStr}</span></div>
+          <div class="result-item"><span class="result-label">结果：</span><span class="result-value ${correct ? 'correct' : 'wrong'}">${correct ? '✔ 正确' : '✘ 错误'}</span></div>
+        </div>
+        <div class="result-options">`;
+      if (q.type === 'single' || q.type === 'judge') {
+        q.options.forEach((opt, idx) => {
+          let cls = '';
+          if (idx === q.answer) cls = 'correct-opt';
+          if (userAns === idx && idx !== q.answer) cls = 'wrong-opt';
+          if (userAns === idx && idx === q.answer) cls = 'correct-opt';
+          html += `<span class="${cls}">${String.fromCharCode(65+idx)}. ${opt}</span>`;
+        });
+      } else if (q.type === 'multiple') {
+        q.options.forEach((opt, idx) => {
+          let cls = '';
+          const isCorrect = q.answer.includes(idx);
+          const isSelected = Array.isArray(userAns) && userAns.includes(idx);
+          if (isCorrect) cls = 'correct-answer';
+          if (isSelected && !isCorrect) cls = 'wrong-opt';
+          if (isSelected && isCorrect) cls = 'correct-opt selected-opt';
+          html += `<span class="${cls}">${String.fromCharCode(65+idx)}. ${opt}</span>`;
+        });
+      }
+      html += `</div></div>`;
+
+      if (q.explanation) {
+        html += `<div class="explain"><strong>解析：</strong>${q.explanation}</div>`;
+      }
+
+      html += `</div>`;
+    });
+
+    // 不高亮勾选
+    html += `<label class="no-highlight-check"><input type="checkbox" id="noHighlightCheck" ${noHighlight ? 'checked' : ''}> 跳转不高亮（1秒后恢复）</label>`;
+
+    questionsContainer.innerHTML = html;
+
+    // 绑定不高亮复选框
+    const noHighlightCheck = document.getElementById('noHighlightCheck');
+    if (noHighlightCheck) {
+      noHighlightCheck.addEventListener('change', (e) => {
+        noHighlight = e.target.checked;
+      });
+    }
+
+    // 绑定答题卡跳转（复用）
+    // 取消所有输入框的交互
+    document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(el => {
+      el.disabled = true;
+    });
+  }
+
+  // 计算得分
+  function calculateScore() {
+    if (!currentPaper) return 0;
+    const answers = userAnswers[currentPaper.id] || {};
+    let s = 0;
+    currentQuestions.forEach(q => {
+      if (isAnswerCorrect(q, answers[q.id])) s += 0.5;
+    });
+    return s;
+  }
+
+  // 提交试卷
+  function submitPaper() {
+    if (!currentPaper || isSubmitted) return;
+    isSubmitted = true;
+    score = calculateScore();
+    // 记录历史
+    const record = {
+      paperName: currentPaper.name,
+      score: score,
+      total: currentQuestions.length * 0.5,
+      time: new Date().toLocaleString()
+    };
+    historyRecords.unshift(record);
+    if (historyRecords.length > 6) historyRecords.pop();
+    // 渲染结果
+    renderResultContent();
+    // 更新答题卡
+    renderQuestionButtons();
+    // 隐藏提交重置按钮，隐藏随机选项
+    actionBtns.style.display = 'none';
+    randomCheckWrap.style.display = 'none';
+    // 隐藏选择试卷按钮
+    selectPaperBtn.style.display = 'none';
+    // 显示历史成绩
+    historySection.style.display = 'block';
+    renderHistory();
+    // 重置高亮
+    activeQuestionId = null;
+    updateActiveQuestionHighlight();
+  }
+
+  // 重置试卷（回到答题模式）
+  function resetPaper() {
+    if (!currentPaper) return;
+    // 清空当前试卷的答案
+    userAnswers[currentPaper.id] = {};
+    isSubmitted = false;
+    score = 0;
+    activeQuestionId = null;
+    // 如果随机模式，重新打乱
+    if (randomMode) {
+      currentQuestions = shuffleQuestions(currentPaper.questions);
+    } else {
+      currentQuestions = [...currentPaper.questions];
+    }
+    // 重置UI
+    selectPaperBtn.style.display = 'block';
+    actionBtns.style.display = 'flex';
+    randomCheckWrap.style.display = 'block';
+    historySection.style.display = 'none';
+    // 重新渲染
+    updateStats();
+    renderQuestionButtons();
+    renderPaperContent();
+    // 清除高亮
+    activeQuestionId = null;
+    updateActiveQuestionHighlight();
+  }
+
+  // 渲染历史成绩
+  function renderHistory() {
+    if (historyRecords.length === 0) {
+      historyList.innerHTML = '<div style="padding:12px;color:#7a8aa3;font-size:13px;text-align:center;">暂无历史成绩</div>';
+      return;
+    }
+    let html = '';
+    historyRecords.forEach(r => {
+      const pass = r.score >= 60;
+      html += `<div class="history-item">
+        <span>${r.paperName}</span>
+        <span><span class="score ${pass ? 'pass' : 'fail'}">${r.score.toFixed(1)}</span> / ${r.total.toFixed(1)}</span>
+        <span style="color:#7a8aa3;font-size:12px;">${r.time}</span>
+      </div>`;
+    });
+    html += `<div class="clear-history" id="clearHistoryBtn">清除历史记录</div>`;
+    historyList.innerHTML = html;
+    document.getElementById('clearHistoryBtn')?.addEventListener('click', () => {
+      historyRecords = [];
+      renderHistory();
+    });
   }
 
   // 加载试卷
   function loadPaper(paperId) {
     const paper = papers.find(p => p.id === paperId);
     if (!paper) return;
+    // 重置状态
+    isSubmitted = false;
+    score = 0;
     activeQuestionId = null;
     currentPaper = paper;
+    // 根据随机模式决定题目顺序
+    if (randomMode) {
+      currentQuestions = shuffleQuestions(paper.questions);
+    } else {
+      currentQuestions = [...paper.questions];
+    }
+    // 保留已有答案（如果有）
     initAnswersForPaper(paperId);
+    // 更新UI
+    selectPaperBtn.style.display = 'block';
+    actionBtns.style.display = 'flex';
+    randomCheckWrap.style.display = 'block';
+    historySection.style.display = 'none';
     updateStats();
     renderQuestionButtons();
     renderPaperContent();
@@ -887,12 +1262,49 @@
   }
 
   function hideModal() { modalOverlay.classList.remove('show'); }
+  function hideConfirm() { confirmOverlay.classList.remove('show'); }
 
-  // 事件绑定
+  // ---------- 事件绑定 ----------
   selectPaperBtn.addEventListener('click', showModal);
   closeModalBtn.addEventListener('click', hideModal);
   modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) hideModal(); });
 
+  // 提交确认
+  submitBtn.addEventListener('click', () => {
+    if (!currentPaper || isSubmitted) return;
+    confirmOverlay.classList.add('show');
+  });
+  cancelSubmitBtn.addEventListener('click', hideConfirm);
+  confirmSubmitBtn.addEventListener('click', () => {
+    hideConfirm();
+    submitPaper();
+  });
+  confirmOverlay.addEventListener('click', (e) => { if (e.target === confirmOverlay) hideConfirm(); });
+
+  // 重置
+  resetBtn.addEventListener('click', () => {
+    if (!currentPaper) return;
+    if (isSubmitted) {
+      // 如果已提交，先重置提交状态再重置
+      isSubmitted = false;
+      selectPaperBtn.style.display = 'block';
+      actionBtns.style.display = 'flex';
+      randomCheckWrap.style.display = 'block';
+      historySection.style.display = 'none';
+    }
+    resetPaper();
+  });
+
+  // 随机模式切换
+  randomCheck.addEventListener('change', (e) => {
+    randomMode = e.target.checked;
+    if (currentPaper && !isSubmitted) {
+      // 重新加载当前试卷（重新打乱）
+      loadPaper(currentPaper.id);
+    }
+  });
+
+  // 答题卡跳转
   questionGrid.addEventListener('click', (e) => {
     const btn = e.target.closest('.question-btn');
     if (!btn) return;
@@ -901,13 +1313,25 @@
     scrollToQuestion(qid);
   });
 
+  // 历史成绩展开/收起
+  historyHeader.addEventListener('click', () => {
+    historyVisible = !historyVisible;
+    historyList.classList.toggle('open', historyVisible);
+    historyArrow.classList.toggle('open', historyVisible);
+  });
+
   // 初始化
   (function init() {
     currentPaper = null;
+    currentQuestions = [];
     activeQuestionId = null;
+    isSubmitted = false;
     updateStats();
     renderQuestionButtons();
     renderPaperContent();
+    randomCheck.checked = false;
+    randomMode = false;
+    historySection.style.display = 'none';
   })();
 </script>
 </body>
