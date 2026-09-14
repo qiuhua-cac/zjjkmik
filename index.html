@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📝 考试答题 · 答题卡与试卷选择</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+      background: #f2f5f9;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .app {
+      display: flex;
+      width: 1200px;
+      height: 750px;
+      background: #ffffff;
+      border-radius: 32px;
+      box-shadow: 0 20px 40px rgba(0, 20, 30, 0.15);
+      overflow: hidden;
+      transition: all 0.2s;
+    }
+
+    /* ---------- 左侧答题卡 ---------- */
+    .answer-card {
+      width: 280px;
+      background: #f8fafd;
+      border-right: 1px solid #e2e8f0;
+      display: flex;
+      flex-direction: column;
+      padding: 24px 18px;
+      flex-shrink: 0;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-between;
+      background: #ffffff;
+      padding: 16px 12px;
+      border-radius: 24px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+      margin-bottom: 24px;
+      border: 1px solid #e9edf4;
+    }
+
+    .stat-item {
+      text-align: center;
+      flex: 1;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: #5b6e8c;
+      letter-spacing: 0.3px;
+      margin-bottom: 6px;
+    }
+
+    .stat-value {
+      font-size: 26px;
+      font-weight: 700;
+      color: #1e2b3c;
+      line-height: 1.2;
+    }
+
+    .stat-value.answered {
+      color: #2a7a4b;
+    }
+
+    .stat-value.unanswered {
+      color: #b13e3e;
+    }
+
+    .divider {
+      width: 1px;
+      background: #e2e8f0;
+      margin: 0 4px;
+    }
+
+    .paper-selector {
+      margin-bottom: 20px;
+    }
+
+    .paper-btn {
+      width: 100%;
+      background: #1e2b3c;
+      color: white;
+      border: none;
+      padding: 14px 16px;
+      border-radius: 18px;
+      font-size: 16px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: background 0.2s;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .paper-btn:hover {
+      background: #14202e;
+    }
+
+    .paper-btn span:last-child {
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #3a4b62;
+      margin: 18px 0 12px 6px;
+      letter-spacing: 0.3px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .question-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      overflow-y: auto;
+      padding: 4px 4px 10px 4px;
+      flex: 1;
+      align-content: flex-start;
+    }
+
+    .question-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      background: #ffffff;
+      border: 1.5px solid #dce2ec;
+      font-weight: 600;
+      font-size: 15px;
+      color: #1f2c3f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    }
+
+    .question-btn:hover {
+      border-color: #8099b3;
+      background: #f0f5ff;
+    }
+
+    .question-btn.answered {
+      background: #e3f5e9;
+      border-color: #2a7a4b;
+      color: #1d5e38;
+    }
+
+    .question-btn.active {
+      background: #1e2b3c;
+      border-color: #1e2b3c;
+      color: white;
+      box-shadow: 0 8px 14px rgba(0, 0, 0, 0.15);
+    }
+
+    .question-btn.answered.active {
+      background: #1e2b3c;
+      border-color: #1e2b3c;
+      color: white;
+    }
+
+    /* ---------- 右侧试卷内容 ---------- */
+    .paper-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #ffffff;
+    }
+
+    .paper-header {
+      padding: 24px 32px 12px 32px;
+      border-bottom: 1px solid #edf2f9;
+    }
+
+    .paper-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #0b1a2b;
+      letter-spacing: -0.2px;
+      margin-bottom: 6px;
+    }
+
+    .paper-sub {
+      font-size: 14px;
+      color: #6f7f96;
+    }
+
+    .questions-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px 32px 32px 32px;
+      scroll-behavior: smooth;
+    }
+
+    .question-item {
+      margin-bottom: 28px;
+      padding: 18px 22px;
+      background: #ffffff;
+      border-radius: 20px;
+      border: 1px solid #eef2f8;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+      transition: border 0.15s, box-shadow 0.15s;
+      scroll-margin-top: 20px;
+    }
+
+    .question-item.active-question {
+      border: 1.5px solid #1e2b3c;
+      box-shadow: 0 10px 20px -6px rgba(0, 0, 0, 0.12);
+    }
+
+    .q-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .q-index {
+      background: #eef3fa;
+      border-radius: 30px;
+      padding: 4px 12px;
+      font-weight: 600;
+      font-size: 14px;
+      color: #2b3f5a;
+    }
+
+    .q-text {
+      font-size: 17px;
+      font-weight: 500;
+      color: #1a2637;
+      line-height: 1.4;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-left: 8px;
+    }
+
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 12px;
+      border-radius: 14px;
+      transition: background 0.1s;
+      cursor: pointer;
+    }
+
+    .option:hover {
+      background: #f5f9ff;
+    }
+
+    .option input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #1e2b3c;
+      cursor: pointer;
+      margin: 0;
+    }
+
+    .option label {
+      font-size: 16px;
+      color: #26384e;
+      cursor: pointer;
+      flex: 1;
+    }
+
+    /* 试卷选择弹窗 */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(3px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal {
+      background: white;
+      width: 460px;
+      border-radius: 32px;
+      box-shadow: 0 30px 50px rgba(0, 0, 0, 0.3);
+      padding: 28px 24px;
+      animation: modalFade 0.2s ease;
+    }
+
+    @keyframes modalFade {
+      from { opacity: 0.6; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .modal h3 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #0b1a2b;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .paper-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .paper-option {
+      background: #f6f9fe;
+      padding: 16px 20px;
+      border-radius: 20px;
+      font-size: 17px;
+      font-weight: 600;
+      color: #1a2637;
+      cursor: pointer;
+      border: 1.5px solid transparent;
+      transition: all 0.15s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .paper-option:hover {
+      background: #e8f0fe;
+      border-color: #b8cae0;
+    }
+
+    .paper-option .badge {
+      font-size: 13px;
+      background: #d9e2ef;
+      padding: 4px 10px;
+      border-radius: 30px;
+      color: #2b3f5a;
+      font-weight: 500;
+    }
+
+    .close-modal {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      background: #eef2f8;
+      border-radius: 20px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #2e405b;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .close-modal:hover {
+      background: #e1e9f2;
+    }
+
+    /* 空状态 / 提示 */
+    .empty-paper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: #7a8aa3;
+      font-size: 16px;
+      gap: 12px;
+      user-select: none;
+    }
+
+    .empty-paper span {
+      font-size: 48px;
+      opacity: 0.4;
+    }
+
+    /* 滚动条美化 */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f0f4fa;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #b9c8db;
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #93a9c4;
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+  <!-- 左侧答题卡 -->
+  <aside class="answer-card">
+    <div class="stats">
+      <div class="stat-item">
+        <div class="stat-label">总题</div>
+        <div class="stat-value" id="totalCount">0</div>
+      </div>
+      <div class="divider"></div>
+      <div class="stat-item">
+        <div class="stat-label">已答</div>
+        <div class="stat-value answered" id="answeredCount">0</div>
+      </div>
+      <div class="divider"></div>
+      <div class="stat-item">
+        <div class="stat-label">未答</div>
+        <div class="stat-value unanswered" id="unansweredCount">0</div>
+      </div>
+    </div>
+
+    <div class="paper-selector">
+      <button class="paper-btn" id="selectPaperBtn">
+        <span>📄 选择试卷</span>
+        <span>▾</span>
+      </button>
+    </div>
+
+    <div class="card-title">
+      <span>🔢 答题卡</span>
+      <span style="font-size: 12px; background: #e2e8f0; padding: 2px 8px; border-radius: 20px; color:#2e405b;" id="cardPaperName">未选择</span>
+    </div>
+
+    <div class="question-grid" id="questionGrid">
+      <!-- 动态生成题目编号按钮 -->
+    </div>
+  </aside>
+
+  <!-- 右侧试卷内容 -->
+  <main class="paper-area">
+    <div class="paper-header">
+      <div class="paper-title" id="paperTitle">请选择试卷</div>
+      <div class="paper-sub" id="paperSub">点击左侧「选择试卷」开始考试</div>
+    </div>
+    <div class="questions-container" id="questionsContainer">
+      <!-- 空状态由js生成 -->
+      <div class="empty-paper">
+        <span>📋</span>
+        <div>暂无试卷，请从左侧选择</div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- 试卷选择弹窗 -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h3>📑 选择试卷</h3>
+    <div class="paper-list" id="paperList">
+      <!-- 动态试卷列表 -->
+    </div>
+    <button class="close-modal" id="closeModalBtn">取消</button>
+  </div>
+</div>
+
+<script>
+  (function() {
+    // ---------- 试卷数据 ----------
+    const papers = [
+      {
+        id: 'paper1',
+        name: 'JavaScript 基础',
+        description: 'ECMAScript 核心知识 · 共5题',
+        questions: [
+          { id: 1, text: '以下哪个不是 JavaScript 的基本数据类型？', options: ['String', 'Number', 'Boolean', 'Array'] },
+          { id: 2, text: '哪个方法用于解析字符串并返回浮点数？', options: ['parseInt()', 'parseFloat()', 'Number()', 'toFixed()'] },
+          { id: 3, text: '以下哪个运算符用于严格相等比较？', options: ['==', '===', '!=', '!=='] },
+          { id: 4, text: '哪个关键字用于声明块级作用域变量？', options: ['var', 'let', 'const', 'function'] },
+          { id: 5, text: '以下哪个方法可以合并两个或多个数组？', options: ['concat()', 'join()', 'slice()', 'splice()'] }
+        ]
+      },
+      {
+        id: 'paper2',
+        name: 'HTML & CSS',
+        description: '前端基础 · 共4题',
+        questions: [
+          { id: 1, text: 'HTML 中用于定义最重要的标题的标签是？', options: ['<h6>', '<h1>', '<head>', '<title>'] },
+          { id: 2, text: 'CSS 中用于设置元素内边距的属性是？', options: ['margin', 'padding', 'border', 'spacing'] },
+          { id: 3, text: '以下哪个不是合法的 CSS 长度单位？', options: ['px', 'em', 'rem', 'pixel'] },
+          { id: 4, text: '哪个 HTML 属性用于指定链接地址？', options: ['src', 'href', 'link', 'url'] }
+        ]
+      },
+      {
+        id: 'paper3',
+        name: 'React 核心',
+        description: '组件与状态 · 共3题',
+        questions: [
+          { id: 1, text: 'React 中用于管理函数组件状态的 Hook 是？', options: ['useEffect', 'useState', 'useContext', 'useReducer'] },
+          { id: 2, text: '以下哪个是 React 的正确的 JSX 语法？', options: ['<div class="box">', '<div className="box">', '<div className="box" />', 'B 和 C 都正确'] },
+          { id: 3, text: 'React 中 key 的主要作用是什么？', options: ['提高渲染性能', '标识元素身份', '用于样式绑定', '控制组件更新'] }
+        ]
+      }
+    ];
+
+    // ---------- 应用状态 ----------
+    let currentPaper = null;            // 当前选中的试卷对象
+    let userAnswers = {};              // 用户答案 { [paperId]: { questionId: optionIndex } }
+    let activeQuestionId = null;       // 当前高亮/跳转的题目id
+
+    // DOM 元素
+    const totalCountEl = document.getElementById('totalCount');
+    const answeredCountEl = document.getElementById('answeredCount');
+    const unansweredCountEl = document.getElementById('unansweredCount');
+    const questionGrid = document.getElementById('questionGrid');
+    const paperTitle = document.getElementById('paperTitle');
+    const paperSub = document.getElementById('paperSub');
+    const questionsContainer = document.getElementById('questionsContainer');
+    const selectPaperBtn = document.getElementById('selectPaperBtn');
+    const modalOverlay = document.getElementById('modalOverlay');
+    const paperList = document.getElementById('paperList');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const cardPaperName = document.getElementById('cardPaperName');
+
+    // ---------- 辅助函数 ----------
+    // 初始化当前试卷的答案结构
+    function initAnswersForPaper(paperId) {
+      if (!userAnswers[paperId]) {
+        userAnswers[paperId] = {};
+      }
+    }
+
+    // 获取某试卷的已答数量
+    function getAnsweredCount(paper) {
+      if (!paper) return 0;
+      const answers = userAnswers[paper.id] || {};
+      return Object.keys(answers).length;
+    }
+
+    // 更新左侧统计数字
+    function updateStats() {
+      if (!currentPaper) {
+        totalCountEl.textContent = '0';
+        answeredCountEl.textContent = '0';
+        unansweredCountEl.textContent = '0';
+        return;
+      }
+      const total = currentPaper.questions.length;
+      const answered = getAnsweredCount(currentPaper);
+      totalCountEl.textContent = total;
+      answeredCountEl.textContent = answered;
+      unansweredCountEl.textContent = total - answered;
+    }
+
+    // 渲染答题卡按钮
+    function renderQuestionButtons() {
+      if (!currentPaper) {
+        questionGrid.innerHTML = '';
+        return;
+      }
+
+      const answers = userAnswers[currentPaper.id] || {};
+      let html = '';
+      currentPaper.questions.forEach((q) => {
+        const isAnswered = answers[q.id] !== undefined;
+        const isActive = activeQuestionId === q.id;
+        const answeredClass = isAnswered ? 'answered' : '';
+        const activeClass = isActive ? 'active' : '';
+        html += `<button class="question-btn ${answeredClass} ${activeClass}" data-qid="${q.id}">${q.id}</button>`;
+      });
+      questionGrid.innerHTML = html;
+    }
+
+    // 更新右侧题目高亮 (active-question 类)
+    function updateActiveQuestionHighlight() {
+      document.querySelectorAll('.question-item').forEach(el => {
+        el.classList.remove('active-question');
+      });
+      if (activeQuestionId) {
+        const activeEl = document.querySelector(`.question-item[data-qid="${activeQuestionId}"]`);
+        if (activeEl) activeEl.classList.add('active-question');
+      }
+    }
+
+    // 跳转到指定题目 (滚动 + 高亮)
+    function scrollToQuestion(questionId) {
+      if (!currentPaper) return;
+      const targetEl = document.querySelector(`.question-item[data-qid="${questionId}"]`);
+      if (targetEl) {
+        targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      activeQuestionId = questionId;
+      // 重新渲染按钮（更新active样式），也同时更新题目高亮
+      renderQuestionButtons();
+      updateActiveQuestionHighlight();
+    }
+
+    // 处理用户选择答案
+    function handleAnswerSelect(paperId, questionId, optionIndex) {
+      if (!currentPaper || currentPaper.id !== paperId) return;
+
+      initAnswersForPaper(paperId);
+      userAnswers[paperId][questionId] = optionIndex;
+
+      // 更新左侧统计
+      updateStats();
+      // 重新渲染答题卡按钮状态（已答变为绿色）
+      renderQuestionButtons();
+      // 用户选择后不用自动跳转，但需要保持active高亮不变；如果现在active是当前题目，高亮状态不变
+      // 但已经变化为已答状态，重新渲染按钮会带上answered类
+      // 同时题目选项选中由radio控制，不需额外操作
+    }
+
+    // 渲染右侧试卷内容
+    function renderPaperContent() {
+      if (!currentPaper) {
+        paperTitle.textContent = '请选择试卷';
+        paperSub.textContent = '点击左侧「选择试卷」开始考试';
+        questionsContainer.innerHTML = `
+          <div class="empty-paper">
+            <span>📋</span>
+            <div>暂无试卷，请从左侧选择</div>
+          </div>
+        `;
+        cardPaperName.textContent = '未选择';
+        return;
+      }
+
+      paperTitle.textContent = currentPaper.name;
+      paperSub.textContent = currentPaper.description;
+      cardPaperName.textContent = currentPaper.name;
+
+      const answers = userAnswers[currentPaper.id] || {};
+
+      let html = '';
+      currentPaper.questions.forEach((q) => {
+        const selectedOption = answers[q.id]; // 可能是undefined或索引
+        html += `<div class="question-item" data-qid="${q.id}">`;
+        html += `<div class="q-header"><span class="q-index">第 ${q.id} 题</span><span class="q-text">${q.text}</span></div>`;
+        html += `<div class="options">`;
+        q.options.forEach((opt, idx) => {
+          const checked = (selectedOption === idx) ? 'checked' : '';
+          // 注意：name 属性使用 paperId + questionId 保证每组radio独立
+          const radioName = `q_${currentPaper.id}_${q.id}`;
+          html += `
+            <div class="option">
+              <input type="radio" name="${radioName}" value="${idx}" id="opt_${currentPaper.id}_${q.id}_${idx}" ${checked} data-qid="${q.id}" data-optindex="${idx}">
+              <label for="opt_${currentPaper.id}_${q.id}_${idx}">${String.fromCharCode(65 + idx)}. ${opt}</label>
+            </div>
+          `;
+        });
+        html += `</div></div>`;
+      });
+
+      questionsContainer.innerHTML = html;
+
+      // 绑定事件：监听选项变化
+      document.querySelectorAll('input[type="radio"]').forEach(radio => {
+        radio.addEventListener('change', (e) => {
+          const qid = parseInt(e.target.dataset.qid);
+          const optIndex = parseInt(e.target.dataset.optindex);
+          if (currentPaper) {
+            handleAnswerSelect(currentPaper.id, qid, optIndex);
+          }
+        });
+      });
+
+      // 如果activeQuestionId 存在且属于当前试卷，则高亮对应题目
+      if (activeQuestionId) {
+        // 检查该activeQuestionId是否在当前试卷中
+        const exists = currentPaper.questions.some(q => q.id === activeQuestionId);
+        if (!exists) activeQuestionId = null;
+      }
+      if (!activeQuestionId && currentPaper.questions.length > 0) {
+        // 可选：默认不高亮任何题目，或者高亮第一题? 按照需求，用户点击答题卡才跳转，所以初始不高亮也没问题
+        // 但为了视觉友好，可以不高亮。
+      }
+      updateActiveQuestionHighlight();
+    }
+
+    // 加载试卷 (切换试卷)
+    function loadPaper(paperId) {
+      const paper = papers.find(p => p.id === paperId);
+      if (!paper) return;
+
+      // 如果切换试卷，重置activeQuestionId (防止跨试卷高亮错误)
+      // 但可以考虑保留题目？规则是点击试卷进入对应试卷答题，通常active清空
+      activeQuestionId = null;
+
+      currentPaper = paper;
+      initAnswersForPaper(paperId);
+
+      // 更新UI
+      updateStats();
+      renderQuestionButtons();
+      renderPaperContent();
+
+      // 如果当前试卷有题目，可以默认高亮第一题? 不，保留无高亮，或者也可以高亮第一题，但需求无明确，保持无高亮。
+      // 但是答题卡激活后可以点击编号跳转，所以没问题。
+      // 为了体验，如果试卷有题目，高亮第一题? 可能不必要，但用户没有点击答题卡时不干扰。
+      // 如果想默认高亮第一题：uncomment 下面两行
+      // if (paper.questions.length > 0) {
+      //   scrollToQuestion(paper.questions[0].id);
+      // }
+    }
+
+    // 显示试卷选择弹窗
+    function showModal() {
+      // 构建试卷列表
+      let listHtml = '';
+      papers.forEach(paper => {
+        listHtml += `
+          <div class="paper-option" data-paperid="${paper.id}">
+            <span>${paper.name}</span>
+            <span class="badge">${paper.questions.length} 题</span>
+          </div>
+        `;
+      });
+      paperList.innerHTML = listHtml;
+
+      // 绑定试卷点击事件
+      document.querySelectorAll('.paper-option').forEach(opt => {
+        opt.addEventListener('click', (e) => {
+          const paperId = opt.dataset.paperid;
+          loadPaper(paperId);
+          modalOverlay.classList.remove('show');
+        });
+      });
+
+      modalOverlay.classList.add('show');
+    }
+
+    // 隐藏弹窗
+    function hideModal() {
+      modalOverlay.classList.remove('show');
+    }
+
+    // ---------- 事件绑定 ----------
+    // 左侧试卷按钮 -> 弹窗
+    selectPaperBtn.addEventListener('click', showModal);
+
+    // 关闭弹窗 (取消按钮 + 点击遮罩关闭)
+    closeModalBtn.addEventListener('click', hideModal);
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) hideModal();
+    });
+
+    // 答题卡点击跳转 (事件委托)
+    questionGrid.addEventListener('click', (e) => {
+      const btn = e.target.closest('.question-btn');
+      if (!btn) return;
+      const qid = parseInt(btn.dataset.qid);
+      if (!currentPaper) return;
+
+      // 跳转到题目
+      scrollToQuestion(qid);
+    });
+
+    // 初始化空状态 (没有选中试卷)
+    (function init() {
+      currentPaper = null;
+      activeQuestionId = null;
+      updateStats();
+      renderQuestionButtons();  // 无试卷渲染空
+      renderPaperContent();
+    })();
+
+    // 额外：点击右侧题目区域，也可以同步高亮答题卡？需求未明确，但可以增加：点击题目区域时高亮对应编号？但可能会干扰，
+    // 这里不加多余功能。但为了"答题卡激活"的需求，我们已经通过点击答题卡跳转。
+    // 同时，如果用户直接点击右侧题目，我们也可以高亮答题卡？但需求未强制，我们保持简洁。
+    // 但可以加一个轻量：点击题目区域时更新activeQuestionId? 可选，但不必要。不加。
+
+    // 但是当用户点击左侧答题卡跳转后，右侧题目高亮，按钮高亮，完美。
+
+    // 注意：在用户选择答案后，activeQuestionId不变，renderQuestionButtons会保留active样式。
+    // 用户点击答题卡跳转时，如果跳转后答案已选，按钮为绿色active样式（深色背景）依然可见。
+
+    // 试卷选择弹窗点击试卷后自动关闭并加载，已实现。
+  })();
+</script>
+</body>
+</html>
