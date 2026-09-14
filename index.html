@@ -10,40 +10,7 @@
     body { display: flex; justify-content: center; align-items: center; overflow: hidden; }
     .app { display: flex; width: 1300px; height: 100vh; max-height: 800px; background: #ffffff; border-radius: 32px; box-shadow: 0 20px 40px rgba(0, 20, 30, 0.15); overflow: hidden; position: relative; }
     
-    /* 左侧答题卡 */
-    .answer-card { width: 300px; background: #f8fafd; border-right: 1px solid #e2e8f0; display: flex; flex-direction: column; padding: 24px 18px; flex-shrink: 0; overflow: hidden; }
-    .stats { display: flex; justify-content: space-between; background: #ffffff; padding: 16px 12px; border-radius: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.02); margin-bottom: 20px; border: 1px solid #e9edf4; flex-shrink: 0; }
-    .stat-item { text-align: center; flex: 1; }
-    .stat-label { font-size: 13px; color: #5b6e8c; letter-spacing: 0.3px; margin-bottom: 6px; }
-    .stat-value { font-size: 26px; font-weight: 700; color: #1e2b3c; line-height: 1.2; }
-    .stat-value.answered { color: #2a7a4b; }
-    .stat-value.unanswered { color: #b13e3e; }
-    .divider { width: 1px; background: #e2e8f0; margin: 0 4px; }
-    .paper-selector { margin-bottom: 16px; flex-shrink: 0; }
-    .paper-btn { width: 100%; background: #1e2b3c; color: white; border: none; padding: 14px 16px; border-radius: 18px; font-size: 16px; font-weight: 600; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: background 0.2s; box-shadow: 0 6px 12px rgba(0,0,0,0.08); }
-    .paper-btn:hover { background: #14202e; }
-    .paper-btn span:last-child { font-size: 20px; line-height: 1; }
-    .action-btns { display: flex; gap: 8px; margin-bottom: 16px; flex-shrink: 0; }
-    .action-btn { flex: 1; padding: 12px; border: none; border-radius: 16px; font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
-    .action-btn.submit { background: #2a7a4b; color: white; }
-    .action-btn.submit:hover { background: #1e5e38; }
-    .action-btn.reset { background: #eef2f8; color: #2e405b; }
-    .action-btn.reset:hover { background: #e1e9f2; }
-    .random-check { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; padding: 8px 12px; background: #fff; border-radius: 12px; border: 1px solid #e9edf4; font-size: 14px; color: #2e405b; cursor: pointer; flex-shrink: 0; }
-    .random-check input { width: 18px; height: 18px; accent-color: #1e2b3c; cursor: pointer; }
-    .card-title { font-size: 15px; font-weight: 600; color: #3a4b62; margin: 8px 0 12px 6px; letter-spacing: 0.3px; display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
-    .question-grid { display: flex; flex-wrap: wrap; gap: 8px; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 4px 4px 10px 4px; flex: 1; align-content: flex-start; }
-    .question-btn { width: 46px; height: 46px; border-radius: 14px; background: #ffffff; border: 1.5px solid #dce2ec; font-weight: 600; font-size: 14px; color: #1f2c3f; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-    .question-btn:hover { border-color: #8099b3; background: #f0f5ff; }
-    .question-btn.answered { background: #e3f5e9; border-color: #2a7a4b; color: #1d5e38; }
-    .question-btn.active { background: #1e2b3c; border-color: #1e2b3c; color: white; box-shadow: 0 8px 14px rgba(0,0,0,0.15); }
-    .question-btn.answered.active { background: #1e2b3c; border-color: #1e2b3c; color: white; }
-    .question-btn.correct { background: #d4edda; border-color: #28a745; color: #155724; }
-    .question-btn.wrong { background: #f8d7da; border-color: #dc3545; color: #721c24; }
-    .question-btn.correct.active { background: #1e2b3c; border-color: #1e2b3c; color: white; }
-    .question-btn.wrong.active { background: #1e2b3c; border-color: #1e2b3c; color: white; }
-    
-    /* 右侧试卷内容 */
+    /* ===== 右侧试卷内容 ===== */
     .paper-area { flex: 1; display: flex; flex-direction: column; background: #ffffff; position: relative; overflow: hidden; min-width: 0; }
     .paper-header { padding: 32px 32px 12px 32px; border-bottom: 1px solid #edf2f9; flex-shrink: 0; }
     .paper-title { font-size: 22px; font-weight: 700; color: #0b1a2b; letter-spacing: -0.2px; margin-bottom: 6px; }
@@ -79,24 +46,8 @@
     .no-highlight-check { display: flex; align-items: center; gap: 8px; margin-top: 12px; padding: 8px 12px; background: #fff; border-radius: 12px; border: 1px solid #e9edf4; font-size: 14px; color: #2e405b; cursor: pointer; }
     .no-highlight-check input { width: 18px; height: 18px; accent-color: #1e2b3c; cursor: pointer; }
     
-    /* 历史成绩 */
-    .history-section { margin-top: 16px; border-top: 1px solid #e9edf4; padding-top: 12px; flex-shrink: 0; }
-    .history-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; padding: 8px 12px; background: #f6f9fe; border-radius: 12px; font-size: 14px; font-weight: 600; color: #2e405b; user-select: none; }
-    .history-header:hover { background: #eef3fa; }
-    .history-header .arrow { transition: transform 0.2s; font-size: 12px; }
-    .history-header .arrow.open { transform: rotate(180deg); }
-    .history-list { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
-    .history-list.open { max-height: 300px; overflow-y: auto; -webkit-overflow-scrolling: touch; }
-    .history-item { display: flex; justify-content: space-between; padding: 8px 12px; border-bottom: 1px solid #f0f4fa; font-size: 13px; color: #3a506b; }
-    .history-item:last-child { border-bottom: none; }
-    .history-item .score { font-weight: 700; }
-    .history-item .score.pass { color: #28a745; }
-    .history-item .score.fail { color: #dc3545; }
-    .clear-history { text-align: center; padding: 8px; color: #b13e3e; cursor: pointer; font-size: 13px; font-weight: 500; }
-    .clear-history:hover { background: #fff5f5; border-radius: 8px; }
-    
     /* 弹窗 */
-    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); backdrop-filter: blur(3px); display: none; justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
+    .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); backdrop-filter: blur(3px); display: none; justify-content: center; align-items: center; z-index: 2000; padding: 20px; }
     .modal-overlay.show { display: flex; }
     .modal { background: white; width: 500px; max-width: 100%; border-radius: 32px; box-shadow: 0 30px 50px rgba(0,0,0,0.3); padding: 28px 24px; animation: modalFade 0.2s ease; max-height: 90vh; overflow-y: auto; }
     @keyframes modalFade { from { opacity: 0.6; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
@@ -132,7 +83,6 @@
     .score-banner .result-status.pass { background: #d4edda; color: #155724; }
     .score-banner .result-status.fail { background: #f8d7da; color: #721c24; }
     
-    /* 结果操作按钮 */
     .result-actions { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
     .result-actions button { flex: 1; min-width: 140px; padding: 14px 20px; border: none; border-radius: 18px; font-size: 16px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
     .result-actions .retry-btn { background: #2a7a4b; color: white; }
@@ -140,27 +90,224 @@
     .result-actions .reselect-btn { background: #eef2f8; color: #2e405b; }
     .result-actions .reselect-btn:hover { background: #e1e9f2; }
 
+    /* ===== 悬浮球 ===== */
+    .float-ball {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #1e2b3c;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+      cursor: pointer;
+      z-index: 1500;
+      transition: transform 0.2s, box-shadow 0.2s;
+      user-select: none;
+    }
+    .float-ball:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+    .float-ball:active { transform: scale(0.95); }
+    .float-ball .ball-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: #2a7a4b;
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      min-width: 20px;
+      height: 20px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 5px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    .float-ball .ball-badge.hidden { display: none; }
+
+    /* ===== 答题卡面板 ===== */
+    .card-panel {
+      position: fixed;
+      right: 24px;
+      bottom: 96px;
+      width: 340px;
+      max-width: calc(100vw - 32px);
+      max-height: 70vh;
+      background: #f8fafd;
+      border-radius: 24px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+      z-index: 1499;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+      transform: translateY(20px) scale(0.96);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+    .card-panel.open {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .card-panel-header {
+      padding: 14px 18px;
+      background: #ffffff;
+      border-bottom: 1px solid #e9edf4;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .card-panel-header .title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1e2b3c;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-panel-header .close-panel {
+      background: none;
+      border: none;
+      font-size: 22px;
+      color: #7a8aa3;
+      cursor: pointer;
+      line-height: 1;
+      padding: 0 4px;
+    }
+    .card-panel-header .close-panel:hover { color: #1e2b3c; }
+    
+    .card-panel-stats {
+      display: flex;
+      justify-content: space-between;
+      background: #ffffff;
+      padding: 12px 16px;
+      border-bottom: 1px solid #e9edf4;
+      flex-shrink: 0;
+    }
+    .card-panel-stats .stat-item { text-align: center; flex: 1; }
+    .card-panel-stats .stat-label { font-size: 11px; color: #5b6e8c; margin-bottom: 2px; }
+    .card-panel-stats .stat-value { font-size: 20px; font-weight: 700; color: #1e2b3c; line-height: 1.2; }
+    .card-panel-stats .stat-value.answered { color: #2a7a4b; }
+    .card-panel-stats .stat-value.unanswered { color: #b13e3e; }
+    .card-panel-stats .divider { width: 1px; background: #e2e8f0; margin: 0 4px; }
+    
+    .card-panel-actions {
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex-shrink: 0;
+      border-bottom: 1px solid #e9edf4;
+      background: #ffffff;
+    }
+    .card-panel-actions .paper-btn {
+      width: 100%;
+      background: #1e2b3c;
+      color: white;
+      border: none;
+      padding: 11px 14px;
+      border-radius: 14px;
+      font-size: 14px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .card-panel-actions .paper-btn:hover { background: #14202e; }
+    .card-panel-actions .action-btns { display: flex; gap: 8px; }
+    .card-panel-actions .action-btn { flex: 1; padding: 10px; border: none; border-radius: 14px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+    .card-panel-actions .action-btn.submit { background: #2a7a4b; color: white; }
+    .card-panel-actions .action-btn.submit:hover { background: #1e5e38; }
+    .card-panel-actions .action-btn.reset { background: #eef2f8; color: #2e405b; }
+    .card-panel-actions .action-btn.reset:hover { background: #e1e9f2; }
+    
+    .card-panel-actions .random-check {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      background: #f6f9fe;
+      border-radius: 12px;
+      border: 1px solid #e9edf4;
+      font-size: 13px;
+      color: #2e405b;
+      cursor: pointer;
+    }
+    .card-panel-actions .random-check input { width: 16px; height: 16px; accent-color: #1e2b3c; cursor: pointer; }
+    
+    .card-panel-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      padding: 14px 16px 18px 16px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      flex: 1;
+      align-content: flex-start;
+      min-height: 80px;
+    }
+    .question-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: #ffffff;
+      border: 1.5px solid #dce2ec;
+      font-weight: 600;
+      font-size: 13px;
+      color: #1f2c3f;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+    .question-btn:hover { border-color: #8099b3; background: #f0f5ff; }
+    .question-btn.answered { background: #e3f5e9; border-color: #2a7a4b; color: #1d5e38; }
+    .question-btn.active { background: #1e2b3c; border-color: #1e2b3c; color: white; box-shadow: 0 8px 14px rgba(0,0,0,0.15); }
+    .question-btn.answered.active { background: #1e2b3c; border-color: #1e2b3c; color: white; }
+    .question-btn.correct { background: #d4edda; border-color: #28a745; color: #155724; }
+    .question-btn.wrong { background: #f8d7da; border-color: #dc3545; color: #721c24; }
+    .question-btn.correct.active { background: #1e2b3c; border-color: #1e2b3c; color: white; }
+    .question-btn.wrong.active { background: #1e2b3c; border-color: #1e2b3c; color: white; }
+    
+    /* 历史成绩 */
+    .history-section { border-top: 1px solid #e9edf4; padding: 8px 12px 12px 12px; flex-shrink: 0; background: #ffffff; }
+    .history-header { display: flex; justify-content: space-between; align-items: center; cursor: pointer; padding: 8px 10px; background: #f6f9fe; border-radius: 12px; font-size: 13px; font-weight: 600; color: #2e405b; user-select: none; }
+    .history-header:hover { background: #eef3fa; }
+    .history-header .arrow { transition: transform 0.2s; font-size: 11px; }
+    .history-header .arrow.open { transform: rotate(180deg); }
+    .history-list { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .history-list.open { max-height: 220px; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+    .history-item { display: flex; justify-content: space-between; padding: 7px 10px; border-bottom: 1px solid #f0f4fa; font-size: 12px; color: #3a506b; gap: 6px; flex-wrap: wrap; }
+    .history-item:last-child { border-bottom: none; }
+    .history-item .score { font-weight: 700; }
+    .history-item .score.pass { color: #28a745; }
+    .history-item .score.fail { color: #dc3545; }
+    .clear-history { text-align: center; padding: 6px; color: #b13e3e; cursor: pointer; font-size: 12px; font-weight: 500; }
+    .clear-history:hover { background: #fff5f5; border-radius: 8px; }
+
     /* ===== 移动端适配 ===== */
     @media (max-width: 900px) {
       html, body { overflow: auto; -webkit-overflow-scrolling: touch; height: auto; }
       body { align-items: flex-start; min-height: 100vh; display: block; }
       .app { flex-direction: column; width: 100%; height: auto; min-height: 100vh; max-height: none; border-radius: 0; box-shadow: none; overflow: visible; }
-      .answer-card { width: 100%; border-right: none; border-bottom: 1px solid #e2e8f0; padding: 16px 12px; max-height: none; overflow: visible; flex-shrink: 0; }
-      .stats { margin-bottom: 14px; padding: 12px 8px; }
-      .stat-value { font-size: 22px; }
-      .stat-label { font-size: 12px; }
-      .paper-selector, .action-btns, .random-check { margin-bottom: 12px; }
-      .paper-btn { padding: 12px 14px; font-size: 15px; }
-      .action-btn { padding: 10px; font-size: 14px; }
-      .random-check { padding: 6px 10px; font-size: 13px; }
-      .question-grid { max-height: 180px; gap: 6px; overflow-y: auto; -webkit-overflow-scrolling: touch; flex: none; }
-      .question-btn { width: 40px; height: 40px; border-radius: 12px; font-size: 13px; }
-      .card-title { font-size: 14px; margin: 6px 0 8px 4px; }
       .paper-area { flex: none; overflow: visible; }
-      .paper-header { padding: 16px 16px 8px 16px; }
+      .paper-header { padding: 20px 16px 8px 16px; }
       .paper-title { font-size: 18px; }
       .paper-sub { font-size: 13px; }
-      .questions-container { padding: 12px 14px 24px 14px; overflow: visible; flex: none; }
+      .questions-container { padding: 12px 14px 120px 14px; overflow: visible; flex: none; }
       .question-item { padding: 14px 14px; margin-bottom: 18px; border-radius: 16px; }
       .q-text { font-size: 15px; }
       .q-index { font-size: 13px; padding: 3px 10px; }
@@ -175,38 +322,69 @@
       .score-banner { padding: 12px 16px; }
       .score-banner .total-score { font-size: 22px; }
       .score-banner .result-status { font-size: 15px; padding: 4px 14px; }
-      .history-item { font-size: 12px; flex-wrap: wrap; gap: 4px; }
+      .history-item { font-size: 12px; }
       .modal { padding: 22px 18px; border-radius: 24px; }
       .modal h3 { font-size: 19px; margin-bottom: 14px; }
       .paper-option { padding: 14px 16px; font-size: 15px; border-radius: 16px; }
       .close-modal { padding: 12px; font-size: 15px; }
       .no-highlight-check { font-size: 13px; padding: 6px 10px; }
-      .history-header { font-size: 13px; padding: 8px 10px; }
       .result-actions button { padding: 12px 16px; font-size: 15px; }
+      
+      /* 悬浮球移动端位置 */
+      .float-ball { right: 16px; bottom: 16px; width: 54px; height: 54px; font-size: 24px; }
+      .card-panel { right: 16px; bottom: 80px; width: calc(100vw - 32px); max-width: 360px; max-height: 65vh; }
+      .card-panel-grid .question-btn { width: 38px; height: 38px; border-radius: 10px; font-size: 12px; }
     }
     @media (max-width: 480px) {
-      .question-btn { width: 36px; height: 36px; border-radius: 10px; font-size: 12px; }
+      .question-btn { width: 34px; height: 34px; border-radius: 10px; font-size: 11px; }
       .stat-value { font-size: 19px; }
       .paper-title { font-size: 16px; }
       .q-text { font-size: 14px; }
       .option label { font-size: 13px; }
       .result-item { font-size: 13px; }
+      .card-panel { max-height: 60vh; }
     }
   </style>
 </head>
 <body>
 <div class="app" id="app">
-  <aside class="answer-card" id="answerCard">
-    <div class="stats">
-      <div class="stat-item"><div class="stat-label">总题</div><div class="stat-value" id="totalCount">0</div></div>
-      <div class="divider"></div>
-      <div class="stat-item"><div class="stat-label">已答</div><div class="stat-value answered" id="answeredCount">0</div></div>
-      <div class="divider"></div>
-      <div class="stat-item"><div class="stat-label">未答</div><div class="stat-value unanswered" id="unansweredCount">0</div></div>
+  <main class="paper-area" id="paperArea">
+    <div class="paper-header">
+      <div class="paper-title" id="paperTitle">请选择试卷</div>
+      <div class="paper-sub" id="paperSub">点击右下角悬浮球开始考试</div>
     </div>
-    <div class="paper-selector" id="paperSelector">
-      <button class="paper-btn" id="selectPaperBtn"><span>📄 选择试卷</span><span>▾</span></button>
+    <div class="questions-container" id="questionsContainer">
+      <div class="empty-paper"><span>📋</span><div>点击右下角悬浮球，选择试卷开始答题</div></div>
     </div>
+  </main>
+</div>
+
+<!-- ===== 悬浮球 ===== -->
+<div class="float-ball" id="floatBall">
+  📝
+  <span class="ball-badge hidden" id="ballBadge">0</span>
+</div>
+
+<!-- ===== 答题卡面板 ===== -->
+<div class="card-panel" id="cardPanel">
+  <div class="card-panel-header">
+    <div class="title">
+      <span>🔢 答题卡</span>
+      <span style="font-size:11px;background:#e2e8f0;padding:2px 8px;border-radius:20px;color:#2e405b;" id="cardPaperName">未选择</span>
+    </div>
+    <button class="close-panel" id="closePanelBtn">×</button>
+  </div>
+  
+  <div class="card-panel-stats">
+    <div class="stat-item"><div class="stat-label">总题</div><div class="stat-value" id="totalCount">0</div></div>
+    <div class="divider"></div>
+    <div class="stat-item"><div class="stat-label">已答</div><div class="stat-value answered" id="answeredCount">0</div></div>
+    <div class="divider"></div>
+    <div class="stat-item"><div class="stat-label">未答</div><div class="stat-value unanswered" id="unansweredCount">0</div></div>
+  </div>
+  
+  <div class="card-panel-actions" id="cardActions">
+    <button class="paper-btn" id="selectPaperBtn"><span>📄 选择试卷</span><span>▾</span></button>
     <div class="action-btns" id="actionBtns" style="display: none;">
       <button class="action-btn submit" id="submitBtn">提交试卷</button>
       <button class="action-btn reset" id="resetBtn">重置试卷</button>
@@ -214,28 +392,20 @@
     <label class="random-check" id="randomCheckWrap" style="display: none;">
       <input type="checkbox" id="randomCheck"> 随机答题（打乱题目顺序）
     </label>
-    <div class="card-title" id="cardTitle"><span>🔢 答题卡</span><span style="font-size:12px;background:#e2e8f0;padding:2px 8px;border-radius:20px;color:#2e405b;" id="cardPaperName">未选择</span></div>
-    <div class="question-grid" id="questionGrid"></div>
-    <div class="history-section" id="historySection" style="display: none;">
-      <div class="history-header" id="historyHeader">
-        <span>📊 历史成绩</span>
-        <span class="arrow" id="historyArrow">▼</span>
-      </div>
-      <div class="history-list" id="historyList"></div>
-    </div>
-  </aside>
+  </div>
   
-  <main class="paper-area" id="paperArea">
-    <div class="paper-header">
-      <div class="paper-title" id="paperTitle">请选择试卷</div>
-      <div class="paper-sub" id="paperSub">点击左侧「选择试卷」开始考试</div>
+  <div class="card-panel-grid" id="questionGrid"></div>
+  
+  <div class="history-section" id="historySection" style="display: none;">
+    <div class="history-header" id="historyHeader">
+      <span>📊 历史成绩</span>
+      <span class="arrow" id="historyArrow">▼</span>
     </div>
-    <div class="questions-container" id="questionsContainer">
-      <div class="empty-paper"><span>📋</span><div>暂无试卷，请从左侧选择</div></div>
-    </div>
-  </main>
+    <div class="history-list" id="historyList"></div>
+  </div>
 </div>
 
+<!-- 试卷选择弹窗 -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <h3>📑 选择试卷</h3>
@@ -244,6 +414,7 @@
   </div>
 </div>
 
+<!-- 提交确认弹窗 -->
 <div class="modal-overlay" id="confirmOverlay">
   <div class="modal confirm-modal">
     <div class="modal-content">
@@ -836,6 +1007,7 @@
   let noHighlight = false;
   let historyVisible = false;
   let historyRecords = [];
+  let panelOpen = false;
 
   // DOM
   const totalCountEl = document.getElementById('totalCount');
@@ -862,6 +1034,10 @@
   const historyHeader = document.getElementById('historyHeader');
   const historyArrow = document.getElementById('historyArrow');
   const historyList = document.getElementById('historyList');
+  const floatBall = document.getElementById('floatBall');
+  const ballBadge = document.getElementById('ballBadge');
+  const cardPanel = document.getElementById('cardPanel');
+  const closePanelBtn = document.getElementById('closePanelBtn');
 
   // ---------- 工具 ----------
   function shuffleArray(arr) {
@@ -914,13 +1090,23 @@
       totalCountEl.textContent = '0';
       answeredCountEl.textContent = '0';
       unansweredCountEl.textContent = '0';
+      ballBadge.classList.add('hidden');
       return;
     }
     const total = currentQuestions.length;
     const answered = getAnsweredCount(currentPaper.id, currentQuestions);
+    const unanswered = total - answered;
     totalCountEl.textContent = total;
     answeredCountEl.textContent = answered;
-    unansweredCountEl.textContent = total - answered;
+    unansweredCountEl.textContent = unanswered;
+
+    // 悬浮球角标显示已答数
+    if (answered > 0) {
+      ballBadge.textContent = answered;
+      ballBadge.classList.remove('hidden');
+    } else {
+      ballBadge.classList.add('hidden');
+    }
   }
 
   function renderQuestionButtons() {
@@ -992,8 +1178,8 @@
   function renderPaperContent() {
     if (!currentPaper) {
       paperTitle.textContent = '请选择试卷';
-      paperSub.textContent = '点击左侧「选择试卷」开始考试';
-      questionsContainer.innerHTML = `<div class="empty-paper"><span>📋</span><div>暂无试卷，请从左侧选择</div></div>`;
+      paperSub.textContent = '点击右下角悬浮球开始考试';
+      questionsContainer.innerHTML = `<div class="empty-paper"><span>📋</span><div>点击右下角悬浮球，选择试卷开始答题</div></div>`;
       cardPaperName.textContent = '未选择';
       return;
     }
@@ -1180,8 +1366,8 @@
         randomCheckWrap.style.display = 'none';
         historySection.style.display = 'none';
         paperTitle.textContent = '请选择试卷';
-        paperSub.textContent = '点击左侧「选择试卷」开始考试';
-        questionsContainer.innerHTML = `<div class="empty-paper"><span>📋</span><div>暂无试卷，请从左侧选择</div></div>`;
+        paperSub.textContent = '点击右下角悬浮球开始考试';
+        questionsContainer.innerHTML = `<div class="empty-paper"><span>📋</span><div>点击右下角悬浮球，选择试卷开始答题</div></div>`;
         cardPaperName.textContent = '未选择';
         updateStats();
         renderQuestionButtons();
@@ -1258,7 +1444,7 @@
 
   function renderHistory() {
     if (historyRecords.length === 0) {
-      historyList.innerHTML = '<div style="padding:12px;color:#7a8aa3;font-size:13px;text-align:center;">暂无历史成绩</div>';
+      historyList.innerHTML = '<div style="padding:12px;color:#7a8aa3;font-size:12px;text-align:center;">暂无历史成绩</div>';
       return;
     }
     let html = '';
@@ -1267,7 +1453,7 @@
       html += `<div class="history-item">
         <span>${r.paperName}</span>
         <span><span class="score ${pass ? 'pass' : 'fail'}">${r.score.toFixed(1)}</span> / ${r.total.toFixed(1)}</span>
-        <span style="color:#7a8aa3;font-size:12px;">${r.time}</span>
+        <span style="color:#7a8aa3;font-size:11px;">${r.time}</span>
       </div>`;
     });
     html += `<div class="clear-history" id="clearHistoryBtn">清除历史记录</div>`;
@@ -1298,6 +1484,8 @@
     updateStats();
     renderQuestionButtons();
     renderPaperContent();
+    // 自动关闭面板以便查看试卷
+    closePanel();
   }
 
   function showModal() {
@@ -1319,12 +1507,46 @@
   function hideModal() { modalOverlay.classList.remove('show'); }
   function hideConfirm() { confirmOverlay.classList.remove('show'); }
 
+  // ---------- 悬浮球与面板 ----------
+  function openPanel() {
+    panelOpen = true;
+    cardPanel.classList.add('open');
+  }
+  function closePanel() {
+    panelOpen = false;
+    cardPanel.classList.remove('open');
+  }
+  function togglePanel() {
+    if (panelOpen) closePanel();
+    else openPanel();
+  }
+
   // 事件绑定
-  selectPaperBtn.addEventListener('click', showModal);
+  floatBall.addEventListener('click', (e) => {
+    e.stopPropagation();
+    togglePanel();
+  });
+  closePanelBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    closePanel();
+  });
+
+  // 点击面板外部关闭
+  document.addEventListener('click', (e) => {
+    if (!panelOpen) return;
+    if (cardPanel.contains(e.target) || floatBall.contains(e.target)) return;
+    closePanel();
+  });
+
+  selectPaperBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    showModal();
+  });
   closeModalBtn.addEventListener('click', hideModal);
   modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) hideModal(); });
 
-  submitBtn.addEventListener('click', () => {
+  submitBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
     if (!currentPaper || isSubmitted) return;
     confirmOverlay.classList.add('show');
   });
@@ -1335,7 +1557,8 @@
   });
   confirmOverlay.addEventListener('click', (e) => { if (e.target === confirmOverlay) hideConfirm(); });
 
-  resetBtn.addEventListener('click', () => {
+  resetBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
     if (!currentPaper) return;
     if (isSubmitted) {
       isSubmitted = false;
@@ -1367,12 +1590,21 @@
     const qid = parseInt(btn.dataset.qid);
     if (!currentPaper) return;
     scrollToQuestion(qid);
+    // 移动端点击题号后自动关闭面板，方便查看题目
+    if (window.innerWidth <= 900) {
+      closePanel();
+    }
   });
 
   historyHeader.addEventListener('click', () => {
     historyVisible = !historyVisible;
     historyList.classList.toggle('open', historyVisible);
     historyArrow.classList.toggle('open', historyVisible);
+  });
+
+  // 阻止面板内点击事件冒泡
+  cardPanel.addEventListener('click', (e) => {
+    e.stopPropagation();
   });
 
   // 初始化
@@ -1387,6 +1619,7 @@
     randomCheck.checked = false;
     randomMode = false;
     historySection.style.display = 'none';
+    panelOpen = false;
   })();
 </script>
 </body>
