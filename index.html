@@ -41,8 +41,6 @@
     .result-options .wrong-opt { color: #dc3545; text-decoration: line-through; }
     .result-options .selected-opt { background: #fff3cd; padding: 2px 6px; border-radius: 6px; }
     .result-options .correct-answer { color: #28a745; font-weight: 600; }
-    .no-highlight-check { display: flex; align-items: center; gap: 8px; margin-top: 12px; padding: 8px 12px; background: #fff; border-radius: 12px; border: 1px solid #e9edf4; font-size: 14px; color: #2e405b; cursor: pointer; }
-    .no-highlight-check input { width: 18px; height: 18px; accent-color: #1e2b3c; cursor: pointer; }
     
     /* 弹窗 */
     .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); backdrop-filter: blur(3px); display: none; justify-content: center; align-items: center; z-index: 2000; padding: 20px; }
@@ -122,14 +120,14 @@
     }
     .float-ball .ball-badge.hidden { display: none; }
 
-    /* ===== 答题卡面板（重新设计） ===== */
+    /* ===== 答题卡面板 ===== */
     .card-panel {
       position: fixed;
       right: 24px;
       bottom: 96px;
       width: 380px;
       max-width: calc(100vw - 32px);
-      max-height: 75vh;
+      max-height: 78vh;
       background: #ffffff;
       border-radius: 24px;
       box-shadow: 0 20px 50px rgba(0,0,0,0.25);
@@ -218,7 +216,6 @@
       background: #ffffff;
     }
     
-    /* 主操作按钮 */
     .btn-primary {
       width: 100%;
       background: #1e2b3c;
@@ -238,7 +235,6 @@
     .btn-primary:hover { background: #14202e; }
     .btn-primary:active { transform: scale(0.98); }
     
-    /* 提交/重置按钮行 */
     .action-row {
       display: flex;
       gap: 8px;
@@ -263,7 +259,6 @@
     .action-row .action-btn.reset { background: #eef2f8; color: #2e405b; }
     .action-row .action-btn.reset:hover { background: #e1e9f2; }
     
-    /* 重新答题/重选试卷按钮行 */
     .result-action-row {
       display: flex;
       gap: 8px;
@@ -288,22 +283,33 @@
     .result-action-row .reselect-btn { background: #eef2f8; color: #2e405b; }
     .result-action-row .reselect-btn:hover { background: #e1e9f2; }
     
-    /* 随机开关 */
-    .random-check {
+    /* 开关区域（随机答题 + 跳转不高亮） */
+    .switch-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 10px 14px;
+      background: #f6f9fe;
+      border-radius: 14px;
+      border: 1px solid #e9edf4;
+    }
+    .switch-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 10px 14px;
-      background: #f6f9fe;
-      border-radius: 12px;
-      border: 1px solid #e9edf4;
       font-size: 13px;
       color: #2e405b;
       cursor: pointer;
       user-select: none;
+      padding: 4px 0;
     }
-    .random-check .switch-label { display: flex; align-items: center; gap: 6px; }
-    .random-check input[type="checkbox"] {
+    .switch-item .switch-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+    }
+    .switch-item input[type="checkbox"] {
       width: 18px;
       height: 18px;
       accent-color: #1e2b3c;
@@ -393,10 +399,9 @@
       .modal h3 { font-size: 19px; margin-bottom: 14px; }
       .paper-option { padding: 14px 16px; font-size: 15px; border-radius: 16px; }
       .close-modal { padding: 12px; font-size: 15px; }
-      .no-highlight-check { font-size: 13px; padding: 6px 10px; }
       
       .float-ball { right: 16px; bottom: 16px; width: 54px; height: 54px; font-size: 24px; }
-      .card-panel { right: 16px; bottom: 80px; width: calc(100vw - 32px); max-width: 400px; max-height: 70vh; }
+      .card-panel { right: 16px; bottom: 80px; width: calc(100vw - 32px); max-width: 400px; max-height: 72vh; }
       .card-panel-grid .question-btn { width: 40px; height: 40px; border-radius: 11px; font-size: 13px; }
       .card-panel-header { padding: 14px 16px; }
       .card-panel-header .title { font-size: 15px; }
@@ -408,7 +413,7 @@
       .q-text { font-size: 14px; }
       .option label { font-size: 13px; }
       .result-item { font-size: 13px; }
-      .card-panel { max-height: 65vh; }
+      .card-panel { max-height: 68vh; }
       .card-panel-grid { gap: 6px; padding: 12px; }
       .card-panel-actions { padding: 10px 12px; }
     }
@@ -452,7 +457,7 @@
   </div>
   
   <div class="card-panel-actions" id="cardActions">
-    <!-- 选择试卷按钮（答题状态下隐藏） -->
+    <!-- 选择试卷按钮（仅未选试卷时显示） -->
     <button class="btn-primary" id="selectPaperBtn"><span>📄 选择试卷</span></button>
     
     <!-- 答题状态：提交/重置 -->
@@ -467,11 +472,17 @@
       <button class="reselect-btn" id="reselectBtn">📄 重选试卷</button>
     </div>
     
-    <!-- 随机答题开关 -->
-    <label class="random-check" id="randomCheckWrap" style="display: none;">
-      <span class="switch-label">🎲 随机答题（打乱题目顺序）</span>
-      <input type="checkbox" id="randomCheck">
-    </label>
+    <!-- 开关区域：随机答题 + 跳转不高亮（始终可操作） -->
+    <div class="switch-group" id="switchGroup">
+      <label class="switch-item" id="randomSwitchItem">
+        <span class="switch-label">🎲 随机答题（打乱题目顺序）</span>
+        <input type="checkbox" id="randomCheck">
+      </label>
+      <label class="switch-item" id="noHighlightSwitchItem">
+        <span class="switch-label">✨ 跳转不高亮（1秒后恢复）</span>
+        <input type="checkbox" id="noHighlightCheck">
+      </label>
+    </div>
   </div>
   
   <div class="card-panel-grid" id="questionGrid"></div>
@@ -1108,8 +1119,8 @@
   const resetBtn = document.getElementById('resetBtn');
   const retryBtn = document.getElementById('retryBtn');
   const reselectBtn = document.getElementById('reselectBtn');
-  const randomCheckWrap = document.getElementById('randomCheckWrap');
   const randomCheck = document.getElementById('randomCheck');
+  const noHighlightCheck = document.getElementById('noHighlightCheck');
   const confirmOverlay = document.getElementById('confirmOverlay');
   const cancelSubmitBtn = document.getElementById('cancelSubmitBtn');
   const confirmSubmitBtn = document.getElementById('confirmSubmitBtn');
@@ -1395,16 +1406,7 @@
       html += `</div></div></div>`;
     });
 
-    html += `<label class="no-highlight-check"><input type="checkbox" id="noHighlightCheck" ${noHighlight ? 'checked' : ''}> 跳转不高亮（1秒后恢复）</label>`;
-
     questionsContainer.innerHTML = html;
-
-    const noHighlightCheck = document.getElementById('noHighlightCheck');
-    if (noHighlightCheck) {
-      noHighlightCheck.addEventListener('change', (e) => {
-        noHighlight = e.target.checked;
-      });
-    }
 
     document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(el => {
       el.disabled = true;
@@ -1422,27 +1424,20 @@
   }
 
   function updateActionButtons() {
-    // 根据状态更新按钮显示
     if (!currentPaper) {
-      // 未选试卷：显示选择试卷，隐藏其他
       selectPaperBtn.style.display = 'flex';
       answerActionRow.style.display = 'none';
       resultActionRow.style.display = 'none';
-      randomCheckWrap.style.display = 'none';
       historySection.style.display = 'none';
     } else if (isSubmitted) {
-      // 已提交：隐藏选择试卷和随机，显示重新答题/重选试卷，显示历史成绩
       selectPaperBtn.style.display = 'none';
       answerActionRow.style.display = 'none';
       resultActionRow.style.display = 'flex';
-      randomCheckWrap.style.display = 'none';
       historySection.style.display = 'block';
     } else {
-      // 答题中：隐藏选择试卷，显示提交/重置和随机
       selectPaperBtn.style.display = 'none';
       answerActionRow.style.display = 'flex';
       resultActionRow.style.display = 'none';
-      randomCheckWrap.style.display = 'flex';
       historySection.style.display = 'none';
     }
   }
@@ -1487,7 +1482,6 @@
   }
 
   function retryPaper() {
-    // 重新答题：保留当前试卷，清空答案，回到答题模式
     if (!currentPaper) return;
     isSubmitted = false;
     score = 0;
@@ -1507,7 +1501,6 @@
   }
 
   function reselectPaper() {
-    // 重选试卷：回到初始状态，弹出选择窗口
     isSubmitted = false;
     score = 0;
     activeQuestionId = null;
@@ -1562,7 +1555,6 @@
     renderQuestionButtons();
     renderPaperContent();
     updateActionButtons();
-    // 加载后自动关闭面板以便查看试卷
     closePanel();
   }
 
@@ -1615,33 +1607,28 @@
     closePanel();
   });
 
-  // 选择试卷按钮
   selectPaperBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     showModal();
   });
   
-  // 提交按钮
   submitBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     if (!currentPaper || isSubmitted) return;
     confirmOverlay.classList.add('show');
   });
   
-  // 重置按钮
   resetBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     if (!currentPaper || isSubmitted) return;
     resetPaper();
   });
   
-  // 重新答题按钮
   retryBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     retryPaper();
   });
   
-  // 重选试卷按钮
   reselectBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     reselectPaper();
@@ -1657,7 +1644,7 @@
   });
   confirmOverlay.addEventListener('click', (e) => { if (e.target === confirmOverlay) hideConfirm(); });
 
-  // 随机开关
+  // 随机开关（始终可操作）
   randomCheck.addEventListener('change', (e) => {
     e.stopPropagation();
     randomMode = e.target.checked;
@@ -1672,8 +1659,11 @@
       renderPaperContent();
     }
   });
-  randomCheckWrap.addEventListener('click', (e) => {
+
+  // 跳转不高亮开关（始终可操作）
+  noHighlightCheck.addEventListener('change', (e) => {
     e.stopPropagation();
+    noHighlight = e.target.checked;
   });
 
   // 答题卡跳转
@@ -1683,7 +1673,6 @@
     const qid = parseInt(btn.dataset.qid);
     if (!currentPaper) return;
     scrollToQuestion(qid);
-    // 移动端点击题号后自动关闭面板
     if (window.innerWidth <= 900) {
       closePanel();
     }
@@ -1713,7 +1702,9 @@
     renderPaperContent();
     updateActionButtons();
     randomCheck.checked = false;
+    noHighlightCheck.checked = false;
     randomMode = false;
+    noHighlight = false;
     panelOpen = false;
   })();
 </script>
