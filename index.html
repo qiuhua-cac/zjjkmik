@@ -147,8 +147,10 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 .login-form .btns .secondary:hover{background:#e1e9f2;}
 .user-bar{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#f6f9fe;border-radius:12px;border:1px solid #e9edf4;font-size:13px;color:#2e405b;margin-bottom:10px;}
 .user-bar .user-info{display:flex;align-items:center;gap:6px;font-weight:600;}
-.user-bar .logout-btn{padding:6px 12px;background:#eef2f8;border:none;border-radius:10px;font-size:12px;font-weight:600;color:#b13e3e;cursor:pointer;}
+.user-bar .logout-btn{padding:6px 12px;background:#eef2f8;border:none;border-radius:10px;font-size:12px;font-weight:600;color:#b13e3e;cursor:pointer;margin-left:6px;}
 .user-bar .logout-btn:hover{background:#f8d7da;}
+.user-bar .edit-btn{padding:6px 12px;background:#1e2b3c;border:none;border-radius:10px;font-size:12px;font-weight:600;color:#fff;cursor:pointer;margin-right:6px;}
+.user-bar .edit-btn:hover{background:#14202e;}
 .parse-hint{font-size:12px;color:#7a8aa3;line-height:1.5;padding:8px 12px;background:#f6f9fe;border-radius:10px;}
 .backup-item{background:#fff;border:1.5px solid #e9edf4;border-radius:12px;padding:10px 12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:8px;}
 .backup-item .info{flex:1;min-width:0;}
@@ -186,6 +188,24 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 .code-preview{background:#1e2b3c;color:#a5d6ff;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;line-height:1.5;padding:12px;border-radius:10px;max-height:240px;overflow:auto;white-space:pre-wrap;word-break:break-all;}
 .code-preview::-webkit-scrollbar{width:6px;height:6px;}
 .code-preview::-webkit-scrollbar-thumb{background:#4a5b70;border-radius:6px;}
+.manage-grid{display:flex;flex-direction:column;gap:8px;}
+.manage-grid .item{display:flex;align-items:center;gap:10px;padding:12px 14px;background:#f6f9fe;border:1.5px solid #e9edf4;border-radius:12px;cursor:pointer;transition:all .15s;}
+.manage-grid .item:hover{background:#e8f0fe;border-color:#b8cae0;}
+.manage-grid .item .icon{font-size:20px;flex-shrink:0;}
+.manage-grid .item .info{flex:1;min-width:0;}
+.manage-grid .item .info .title{font-size:14px;font-weight:700;color:#1e2b3c;}
+.manage-grid .item .info .desc{font-size:11px;color:#7a8aa3;margin-top:2px;line-height:1.4;}
+.manage-grid .item.danger .info .title{color:#b13e3e;}
+.gh-status{padding:8px 12px;border-radius:10px;font-size:12px;font-weight:600;margin-bottom:8px;display:none;}
+.gh-status.show{display:block;}
+.gh-status.success{background:#d4edda;color:#155724;border:1px solid #b8ddc3;}
+.gh-status.fail{background:#f8d7da;color:#721c24;border:1px solid #f0c0c4;}
+.gh-status.testing{background:#fff3cd;color:#856404;border:1px solid #ffe08a;}
+.add-paper-preview{background:#f6f9fe;border:1px solid #e9edf4;border-radius:10px;padding:10px 12px;margin-top:8px;font-size:12px;color:#3a506b;max-height:180px;overflow-y:auto;line-height:1.6;}
+.add-paper-preview .p-title{font-weight:700;color:#1e2b3c;margin-bottom:6px;}
+.add-paper-preview .q-item{padding:4px 0;border-bottom:1px dashed #e9edf4;}
+.add-paper-preview .q-item:last-child{border-bottom:none;}
+.add-paper-preview .q-type{display:inline-block;background:#e9edf4;color:#2b3f5a;font-size:10px;padding:1px 6px;border-radius:6px;margin-right:4px;}
 @media (max-width:900px){
   html,body{overflow:auto;-webkit-overflow-scrolling:touch;height:auto;}
   body{align-items:flex-start;min-height:100vh;display:block;}
@@ -343,6 +363,44 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
   </div>
 </div>
 
+<div class="modal-overlay" id="manageOverlay">
+  <div class="modal" style="width:520px;">
+    <h3>⚙️ 管理面板</h3>
+    <div class="manage-grid">
+      <div class="item" id="manageAddPaper">
+        <div class="icon">➕</div>
+        <div class="info"><div class="title">新增题库</div><div class="desc">粘贴文本自动解析，确认后同步至 GitHub</div></div>
+      </div>
+      <div class="item danger" id="manageDeletePaper">
+        <div class="icon">🗑</div>
+        <div class="info"><div class="title">删除题库</div><div class="desc">选择要删除的试卷，删除后同步至 GitHub</div></div>
+      </div>
+      <div class="item" id="manageGh">
+        <div class="icon">🐙</div>
+        <div class="info"><div class="title">GitHub 同步</div><div class="desc">配置仓库、测试连接、推送/拉取题库</div></div>
+      </div>
+      <div class="item" id="manageBackup">
+        <div class="icon">💾</div>
+        <div class="info"><div class="title">备份仓</div><div class="desc">查看/锁定/删除备份（最多4个）</div></div>
+      </div>
+      <div class="item" id="manageRevive">
+        <div class="icon">🛟</div>
+        <div class="info"><div class="title">复活备份</div><div class="desc">上传备份文件，密码验证后可恢复系统</div></div>
+      </div>
+    </div>
+    <button class="close-modal" id="manageCloseBtn" style="margin-top:14px;">关闭</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="deletePaperOverlay">
+  <div class="modal">
+    <h3>🗑 删除题库</h3>
+    <div class="parse-hint" style="margin-bottom:12px;">⚠ 删除后不可恢复，删除后会同步至 GitHub 仓库。</div>
+    <div class="paper-list" id="deletePaperList"></div>
+    <button class="close-modal" id="deletePaperCancelBtn">取消</button>
+  </div>
+</div>
+
 <div class="modal-overlay" id="addPaperOverlay">
   <div class="modal" style="width:640px;">
     <h3>➕ 新增题库</h3>
@@ -368,10 +426,20 @@ E. 使用预先约定的信号或方法报警
 
 水塔内部专业人员可以进入施工作业，所以水塔属于建筑物。(错)[判断题]"></textarea>
       </div>
-      <div class="parse-hint">💡 格式：「题目（答案）？[题型]」，题型支持 [单选题]、[多选题]、[判断题]。判断题答案写 (对) 或 (错)。</div>
-      <div class="btns">
+      <div class="field">
+        <label>预览（只读）</label>
+        <div class="add-paper-preview" id="addPaperPreview">
+          <div style="color:#7a8aa3;text-align:center;padding:12px 0;">粘贴题库内容后将自动解析显示</div>
+        </div>
+      </div>
+      <div class="parse-hint">💡 格式：「题目（答案）？[题型]」，题型支持 [单选题]、[多选题]、[判断题]。</div>
+      <div class="btns" id="addPaperFirstRow">
         <button class="secondary" id="addPaperCancelBtn">取消</button>
-        <button class="primary" id="addPaperConfirmBtn">确认添加</button>
+        <button class="primary" id="addPaperPreviewBtn">👁 预览并确认</button>
+      </div>
+      <div class="btns" id="addPaperSecondRow" style="display:none;">
+        <button class="secondary" id="addPaperBackBtn">← 返回修改</button>
+        <button class="primary" id="addPaperConfirmBtn" style="background:#2a7a4b;">✅ 确认添加并同步</button>
       </div>
     </div>
   </div>
@@ -380,15 +448,16 @@ E. 使用预先约定的信号或方法报警
 <div class="modal-overlay" id="ghOverlay">
   <div class="modal" style="width:600px;">
     <h3>🐙 GitHub 仓库同步配置</h3>
+    <div class="gh-status" id="ghStatus"></div>
     <div class="gh-config">
       <div class="field"><label>仓库地址（owner/repo）</label><input type="text" id="ghRepo" placeholder="例如：username/my-quiz-repo"></div>
       <div class="field"><label>分支</label><input type="text" id="ghBranch" placeholder="main" value="main"></div>
       <div class="field"><label>Personal Access Token</label><input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxx"></div>
       <div class="field"><label>文件路径</label><input type="text" id="ghPath" placeholder="data/papers.json" value="data/papers.json"></div>
-      <div class="parse-hint">💡 提示：需要 Personal Access Token 具有 repo 权限。文件路径例如 data/papers.json。</div>
+      <div class="parse-hint">💡 提示：需要 Token 具有 repo 权限。</div>
       <div class="btns">
-        <button class="secondary" id="ghCancelBtn">取消</button>
-        <button class="primary" id="ghSaveBtn">保存配置</button>
+        <button class="secondary" id="ghTestBtn">🔌 测试连接</button>
+        <button class="primary" id="ghSaveBtn">💾 保存配置</button>
       </div>
       <div class="btns">
         <button class="primary" id="ghPushBtn" style="background:#2a7a4b;">⬆ 推送当前题库到 GitHub</button>
@@ -404,7 +473,7 @@ E. 使用预先约定的信号或方法报警
 <div class="modal-overlay" id="backupOverlay">
   <div class="modal" style="width:640px;">
     <h3>💾 备份仓（最多4个，A最新D最旧）</h3>
-    <div class="parse-hint" style="margin-bottom:12px;">每次修改题库内容会自动保存为备份仓（ABCD顺延，A最新D最旧）。最多锁定3个备份，锁定后不会被新的存档顶替。</div>
+    <div class="parse-hint" style="margin-bottom:12px;">每次修改题库内容会自动保存为备份仓（ABCD顺延，A最新D最旧）。最多锁定3个备份。</div>
     <div id="backupList"></div>
     <div class="btns" style="margin-top:12px;">
       <button class="secondary" id="backupCreateBtn">➕ 手动创建备份</button>
@@ -455,9 +524,10 @@ E. 使用预先约定的信号或方法报警
     </div>
   </div>
 </div>
+
 <script>
 // ============================================================
-// 题库数据 - 第 1 套（中级监控精准题库01）
+// 题库数据 - 第 1 套（中级监控精准题库01 · 200 题）
 // ============================================================
 const PAPER1_QUESTIONS = [
   { id:1, type:'single', text:'单位全面负责是做好消防工作的（ ）？', options:['核心','关键','根本','基础'], answer:2 },
@@ -663,7 +733,7 @@ const PAPER1_QUESTIONS = [
 ];
 
 // ============================================================
-// 题库数据 - 第 2 套（中级监控精准题库02）
+// 题库数据 - 第 2 套（中级监控精准题库02 · 177 题）
 // ============================================================
 const PAPER2_QUESTIONS = [
   { id:1, type:'single', text:'消防电话插孔保养时，下列部件中需要予以更换的是（ ）。', options:['螺钉松动','端子垫片锈蚀','盖板脱落','插孔积灰'], answer:1 },
@@ -846,7 +916,7 @@ const PAPER2_QUESTIONS = [
 ];
 
 // ============================================================
-// 题库数据 - 第 3 套（中级监控精准题库03）
+// 题库数据 - 第 3 套（中级监控精准题库03 · 165 题）
 // ============================================================
 const PAPER3_QUESTIONS = [
   { id:1, type:'single', text:'判断消防供水设施的工作状态，应检查消防泵组电气控制柜的供电和各项切换功能，且转换开关应处于（ ）状态。', options:['自动','手动','自动允许','手动允许'], answer:0 },
@@ -1026,7 +1096,7 @@ const DEFAULT_PAPERS = [
 ];
 
 // ============================================================
-// 状态
+// 全局状态
 // ============================================================
 let papers = JSON.parse(JSON.stringify(DEFAULT_PAPERS));
 let currentPaper = null;
@@ -1134,6 +1204,23 @@ const passInput = $('passInput');
 const passHint = $('passHint');
 const passCancelBtn = $('passCancelBtn');
 const passConfirmBtn = $('passConfirmBtn');
+const manageOverlay = $('manageOverlay');
+const manageCloseBtn = $('manageCloseBtn');
+const manageAddPaper = $('manageAddPaper');
+const manageDeletePaper = $('manageDeletePaper');
+const manageGh = $('manageGh');
+const manageBackup = $('manageBackup');
+const manageRevive = $('manageRevive');
+const deletePaperOverlay = $('deletePaperOverlay');
+const deletePaperList = $('deletePaperList');
+const deletePaperCancelBtn = $('deletePaperCancelBtn');
+const ghStatus = $('ghStatus');
+const ghTestBtn = $('ghTestBtn');
+const addPaperPreview = $('addPaperPreview');
+const addPaperPreviewBtn = $('addPaperPreviewBtn');
+const addPaperFirstRow = $('addPaperFirstRow');
+const addPaperSecondRow = $('addPaperSecondRow');
+const addPaperBackBtn = $('addPaperBackBtn');
 
 // ============================================================
 // 工具函数
@@ -1159,6 +1246,7 @@ function isAnswerCorrect(q,ans){
   }
   return false;
 }
+function serializePapers(){return JSON.stringify(papers,null,2);}
 
 // ============================================================
 // 更新统计
@@ -1200,14 +1288,14 @@ function renderQuestionButtons(){
     html+=`<button class="question-btn ${extraClass} ${activeClass}" data-qid="${q.id}">${q.displayId}</button>`;
   });
   questionGrid.innerHTML=html;
-  // ✅ 强制确保开关永远可用
+  // 三重保险：强制开关可用
   randomCheck.disabled = false;
   noHighlightCheck.disabled = false;
   wrongOnlyCheck.disabled = false;
 }
 
 // ============================================================
-// 高亮与跳转
+// 高亮和跳转
 // ============================================================
 function updateActiveQuestionHighlight(){
   document.querySelectorAll('.question-item').forEach(el=>el.classList.remove('active-question'));
@@ -1216,21 +1304,15 @@ function updateActiveQuestionHighlight(){
     if(el)el.classList.add('active-question');
   }
 }
-
 function scrollToQuestion(qid){
   if(!currentPaper)return;
   const targetEl=document.querySelector(`.question-item[data-qid="${qid}"]`);
-  if(targetEl){
-    targetEl.scrollIntoView({behavior:'auto',block:'center'});
-  }
+  if(targetEl)targetEl.scrollIntoView({behavior:'auto',block:'center'});
   activeQuestionId=qid;
   renderQuestionButtons();
   updateActiveQuestionHighlight();
-  if(noHighlight){
-    setTimeout(()=>{document.querySelectorAll('.question-item').forEach(el=>el.classList.remove('active-question'));},1000);
-  }
+  if(noHighlight){setTimeout(()=>{document.querySelectorAll('.question-item').forEach(el=>el.classList.remove('active-question'));},1000);}
 }
-
 function handleAnswerSelect(pid,qid,val,type){
   if(!currentPaper||currentPaper.id!==pid||isSubmitted)return;
   initAnswersForPaper(pid);
@@ -1289,7 +1371,6 @@ function renderPaperContent(){
   }else{
     questionsContainer.innerHTML=html;
   }
-  // 绑定试卷内容区内的输入事件
   questionsContainer.querySelectorAll('input[type="radio"]').forEach(r=>{
     r.addEventListener('change',e=>{
       if(isSubmitted)return;
@@ -1313,7 +1394,7 @@ function renderPaperContent(){
     if(!exists)activeQuestionId=null;
   }
   updateActiveQuestionHighlight();
-  // ✅ 强制确保开关永远可用
+  // 三重保险：强制开关可用
   randomCheck.disabled = false;
   noHighlightCheck.disabled = false;
   wrongOnlyCheck.disabled = false;
@@ -1376,9 +1457,9 @@ function renderResultContent(){
   }else{
     questionsContainer.innerHTML=html;
   }
-  // ⚠️ 关键修复：只禁用试卷内容区的输入，不影响悬浮球内的开关
+  // 关键修复：只禁用试卷内容区的输入，不影响悬浮球内的开关
   questionsContainer.querySelectorAll('input[type="radio"],input[type="checkbox"]').forEach(el=>{el.disabled=true;});
-  // ✅ 三重保险：强制确保三个开关永远可用
+  // 三重保险：强制确保三个开关永远可用
   randomCheck.disabled = false;
   noHighlightCheck.disabled = false;
   wrongOnlyCheck.disabled = false;
@@ -1421,7 +1502,7 @@ function updateActionButtons(){
 }
 
 // ============================================================
-// 提交试卷
+// 提交 / 重置 / 重新答题 / 重选试卷
 // ============================================================
 function submitPaper(){
   if(!currentPaper||isSubmitted)return;
@@ -1438,9 +1519,6 @@ function submitPaper(){
   updateActiveQuestionHighlight();
 }
 
-// ============================================================
-// 重置、重新答题、重选试卷
-// ============================================================
 function resetPaper(){
   if(!currentPaper)return;
   userAnswers[currentPaper.id]={};
@@ -1505,9 +1583,6 @@ function loadPaper(paperId){
   closePanel();
 }
 
-// ============================================================
-// 选择试卷弹窗
-// ============================================================
 function showModal(){
   let html='';
   papers.forEach(p=>{html+=`<div class="paper-option" data-paperid="${p.id}"><span>${p.name}</span><span class="badge">${p.questions.length} 题</span></div>`;});
@@ -1520,9 +1595,6 @@ function showModal(){
 function hideModal(){modalOverlay.classList.remove('show');}
 function hideConfirm(){confirmOverlay.classList.remove('show');}
 
-// ============================================================
-// 悬浮球面板
-// ============================================================
 function openPanel(){panelOpen=true;cardPanel.classList.add('open');}
 function closePanel(){panelOpen=false;cardPanel.classList.remove('open');}
 function togglePanel(){if(panelOpen)closePanel();else openPanel();}
@@ -1532,11 +1604,15 @@ function togglePanel(){if(panelOpen)closePanel();else openPanel();}
 // ============================================================
 function renderUserBar(){
   if(currentUser){
-    userBarContainer.innerHTML=`<div class="user-bar"><span class="user-info">👤 ${currentUser}</span><button class="logout-btn" id="logoutBtn">退出</button></div>`;
+    userBarContainer.innerHTML=`<div class="user-bar"><span class="user-info">👤 ${currentUser}</span><div><button class="edit-btn" id="manageBtn">⚙️ 编辑</button><button class="logout-btn" id="logoutBtn">退出</button></div></div>`;
     document.getElementById('logoutBtn')?.addEventListener('click',e=>{
       e.stopPropagation();
       currentUser=null;
       renderUserBar();
+    });
+    document.getElementById('manageBtn')?.addEventListener('click',e=>{
+      e.stopPropagation();
+      manageOverlay.classList.add('show');
     });
   }else{
     userBarContainer.innerHTML='';
@@ -1547,10 +1623,10 @@ function renderUserBar(){
 function updateUserButtons(){
   const logged = !!currentUser;
   loginBtn.style.display = logged ? 'none' : 'flex';
-  addPaperBtn.style.display = logged ? 'flex' : 'none';
-  ghBtn.style.display = logged ? 'flex' : 'none';
-  backupBtn.style.display = logged ? 'flex' : 'none';
-  reviveBtn.style.display = logged ? 'flex' : 'none'; // ✅ 复活备份仅登录后显示
+  addPaperBtn.style.display = 'none';
+  ghBtn.style.display = 'none';
+  backupBtn.style.display = 'none';
+  reviveBtn.style.display = 'none';
 }
 
 function showLogin(){loginUser.value='';loginPass.value='';loginOverlay.classList.add('show');}
@@ -1559,8 +1635,6 @@ function hideLogin(){loginOverlay.classList.remove('show');}
 // ============================================================
 // 备份仓
 // ============================================================
-function serializePapers(){return JSON.stringify(papers,null,2);}
-
 function saveBackup(){
   const data = serializePapers();
   const ts = new Date().toLocaleString();
@@ -1618,9 +1692,7 @@ function renderBackupList(){
       } else if(action === 'lock'){
         if(b.locked){b.locked = false;}
         else{
-          if(backups.filter(x=>x.locked).length >= BACKUP_LOCK_MAX){
-            alert(`最多锁定 ${BACKUP_LOCK_MAX} 个备份`);return;
-          }
+          if(backups.filter(x=>x.locked).length >= BACKUP_LOCK_MAX){alert(`最多锁定 ${BACKUP_LOCK_MAX} 个备份`);return;}
           b.locked = true;
         }
         renderBackupList();
@@ -1690,6 +1762,32 @@ async function ghPull(){
       alert('✅ 拉取成功！共 ' + papers.length + ' 套题库');
     } else {alert('❌ 数据格式不正确');}
   } catch(e){alert('❌ 网络错误：' + e.message);}
+}
+
+async function ghPushSilent(){
+  if(!ghConfig.repo || !ghConfig.token) throw new Error('未配置 GitHub');
+  const content = serializePapers();
+  const base64Content = btoa(unescape(encodeURIComponent(content)));
+  const url = `https://api.github.com/repos/${ghConfig.repo}/contents/${ghConfig.path}`;
+  const getResp = await fetch(url + `?ref=${ghConfig.branch}`, {
+    headers: {'Authorization': `token ${ghConfig.token}`,'Accept': 'application/vnd.github.v3+json'}
+  });
+  let sha = null;
+  if(getResp.ok){const data = await getResp.json();sha = data.sha;}
+  const body = {message: `更新题库 ${new Date().toLocaleString()}`,content: base64Content,branch: ghConfig.branch};
+  if(sha) body.sha = sha;
+  const putResp = await fetch(url, {
+    method: 'PUT',
+    headers: {'Authorization': `token ${ghConfig.token}`,'Accept': 'application/vnd.github.v3+json','Content-Type': 'application/json'},
+    body: JSON.stringify(body)
+  });
+  if(!putResp.ok){const err = await putResp.json();throw new Error(err.message || '推送失败');}
+  return true;
+}
+
+function showGhStatus(type, text){
+  ghStatus.className = 'gh-status show ' + type;
+  ghStatus.textContent = text;
 }
 
 // ============================================================
@@ -1780,6 +1878,57 @@ function parseQuestions(text){
 }
 
 // ============================================================
+// 新增题库（带预览和二次确认）
+// ============================================================
+function openAddPaperModal(){
+  newPaperTitle.value='';
+  newPaperContent.value='';
+  addPaperPreview.innerHTML='<div style="color:#7a8aa3;text-align:center;padding:12px 0;">粘贴题库内容后将自动解析显示</div>';
+  addPaperFirstRow.style.display='flex';
+  addPaperSecondRow.style.display='none';
+  addPaperOverlay.classList.add('show');
+}
+
+function openDeletePaperModal(){
+  if(papers.length === 0){
+    deletePaperList.innerHTML='<div style="padding:12px;text-align:center;color:#7a8aa3;">暂无题库</div>';
+  }else{
+    deletePaperList.innerHTML = papers.map(p=>
+      `<div class="paper-option" data-pid="${p.id}"><span>${p.name}</span><span class="badge">${p.questions.length} 题 · 点击删除</span></div>`
+    ).join('');
+    deletePaperList.querySelectorAll('.paper-option').forEach(opt=>{
+      opt.addEventListener('click', async (ev)=>{
+        ev.stopPropagation();
+        const pid = opt.dataset.pid;
+        const p = papers.find(x=>x.id===pid);
+        if(!p) return;
+        if(!confirm(`确定删除题库「${p.name}」吗？\n删除后不可恢复，并会同步至 GitHub 仓库。`)) return;
+        const idx = papers.findIndex(x=>x.id===pid);
+        if(idx > -1){
+          papers.splice(idx,1);
+          saveBackup();
+          deletePaperOverlay.classList.remove('show');
+          if(ghConfig.repo && ghConfig.token){
+            try{
+              await ghPushSilent();
+              alert('✅ 已删除并同步至 GitHub，页面即将刷新');
+              setTimeout(()=>location.reload(), 800);
+            }catch(err){
+              alert('✅ 已删除（GitHub 同步失败：'+err.message+'），页面即将刷新');
+              setTimeout(()=>location.reload(), 800);
+            }
+          }else{
+            alert('✅ 已删除（未配置 GitHub，未同步），页面即将刷新');
+            setTimeout(()=>location.reload(), 800);
+          }
+        }
+      });
+    });
+  }
+  deletePaperOverlay.classList.add('show');
+}
+
+// ============================================================
 // 事件绑定
 // ============================================================
 floatBall.addEventListener('click',e=>{e.stopPropagation();togglePanel();});
@@ -1857,27 +2006,97 @@ loginConfirmBtn.addEventListener('click',e=>{
 });
 loginOverlay.addEventListener('click',e=>{if(e.target===loginOverlay)hideLogin();});
 
-// 新增题库
-addPaperBtn.addEventListener('click',e=>{e.stopPropagation();newPaperTitle.value='';newPaperContent.value='';addPaperOverlay.classList.add('show');});
+// 管理面板
+manageCloseBtn.addEventListener('click',e=>{e.stopPropagation();manageOverlay.classList.remove('show');});
+manageOverlay.addEventListener('click',e=>{if(e.target===manageOverlay)manageOverlay.classList.remove('show');});
+manageAddPaper.addEventListener('click',e=>{e.stopPropagation();manageOverlay.classList.remove('show');openAddPaperModal();});
+manageDeletePaper.addEventListener('click',e=>{e.stopPropagation();manageOverlay.classList.remove('show');openDeletePaperModal();});
+manageGh.addEventListener('click',e=>{e.stopPropagation();manageOverlay.classList.remove('show');ghBtn.click();});
+manageBackup.addEventListener('click',e=>{e.stopPropagation();manageOverlay.classList.remove('show');renderBackupList();backupOverlay.classList.add('show');});
+manageRevive.addEventListener('click',e=>{e.stopPropagation();manageOverlay.classList.remove('show');renderReviveInfo();reviveOverlay.classList.add('show');});
+
+// 新增题库弹窗事件
 addPaperCancelBtn.addEventListener('click',e=>{e.stopPropagation();addPaperOverlay.classList.remove('show');});
 addPaperOverlay.addEventListener('click',e=>{if(e.target===addPaperOverlay)addPaperOverlay.classList.remove('show');});
 
-addPaperConfirmBtn.addEventListener('click',e=>{
+newPaperContent.addEventListener('input',()=>{
+  const content = newPaperContent.value.trim();
+  if(!content){
+    addPaperPreview.innerHTML='<div style="color:#7a8aa3;text-align:center;padding:12px 0;">粘贴题库内容后将自动解析显示</div>';
+    return;
+  }
+  try{
+    const qs = parseQuestions(content);
+    if(qs.length === 0){
+      addPaperPreview.innerHTML='<div style="color:#b13e3e;text-align:center;padding:12px 0;">⚠ 未解析到题目，请检查格式</div>';
+      return;
+    }
+    let html=`<div class="p-title">✅ 已解析 ${qs.length} 道题</div>`;
+    qs.slice(0, 10).forEach((q,i)=>{
+      const tl = q.type==='single'?'单选':q.type==='multiple'?'多选':'判断';
+      html+=`<div class="q-item"><span class="q-type">${tl}</span>${i+1}. ${q.text.substring(0,50)}${q.text.length>50?'...':''}</div>`;
+    });
+    if(qs.length > 10) html+=`<div style="text-align:center;color:#7a8aa3;padding:6px;">... 还有 ${qs.length-10} 道题</div>`;
+    addPaperPreview.innerHTML = html;
+  }catch(err){
+    addPaperPreview.innerHTML='<div style="color:#b13e3e;text-align:center;padding:12px 0;">⚠ 解析失败：'+err.message+'</div>';
+  }
+});
+
+addPaperPreviewBtn.addEventListener('click',e=>{
   e.stopPropagation();
-  const title=newPaperTitle.value.trim();
-  const content=newPaperContent.value.trim();
+  const title = newPaperTitle.value.trim();
+  const content = newPaperContent.value.trim();
   if(!title){alert('请输入试卷标题');return;}
   if(!content){alert('请输入题库内容');return;}
-  try{
-    const questions=parseQuestions(content);
-    if(questions.length===0){alert('未解析到任何题目，请检查格式');return;}
-    const id='paper_'+Date.now();
-    papers.push({id:id,name:title,description:`自定义题库 · 共 ${questions.length} 题`,questions:questions});
-    saveBackup();
-    addPaperOverlay.classList.remove('show');
-    alert(`✅ 成功添加题库「${title}」，共 ${questions.length} 题`);
-  }catch(err){alert('解析失败：'+err.message);}
+  const qs = parseQuestions(content);
+  if(qs.length === 0){alert('未解析到任何题目，请检查格式');return;}
+  addPaperFirstRow.style.display='none';
+  addPaperSecondRow.style.display='flex';
+  let previewHtml=`<div class="p-title">✅ 即将添加：${title}（共 ${qs.length} 道题）</div>`;
+  qs.slice(0,10).forEach((q,i)=>{
+    const tl = q.type==='single'?'单选':q.type==='multiple'?'多选':'判断';
+    previewHtml+=`<div class="q-item"><span class="q-type">${tl}</span>${i+1}. ${q.text.substring(0,50)}${q.text.length>50?'...':''}</div>`;
+  });
+  if(qs.length > 10) previewHtml+=`<div style="text-align:center;color:#7a8aa3;padding:6px;">... 还有 ${qs.length-10} 道题</div>`;
+  addPaperPreview.innerHTML = previewHtml;
 });
+
+addPaperBackBtn.addEventListener('click',e=>{
+  e.stopPropagation();
+  addPaperFirstRow.style.display='flex';
+  addPaperSecondRow.style.display='none';
+  newPaperContent.dispatchEvent(new Event('input'));
+});
+
+addPaperConfirmBtn.addEventListener('click', async (e)=>{
+  e.stopPropagation();
+  const title = newPaperTitle.value.trim();
+  const content = newPaperContent.value.trim();
+  const qs = parseQuestions(content);
+  if(qs.length === 0){alert('未解析到任何题目');return;}
+  const id = 'paper_'+Date.now();
+  papers.push({id:id,name:title,description:`自定义题库 · 共 ${qs.length} 题`,questions:qs});
+  saveBackup();
+  addPaperOverlay.classList.remove('show');
+  if(ghConfig.repo && ghConfig.token){
+    try{
+      await ghPushSilent();
+      alert(`✅ 题库「${title}」已添加并同步至 GitHub，页面即将刷新`);
+      setTimeout(()=>location.reload(), 800);
+    }catch(err){
+      alert(`✅ 题库「${title}」已添加（GitHub 同步失败：${err.message}），页面即将刷新`);
+      setTimeout(()=>location.reload(), 800);
+    }
+  }else{
+    alert(`✅ 题库「${title}」已添加（未配置 GitHub，未同步），页面即将刷新`);
+    setTimeout(()=>location.reload(), 800);
+  }
+});
+
+// 删除题库弹窗
+deletePaperCancelBtn.addEventListener('click',e=>{e.stopPropagation();deletePaperOverlay.classList.remove('show');});
+deletePaperOverlay.addEventListener('click',e=>{if(e.target===deletePaperOverlay)deletePaperOverlay.classList.remove('show');});
 
 // GitHub
 ghBtn.addEventListener('click',e=>{
@@ -1886,6 +2105,8 @@ ghBtn.addEventListener('click',e=>{
   ghBranch.value = ghConfig.branch;
   ghToken.value = ghConfig.token;
   ghPath.value = ghConfig.path;
+  if(ghConfig.repo && ghConfig.token){showGhStatus('success','✅ 已配置：'+ghConfig.repo);}
+  else{ghStatus.className='gh-status';}
   ghOverlay.classList.add('show');
 });
 ghCancelBtn.addEventListener('click',e=>{e.stopPropagation();ghOverlay.classList.remove('show');});
@@ -1897,7 +2118,26 @@ ghSaveBtn.addEventListener('click',e=>{
   ghConfig.branch = ghBranch.value.trim() || 'main';
   ghConfig.token = ghToken.value.trim();
   ghConfig.path = ghPath.value.trim() || 'data/papers.json';
+  if(!ghConfig.repo || !ghConfig.token){showGhStatus('fail','❌ 请填写仓库地址和 Token');return;}
+  showGhStatus('success','✅ 已配置：'+ghConfig.repo);
   alert('✅ 配置已保存');
+});
+ghTestBtn.addEventListener('click', async (e)=>{
+  e.stopPropagation();
+  const repo = ghRepo.value.trim();
+  const token = ghToken.value.trim();
+  if(!repo || !token){showGhStatus('fail','❌ 请填写仓库地址和 Token');return;}
+  showGhStatus('testing','🔄 正在测试连接...');
+  try{
+    const url = `https://api.github.com/repos/${repo}`;
+    const resp = await fetch(url, {headers: {'Authorization': `token ${token}`,'Accept': 'application/vnd.github.v3+json'}});
+    if(resp.ok){
+      const data = await resp.json();
+      showGhStatus('success',`✅ 连接成功：${data.full_name}（默认分支：${data.default_branch}）`);
+    } else {
+      showGhStatus('fail',`❌ 连接失败：${resp.status} ${resp.statusText}`);
+    }
+  }catch(err){showGhStatus('fail','❌ 网络错误：'+err.message);}
 });
 ghPushBtn.addEventListener('click',e=>{e.stopPropagation();ghPush();});
 ghPullBtn.addEventListener('click',e=>{e.stopPropagation();ghPull();});
