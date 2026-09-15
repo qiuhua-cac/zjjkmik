@@ -37,16 +37,16 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 .result-options .wrong-opt{color:#dc3545;text-decoration:line-through;}
 .result-options .selected-opt{background:#fff3cd;padding:2px 6px;border-radius:6px;}
 .result-options .correct-answer{color:#28a745;font-weight:600;}
-.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.3);backdrop-filter:blur(3px);display:none;justify-content:center;align-items:center;z-index:2000;padding:20px;}
+.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.35);backdrop-filter:blur(3px);display:none;justify-content:center;align-items:center;z-index:3000;padding:20px;}
 .modal-overlay.show{display:flex;}
-.modal{background:#fff;width:500px;max-width:100%;border-radius:32px;box-shadow:0 30px 50px rgba(0,0,0,.3);padding:28px 24px;animation:modalFade .2s ease;max-height:90vh;overflow-y:auto;}
+.modal{background:#fff;width:500px;max-width:100%;border-radius:32px;box-shadow:0 30px 50px rgba(0,0,0,.3);padding:28px 24px;animation:modalFade .2s ease;max-height:90vh;overflow-y:auto;pointer-events:auto;}
 @keyframes modalFade{from{opacity:.6;transform:scale(.96);}to{opacity:1;transform:scale(1);}}
 .modal h3{font-size:22px;font-weight:700;color:#0b1a2b;margin-bottom:20px;text-align:center;}
 .paper-list{display:flex;flex-direction:column;gap:12px;margin-bottom:20px;max-height:400px;overflow-y:auto;}
 .paper-option{background:#f6f9fe;padding:16px 20px;border-radius:20px;font-size:16px;font-weight:600;color:#1a2637;cursor:pointer;border:1.5px solid transparent;transition:all .15s;display:flex;justify-content:space-between;align-items:center;}
 .paper-option:hover{background:#e8f0fe;border-color:#b8cae0;}
 .paper-option .badge{font-size:13px;background:#d9e2ef;padding:4px 10px;border-radius:30px;color:#2b3f5a;font-weight:500;}
-.close-modal{width:100%;padding:14px;border:none;background:#eef2f8;border-radius:20px;font-size:16px;font-weight:600;color:#2e405b;cursor:pointer;transition:background .15s;}
+.close-modal{width:100%;padding:14px;border:none;background:#eef2f8;border-radius:20px;font-size:16px;font-weight:600;color:#2e405b;cursor:pointer;transition:background .15s;pointer-events:auto;}
 .close-modal:hover{background:#e1e9f2;}
 .empty-paper{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:#7a8aa3;font-size:16px;gap:12px;user-select:none;}
 .empty-paper span{font-size:48px;opacity:.4;}
@@ -206,6 +206,18 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 .add-paper-preview .q-item{padding:4px 0;border-bottom:1px dashed #e9edf4;}
 .add-paper-preview .q-item:last-child{border-bottom:none;}
 .add-paper-preview .q-type{display:inline-block;background:#e9edf4;color:#2b3f5a;font-size:10px;padding:1px 6px;border-radius:6px;margin-right:4px;}
+/* 弹窗层级控制 */
+#manageOverlay{z-index:3500;}
+#deletePaperOverlay{z-index:3400;}
+#addPaperOverlay{z-index:3400;}
+#ghOverlay{z-index:3400;}
+#backupOverlay{z-index:3400;}
+#previewOverlay{z-index:3600;}
+#reviveOverlay{z-index:3400;}
+#passOverlay{z-index:3700;}
+#modalOverlay{z-index:3300;}
+#confirmOverlay{z-index:3700;}
+#loginOverlay{z-index:3600;}
 @media (max-width:900px){
   html,body{overflow:auto;-webkit-overflow-scrolling:touch;height:auto;}
   body{align-items:flex-start;min-height:100vh;display:block;}
@@ -527,7 +539,7 @@ E. 使用预先约定的信号或方法报警
 
 <script>
 // ============================================================
-// 题库数据 - 第 1 套（中级监控精准题库01 · 200 题）
+// 题库 1（中级监控精准题库01 · 200 题）
 // ============================================================
 const PAPER1_QUESTIONS = [
   { id:1, type:'single', text:'单位全面负责是做好消防工作的（ ）？', options:['核心','关键','根本','基础'], answer:2 },
@@ -733,7 +745,7 @@ const PAPER1_QUESTIONS = [
 ];
 
 // ============================================================
-// 题库数据 - 第 2 套（中级监控精准题库02 · 177 题）
+// 题库 2（中级监控精准题库02 · 177 题）
 // ============================================================
 const PAPER2_QUESTIONS = [
   { id:1, type:'single', text:'消防电话插孔保养时，下列部件中需要予以更换的是（ ）。', options:['螺钉松动','端子垫片锈蚀','盖板脱落','插孔积灰'], answer:1 },
@@ -916,7 +928,7 @@ const PAPER2_QUESTIONS = [
 ];
 
 // ============================================================
-// 题库数据 - 第 3 套（中级监控精准题库03 · 165 题）
+// 题库 3（中级监控精准题库03 · 165 题）
 // ============================================================
 const PAPER3_QUESTIONS = [
   { id:1, type:'single', text:'判断消防供水设施的工作状态，应检查消防泵组电气控制柜的供电和各项切换功能，且转换开关应处于（ ）状态。', options:['自动','手动','自动允许','手动允许'], answer:0 },
@@ -1249,7 +1261,7 @@ function isAnswerCorrect(q,ans){
 function serializePapers(){return JSON.stringify(papers,null,2);}
 
 // ============================================================
-// 更新统计
+// 统计
 // ============================================================
 function updateStats(){
   if(!currentPaper){totalCountEl.textContent='0';answeredCountEl.textContent='0';unansweredCountEl.textContent='0';ballBadge.classList.add('hidden');return;}
@@ -1264,7 +1276,7 @@ function updateStats(){
 }
 
 // ============================================================
-// 渲染答题卡按钮
+// 答题卡按钮
 // ============================================================
 function renderQuestionButtons(){
   if(!currentPaper){questionGrid.innerHTML='';return;}
@@ -1288,14 +1300,11 @@ function renderQuestionButtons(){
     html+=`<button class="question-btn ${extraClass} ${activeClass}" data-qid="${q.id}">${q.displayId}</button>`;
   });
   questionGrid.innerHTML=html;
-  // 三重保险：强制开关可用
-  randomCheck.disabled = false;
-  noHighlightCheck.disabled = false;
-  wrongOnlyCheck.disabled = false;
+  randomCheck.disabled=false;noHighlightCheck.disabled=false;wrongOnlyCheck.disabled=false;
 }
 
 // ============================================================
-// 高亮和跳转
+// 高亮与跳转
 // ============================================================
 function updateActiveQuestionHighlight(){
   document.querySelectorAll('.question-item').forEach(el=>el.classList.remove('active-question'));
@@ -1394,10 +1403,7 @@ function renderPaperContent(){
     if(!exists)activeQuestionId=null;
   }
   updateActiveQuestionHighlight();
-  // 三重保险：强制开关可用
-  randomCheck.disabled = false;
-  noHighlightCheck.disabled = false;
-  wrongOnlyCheck.disabled = false;
+  randomCheck.disabled=false;noHighlightCheck.disabled=false;wrongOnlyCheck.disabled=false;
 }
 
 // ============================================================
@@ -1457,12 +1463,8 @@ function renderResultContent(){
   }else{
     questionsContainer.innerHTML=html;
   }
-  // 关键修复：只禁用试卷内容区的输入，不影响悬浮球内的开关
   questionsContainer.querySelectorAll('input[type="radio"],input[type="checkbox"]').forEach(el=>{el.disabled=true;});
-  // 三重保险：强制确保三个开关永远可用
-  randomCheck.disabled = false;
-  noHighlightCheck.disabled = false;
-  wrongOnlyCheck.disabled = false;
+  randomCheck.disabled=false;noHighlightCheck.disabled=false;wrongOnlyCheck.disabled=false;
 }
 
 // ============================================================
@@ -1477,7 +1479,7 @@ function calculateScore(){
 }
 
 // ============================================================
-// 按钮显示逻辑
+// 按钮显示
 // ============================================================
 function updateActionButtons(){
   if(!currentPaper){
@@ -1502,7 +1504,7 @@ function updateActionButtons(){
 }
 
 // ============================================================
-// 提交 / 重置 / 重新答题 / 重选试卷
+// 提交/重置/重做/重选
 // ============================================================
 function submitPaper(){
   if(!currentPaper||isSubmitted)return;
@@ -1518,7 +1520,6 @@ function submitPaper(){
   activeQuestionId=null;
   updateActiveQuestionHighlight();
 }
-
 function resetPaper(){
   if(!currentPaper)return;
   userAnswers[currentPaper.id]={};
@@ -1528,7 +1529,6 @@ function resetPaper(){
   updateStats();renderQuestionButtons();renderPaperContent();updateActionButtons();
   activeQuestionId=null;updateActiveQuestionHighlight();
 }
-
 function retryPaper(){
   if(!currentPaper)return;
   isSubmitted=false;score=0;activeQuestionId=null;
@@ -1538,7 +1538,6 @@ function retryPaper(){
   updateStats();renderQuestionButtons();renderPaperContent();updateActionButtons();
   activeQuestionId=null;updateActiveQuestionHighlight();
 }
-
 function reselectPaper(){
   isSubmitted=false;score=0;activeQuestionId=null;
   currentPaper=null;currentQuestions=[];
@@ -1582,7 +1581,6 @@ function loadPaper(paperId){
   updateStats();renderQuestionButtons();renderPaperContent();updateActionButtons();
   closePanel();
 }
-
 function showModal(){
   let html='';
   papers.forEach(p=>{html+=`<div class="paper-option" data-paperid="${p.id}"><span>${p.name}</span><span class="badge">${p.questions.length} 题</span></div>`;});
@@ -1594,7 +1592,6 @@ function showModal(){
 }
 function hideModal(){modalOverlay.classList.remove('show');}
 function hideConfirm(){confirmOverlay.classList.remove('show');}
-
 function openPanel(){panelOpen=true;cardPanel.classList.add('open');}
 function closePanel(){panelOpen=false;cardPanel.classList.remove('open');}
 function togglePanel(){if(panelOpen)closePanel();else openPanel();}
@@ -1605,21 +1602,13 @@ function togglePanel(){if(panelOpen)closePanel();else openPanel();}
 function renderUserBar(){
   if(currentUser){
     userBarContainer.innerHTML=`<div class="user-bar"><span class="user-info">👤 ${currentUser}</span><div><button class="edit-btn" id="manageBtn">⚙️ 编辑</button><button class="logout-btn" id="logoutBtn">退出</button></div></div>`;
-    document.getElementById('logoutBtn')?.addEventListener('click',e=>{
-      e.stopPropagation();
-      currentUser=null;
-      renderUserBar();
-    });
-    document.getElementById('manageBtn')?.addEventListener('click',e=>{
-      e.stopPropagation();
-      manageOverlay.classList.add('show');
-    });
+    document.getElementById('logoutBtn')?.addEventListener('click',e=>{e.stopPropagation();currentUser=null;renderUserBar();});
+    document.getElementById('manageBtn')?.addEventListener('click',e=>{e.stopPropagation();manageOverlay.classList.add('show');});
   }else{
     userBarContainer.innerHTML='';
   }
   updateUserButtons();
 }
-
 function updateUserButtons(){
   const logged = !!currentUser;
   loginBtn.style.display = logged ? 'none' : 'flex';
@@ -1628,7 +1617,6 @@ function updateUserButtons(){
   backupBtn.style.display = 'none';
   reviveBtn.style.display = 'none';
 }
-
 function showLogin(){loginUser.value='';loginPass.value='';loginOverlay.classList.add('show');}
 function hideLogin(){loginOverlay.classList.remove('show');}
 
@@ -1650,12 +1638,8 @@ function saveBackup(){
   const names = ['A','B','C','D'];
   backups.forEach((b,i)=>{b.name = names[i] || String.fromCharCode(65+i);});
 }
-
 function renderBackupList(){
-  if(backups.length === 0){
-    backupList.innerHTML = '<div class="backup-empty">暂无备份</div>';
-    return;
-  }
+  if(backups.length === 0){backupList.innerHTML = '<div class="backup-empty">暂无备份</div>';return;}
   let html='';
   const lockedCount = backups.filter(b=>b.locked).length;
   backups.forEach(b=>{
@@ -1711,7 +1695,6 @@ function renderBackupList(){
     });
   });
 }
-
 function downloadText(text, filename){
   const blob = new Blob([text], {type:'text/plain;charset=utf-8'});
   const url = URL.createObjectURL(blob);
@@ -1746,7 +1729,6 @@ async function ghPush(){
     else{const err = await putResp.json();alert('❌ 推送失败：' + (err.message || '未知错误'));}
   } catch(e){alert('❌ 网络错误：' + e.message);}
 }
-
 async function ghPull(){
   if(!ghConfig.repo || !ghConfig.token){alert('请先配置 GitHub 仓库信息');return;}
   try {
@@ -1763,7 +1745,6 @@ async function ghPull(){
     } else {alert('❌ 数据格式不正确');}
   } catch(e){alert('❌ 网络错误：' + e.message);}
 }
-
 async function ghPushSilent(){
   if(!ghConfig.repo || !ghConfig.token) throw new Error('未配置 GitHub');
   const content = serializePapers();
@@ -1784,7 +1765,6 @@ async function ghPushSilent(){
   if(!putResp.ok){const err = await putResp.json();throw new Error(err.message || '推送失败');}
   return true;
 }
-
 function showGhStatus(type, text){
   ghStatus.className = 'gh-status show ' + type;
   ghStatus.textContent = text;
@@ -1800,7 +1780,6 @@ function renderReviveInfo(){
     reviveFileInfo.textContent = '当前无备份文件，请上传 txt 文件。';
   }
 }
-
 function showPassModal(callback){
   passAttempts = 0;
   passInput.value = '';
@@ -1878,7 +1857,7 @@ function parseQuestions(text){
 }
 
 // ============================================================
-// 新增题库（带预览和二次确认）
+// 新增题库 / 删除题库
 // ============================================================
 function openAddPaperModal(){
   newPaperTitle.value='';
@@ -1888,7 +1867,6 @@ function openAddPaperModal(){
   addPaperSecondRow.style.display='none';
   addPaperOverlay.classList.add('show');
 }
-
 function openDeletePaperModal(){
   if(papers.length === 0){
     deletePaperList.innerHTML='<div style="padding:12px;text-align:center;color:#7a8aa3;">暂无题库</div>';
@@ -1929,6 +1907,17 @@ function openDeletePaperModal(){
 }
 
 // ============================================================
+// 弹窗关闭辅助函数：回到管理面板
+// ============================================================
+function gotoSub(fn){
+  manageOverlay.classList.remove('show');
+  setTimeout(()=>{ fn(); }, 80);
+}
+function backToManage(){
+  manageOverlay.classList.add('show');
+}
+
+// ============================================================
 // 事件绑定
 // ============================================================
 floatBall.addEventListener('click',e=>{e.stopPropagation();togglePanel();});
@@ -1960,17 +1949,11 @@ randomCheck.addEventListener('change',e=>{
     updateStats();renderQuestionButtons();renderPaperContent();
   }
 });
-noHighlightCheck.addEventListener('change',e=>{
-  e.stopPropagation();
-  noHighlight=e.target.checked;
-});
+noHighlightCheck.addEventListener('change',e=>{e.stopPropagation();noHighlight=e.target.checked;});
 wrongOnlyCheck.addEventListener('change',e=>{
   e.stopPropagation();
   wrongOnly=e.target.checked;
-  if(isSubmitted){
-    renderResultContent();
-    renderQuestionButtons();
-  }
+  if(isSubmitted){renderResultContent();renderQuestionButtons();}
 });
 
 questionGrid.addEventListener('click',e=>{
@@ -1998,27 +1981,23 @@ loginConfirmBtn.addEventListener('click',e=>{
   e.stopPropagation();
   const u=loginUser.value.trim();
   const p=loginPass.value.trim();
-  if(u==='A'&&p==='A'){
-    currentUser='A';
-    renderUserBar();
-    hideLogin();
-  }else{alert('账号或密码错误');}
+  if(u==='A'&&p==='A'){currentUser='A';renderUserBar();hideLogin();}
+  else{alert('账号或密码错误');}
 });
 loginOverlay.addEventListener('click',e=>{if(e.target===loginOverlay)hideLogin();});
 
-// 管理面板
+// 管理面板 —— 打开子功能（先关管理面板，延迟后再开子弹窗，避免层级冲突）
 manageCloseBtn.addEventListener('click',e=>{e.stopPropagation();manageOverlay.classList.remove('show');});
 manageOverlay.addEventListener('click',e=>{if(e.target===manageOverlay)manageOverlay.classList.remove('show');});
-manageAddPaper.addEventListener('click',e=>{e.stopPropagation();manageOverlay.classList.remove('show');openAddPaperModal();});
-manageDeletePaper.addEventListener('click',e=>{e.stopPropagation();manageOverlay.classList.remove('show');openDeletePaperModal();});
-manageGh.addEventListener('click',e=>{e.stopPropagation();manageOverlay.classList.remove('show');ghBtn.click();});
-manageBackup.addEventListener('click',e=>{e.stopPropagation();manageOverlay.classList.remove('show');renderBackupList();backupOverlay.classList.add('show');});
-manageRevive.addEventListener('click',e=>{e.stopPropagation();manageOverlay.classList.remove('show');renderReviveInfo();reviveOverlay.classList.add('show');});
+manageAddPaper.addEventListener('click',e=>{e.stopPropagation();gotoSub(openAddPaperModal);});
+manageDeletePaper.addEventListener('click',e=>{e.stopPropagation();gotoSub(openDeletePaperModal);});
+manageGh.addEventListener('click',e=>{e.stopPropagation();gotoSub(openGhModal);});
+manageBackup.addEventListener('click',e=>{e.stopPropagation();gotoSub(()=>{renderBackupList();backupOverlay.classList.add('show');});});
+manageRevive.addEventListener('click',e=>{e.stopPropagation();gotoSub(()=>{renderReviveInfo();reviveOverlay.classList.add('show');});});
 
-// 新增题库弹窗事件
-addPaperCancelBtn.addEventListener('click',e=>{e.stopPropagation();addPaperOverlay.classList.remove('show');});
-addPaperOverlay.addEventListener('click',e=>{if(e.target===addPaperOverlay)addPaperOverlay.classList.remove('show');});
-
+// 新增题库弹窗
+addPaperCancelBtn.addEventListener('click',e=>{e.stopPropagation();addPaperOverlay.classList.remove('show');backToManage();});
+addPaperOverlay.addEventListener('click',e=>{if(e.target===addPaperOverlay){addPaperOverlay.classList.remove('show');backToManage();}});
 newPaperContent.addEventListener('input',()=>{
   const content = newPaperContent.value.trim();
   if(!content){
@@ -2042,7 +2021,6 @@ newPaperContent.addEventListener('input',()=>{
     addPaperPreview.innerHTML='<div style="color:#b13e3e;text-align:center;padding:12px 0;">⚠ 解析失败：'+err.message+'</div>';
   }
 });
-
 addPaperPreviewBtn.addEventListener('click',e=>{
   e.stopPropagation();
   const title = newPaperTitle.value.trim();
@@ -2061,14 +2039,12 @@ addPaperPreviewBtn.addEventListener('click',e=>{
   if(qs.length > 10) previewHtml+=`<div style="text-align:center;color:#7a8aa3;padding:6px;">... 还有 ${qs.length-10} 道题</div>`;
   addPaperPreview.innerHTML = previewHtml;
 });
-
 addPaperBackBtn.addEventListener('click',e=>{
   e.stopPropagation();
   addPaperFirstRow.style.display='flex';
   addPaperSecondRow.style.display='none';
   newPaperContent.dispatchEvent(new Event('input'));
 });
-
 addPaperConfirmBtn.addEventListener('click', async (e)=>{
   e.stopPropagation();
   const title = newPaperTitle.value.trim();
@@ -2095,12 +2071,11 @@ addPaperConfirmBtn.addEventListener('click', async (e)=>{
 });
 
 // 删除题库弹窗
-deletePaperCancelBtn.addEventListener('click',e=>{e.stopPropagation();deletePaperOverlay.classList.remove('show');});
-deletePaperOverlay.addEventListener('click',e=>{if(e.target===deletePaperOverlay)deletePaperOverlay.classList.remove('show');});
+deletePaperCancelBtn.addEventListener('click',e=>{e.stopPropagation();deletePaperOverlay.classList.remove('show');backToManage();});
+deletePaperOverlay.addEventListener('click',e=>{if(e.target===deletePaperOverlay){deletePaperOverlay.classList.remove('show');backToManage();}});
 
-// GitHub
-ghBtn.addEventListener('click',e=>{
-  e.stopPropagation();
+// GitHub 弹窗
+function openGhModal(){
   ghRepo.value = ghConfig.repo;
   ghBranch.value = ghConfig.branch;
   ghToken.value = ghConfig.token;
@@ -2108,10 +2083,11 @@ ghBtn.addEventListener('click',e=>{
   if(ghConfig.repo && ghConfig.token){showGhStatus('success','✅ 已配置：'+ghConfig.repo);}
   else{ghStatus.className='gh-status';}
   ghOverlay.classList.add('show');
-});
-ghCancelBtn.addEventListener('click',e=>{e.stopPropagation();ghOverlay.classList.remove('show');});
-ghCloseBtn.addEventListener('click',e=>{e.stopPropagation();ghOverlay.classList.remove('show');});
-ghOverlay.addEventListener('click',e=>{if(e.target===ghOverlay)ghOverlay.classList.remove('show');});
+}
+ghBtn.addEventListener('click',e=>{e.stopPropagation();openGhModal();});
+ghCancelBtn.addEventListener('click',e=>{e.stopPropagation();ghOverlay.classList.remove('show');backToManage();});
+ghCloseBtn.addEventListener('click',e=>{e.stopPropagation();ghOverlay.classList.remove('show');backToManage();});
+ghOverlay.addEventListener('click',e=>{if(e.target===ghOverlay){ghOverlay.classList.remove('show');backToManage();}});
 ghSaveBtn.addEventListener('click',e=>{
   e.stopPropagation();
   ghConfig.repo = ghRepo.value.trim();
@@ -2142,20 +2118,20 @@ ghTestBtn.addEventListener('click', async (e)=>{
 ghPushBtn.addEventListener('click',e=>{e.stopPropagation();ghPush();});
 ghPullBtn.addEventListener('click',e=>{e.stopPropagation();ghPull();});
 
-// 备份仓
+// 备份仓弹窗
 backupBtn.addEventListener('click',e=>{e.stopPropagation();renderBackupList();backupOverlay.classList.add('show');});
-backupCancelBtn.addEventListener('click',e=>{e.stopPropagation();backupOverlay.classList.remove('show');});
-backupOverlay.addEventListener('click',e=>{if(e.target===backupOverlay)backupOverlay.classList.remove('show');});
+backupCancelBtn.addEventListener('click',e=>{e.stopPropagation();backupOverlay.classList.remove('show');backToManage();});
+backupOverlay.addEventListener('click',e=>{if(e.target===backupOverlay){backupOverlay.classList.remove('show');backToManage();}});
 backupCreateBtn.addEventListener('click',e=>{e.stopPropagation();saveBackup();renderBackupList();alert('✅ 已创建新的备份');});
 
+// 预览弹窗
 previewCloseBtn.addEventListener('click',e=>{e.stopPropagation();previewOverlay.classList.remove('show');});
 previewOverlay.addEventListener('click',e=>{if(e.target===previewOverlay)previewOverlay.classList.remove('show');});
 
-// 复活备份
+// 复活备份弹窗
 reviveBtn.addEventListener('click',e=>{e.stopPropagation();renderReviveInfo();reviveOverlay.classList.add('show');});
-reviveCloseBtn.addEventListener('click',e=>{e.stopPropagation();reviveOverlay.classList.remove('show');});
-reviveOverlay.addEventListener('click',e=>{if(e.target===reviveOverlay)reviveOverlay.classList.remove('show');});
-
+reviveCloseBtn.addEventListener('click',e=>{e.stopPropagation();reviveOverlay.classList.remove('show');backToManage();});
+reviveOverlay.addEventListener('click',e=>{if(e.target===reviveOverlay){reviveOverlay.classList.remove('show');backToManage();}});
 reviveUploadBtn.addEventListener('click',e=>{e.stopPropagation();reviveFileInput.click();});
 reviveFileInput.addEventListener('change',e=>{
   const file = e.target.files[0];
@@ -2169,7 +2145,6 @@ reviveFileInput.addEventListener('change',e=>{
   reader.readAsText(file);
   reviveFileInput.value = '';
 });
-
 revivePreviewBtn.addEventListener('click',e=>{
   e.stopPropagation();
   if(!reviveBackup){alert('请先上传备份文件');return;}
@@ -2177,13 +2152,11 @@ revivePreviewBtn.addEventListener('click',e=>{
   previewContent.textContent = reviveBackup.data;
   previewOverlay.classList.add('show');
 });
-
 reviveDownloadBtn.addEventListener('click',e=>{
   e.stopPropagation();
   if(!reviveBackup){alert('无备份文件可下载');return;}
   downloadText(reviveBackup.data, `revive_backup_${new Date().toISOString().slice(0,10)}.txt`);
 });
-
 reviveImportBtn.addEventListener('click',e=>{
   e.stopPropagation();
   if(!reviveBackup){alert('请先上传备份文件');return;}
@@ -2196,7 +2169,6 @@ reviveImportBtn.addEventListener('click',e=>{
     } else {alert('❌ 数据格式不正确');}
   }catch(err){alert('❌ 导入失败：' + err.message);}
 });
-
 reviveRestoreBtn.addEventListener('click',e=>{
   e.stopPropagation();
   if(!reviveBackup){alert('请先上传备份文件');return;}
@@ -2215,8 +2187,9 @@ reviveRestoreBtn.addEventListener('click',e=>{
   });
 });
 
-passCancelBtn.addEventListener('click',e=>{e.stopPropagation();passOverlay.classList.remove('show');});
-passOverlay.addEventListener('click',e=>{if(e.target===passOverlay)passOverlay.classList.remove('show');});
+// 密码弹窗
+passCancelBtn.addEventListener('click',e=>{e.stopPropagation();passOverlay.classList.remove('show');reviveOverlay.classList.add('show');});
+passOverlay.addEventListener('click',e=>{if(e.target===passOverlay){passOverlay.classList.remove('show');reviveOverlay.classList.add('show');}});
 
 // ============================================================
 // 初始化
