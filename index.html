@@ -39,6 +39,7 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 .result-options .correct-answer{color:#28a745;font-weight:600;}
 .modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.35);backdrop-filter:blur(3px);display:none;justify-content:center;align-items:center;z-index:3000;padding:20px;}
 .modal-overlay.show{display:flex;}
+.modal-overlay.hidden{display:none !important;}
 .modal{background:#fff;width:500px;max-width:100%;border-radius:32px;box-shadow:0 30px 50px rgba(0,0,0,.3);padding:28px 24px;animation:modalFade .2s ease;max-height:90vh;overflow-y:auto;pointer-events:auto;}
 @keyframes modalFade{from{opacity:.6;transform:scale(.96);}to{opacity:1;transform:scale(1);}}
 .modal h3{font-size:22px;font-weight:700;color:#0b1a2b;margin-bottom:20px;text-align:center;}
@@ -206,18 +207,6 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 .add-paper-preview .q-item{padding:4px 0;border-bottom:1px dashed #e9edf4;}
 .add-paper-preview .q-item:last-child{border-bottom:none;}
 .add-paper-preview .q-type{display:inline-block;background:#e9edf4;color:#2b3f5a;font-size:10px;padding:1px 6px;border-radius:6px;margin-right:4px;}
-/* 弹窗层级控制 */
-#manageOverlay{z-index:3500;}
-#deletePaperOverlay{z-index:3400;}
-#addPaperOverlay{z-index:3400;}
-#ghOverlay{z-index:3400;}
-#backupOverlay{z-index:3400;}
-#previewOverlay{z-index:3600;}
-#reviveOverlay{z-index:3400;}
-#passOverlay{z-index:3700;}
-#modalOverlay{z-index:3300;}
-#confirmOverlay{z-index:3700;}
-#loginOverlay{z-index:3600;}
 @media (max-width:900px){
   html,body{overflow:auto;-webkit-overflow-scrolling:touch;height:auto;}
   body{align-items:flex-start;min-height:100vh;display:block;}
@@ -1603,8 +1592,12 @@ function renderUserBar(){
   if(currentUser){
     userBarContainer.innerHTML=`<div class="user-bar"><span class="user-info">👤 ${currentUser}</span><div><button class="edit-btn" id="manageBtn">⚙️ 编辑</button><button class="logout-btn" id="logoutBtn">退出</button></div></div>`;
     document.getElementById('logoutBtn')?.addEventListener('click',e=>{e.stopPropagation();currentUser=null;renderUserBar();});
-    document.getElementById('manageBtn')?.addEventListener('click',e=>{e.stopPropagation();manageOverlay.classList.add('show');});
-    document.getElementById('manageBtn')?.addEventListener('click',e=>{e.stopPropagation();manageOverlay.style.display='';manageOverlay.classList.add('show');});
+    document.getElementById('manageBtn')?.addEventListener('click',e=>{
+      e.stopPropagation();
+      manageOverlay.style.display='';
+      manageOverlay.classList.remove('hidden');
+      manageOverlay.classList.add('show');
+    });
   }else{
     userBarContainer.innerHTML='';
   }
@@ -1908,15 +1901,18 @@ function openDeletePaperModal(){
 }
 
 // ============================================================
-// 弹窗关闭辅助函数：回到管理面板
+// 弹窗层级控制（核心修复）
 // ============================================================
 function gotoSub(fn){
+  // 立即隐藏管理面板（display:none），确保遮罩层不拦截点击
   manageOverlay.classList.remove('show');
   manageOverlay.style.display = 'none';
   fn();
 }
 function backToManage(){
+  // 恢复管理面板显示
   manageOverlay.style.display = '';
+  manageOverlay.classList.remove('hidden');
   manageOverlay.classList.add('show');
 }
 
@@ -1989,18 +1985,25 @@ loginConfirmBtn.addEventListener('click',e=>{
 });
 loginOverlay.addEventListener('click',e=>{if(e.target===loginOverlay)hideLogin();});
 
-// 管理面板 —— 打开子功能（先关管理面板，延迟后再开子弹窗，避免层级冲突）
-manageCloseBtn.addEventListener('click',e=>{e.stopPropagation();manageOverlay.classList.remove('show');});
-manageOverlay.addEventListener('click',e=>{if(e.target===manageOverlay)manageOverlay.classList.remove('show');});
+// 管理面板 —— 打开子功能（先完全隐藏管理面板，避免遮罩拦截）
+manageCloseBtn.addEventListener('click',e=>{
+  e.stopPropagation();
+  manageOverlay.classList.remove('show');
+  manageOverlay.style.display='none';
+});
+manageOverlay.addEventListener('click',e=>{
+  if(e.target===manageOverlay){
+    manageOverlay.classList.remove('show');
+    manageOverlay.style.display='none';
+  }
+});
 manageAddPaper.addEventListener('click',e=>{e.stopPropagation();gotoSub(openAddPaperModal);});
 manageDeletePaper.addEventListener('click',e=>{e.stopPropagation();gotoSub(openDeletePaperModal);});
 manageGh.addEventListener('click',e=>{e.stopPropagation();gotoSub(openGhModal);});
 manageBackup.addEventListener('click',e=>{e.stopPropagation();gotoSub(()=>{renderBackupList();backupOverlay.classList.add('show');});});
 manageRevive.addEventListener('click',e=>{e.stopPropagation();gotoSub(()=>{renderReviveInfo();reviveOverlay.classList.add('show');});});
-manageCloseBtn.addEventListener('click',e=>{e.stopPropagation();manageOverlay.classList.remove('show');manageOverlay.style.display='none';});
-manageOverlay.addEventListener('click',e=>{if(e.target===manageOverlay){manageOverlay.classList.remove('show');manageOverlay.style.display='none';}});
 
-// 新增题库弹窗
+// 新增题库弹窗 —— 关闭回到管理面板
 addPaperCancelBtn.addEventListener('click',e=>{e.stopPropagation();addPaperOverlay.classList.remove('show');backToManage();});
 addPaperOverlay.addEventListener('click',e=>{if(e.target===addPaperOverlay){addPaperOverlay.classList.remove('show');backToManage();}});
 newPaperContent.addEventListener('input',()=>{
@@ -2075,11 +2078,11 @@ addPaperConfirmBtn.addEventListener('click', async (e)=>{
   }
 });
 
-// 删除题库弹窗
+// 删除题库弹窗 —— 关闭回到管理面板
 deletePaperCancelBtn.addEventListener('click',e=>{e.stopPropagation();deletePaperOverlay.classList.remove('show');backToManage();});
 deletePaperOverlay.addEventListener('click',e=>{if(e.target===deletePaperOverlay){deletePaperOverlay.classList.remove('show');backToManage();}});
 
-// GitHub 弹窗
+// GitHub 弹窗 —— 关闭回到管理面板
 function openGhModal(){
   ghRepo.value = ghConfig.repo;
   ghBranch.value = ghConfig.branch;
@@ -2123,17 +2126,17 @@ ghTestBtn.addEventListener('click', async (e)=>{
 ghPushBtn.addEventListener('click',e=>{e.stopPropagation();ghPush();});
 ghPullBtn.addEventListener('click',e=>{e.stopPropagation();ghPull();});
 
-// 备份仓弹窗
+// 备份仓弹窗 —— 关闭回到管理面板
 backupBtn.addEventListener('click',e=>{e.stopPropagation();renderBackupList();backupOverlay.classList.add('show');});
 backupCancelBtn.addEventListener('click',e=>{e.stopPropagation();backupOverlay.classList.remove('show');backToManage();});
 backupOverlay.addEventListener('click',e=>{if(e.target===backupOverlay){backupOverlay.classList.remove('show');backToManage();}});
 backupCreateBtn.addEventListener('click',e=>{e.stopPropagation();saveBackup();renderBackupList();alert('✅ 已创建新的备份');});
 
-// 预览弹窗
+// 预览弹窗 —— 关闭只关自己（保持上下文）
 previewCloseBtn.addEventListener('click',e=>{e.stopPropagation();previewOverlay.classList.remove('show');});
 previewOverlay.addEventListener('click',e=>{if(e.target===previewOverlay)previewOverlay.classList.remove('show');});
 
-// 复活备份弹窗
+// 复活备份弹窗 —— 关闭回到管理面板
 reviveBtn.addEventListener('click',e=>{e.stopPropagation();renderReviveInfo();reviveOverlay.classList.add('show');});
 reviveCloseBtn.addEventListener('click',e=>{e.stopPropagation();reviveOverlay.classList.remove('show');backToManage();});
 reviveOverlay.addEventListener('click',e=>{if(e.target===reviveOverlay){reviveOverlay.classList.remove('show');backToManage();}});
@@ -2192,7 +2195,7 @@ reviveRestoreBtn.addEventListener('click',e=>{
   });
 });
 
-// 密码弹窗
+// 密码弹窗 —— 取消回到复活备份
 passCancelBtn.addEventListener('click',e=>{e.stopPropagation();passOverlay.classList.remove('show');reviveOverlay.classList.add('show');});
 passOverlay.addEventListener('click',e=>{if(e.target===passOverlay){passOverlay.classList.remove('show');reviveOverlay.classList.add('show');}});
 
