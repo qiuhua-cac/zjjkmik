@@ -38,47 +38,32 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 
 .side-actions{padding:12px 16px;display:flex;flex-direction:column;gap:10px;flex-shrink:0;border-bottom:1px solid #e9edf4;background:#fff;}
 
+/* 单一滑动条 - 所有分组全展开 */
 .side-grid{
-  display:flex;flex-direction:column;gap:8px;
+  display:flex;flex-direction:column;gap:12px;
   padding:14px 16px;
   overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1;
   background:#fff;
 }
-/* 答题卡分组 */
 .qgroup{
   border:1px solid #eef2f8;
   border-radius:12px;
-  overflow:hidden;
   background:#fbfdff;
+  overflow:hidden;
 }
 .qgroup-header{
   display:flex;align-items:center;justify-content:space-between;
   padding:9px 12px;
   background:#f6f9fe;
   font-size:12.5px;font-weight:700;color:#2e405b;
-  cursor:pointer;
   user-select:none;
-  transition:background .15s;
 }
-.qgroup-header:hover{background:#eef3fa;}
 .qgroup-header .qgroup-title{display:flex;align-items:center;gap:6px;}
 .qgroup-header .qgroup-badge{
   background:#d9e2ef;color:#2b3f5a;
   font-size:10px;padding:1px 7px;border-radius:8px;font-weight:600;
 }
-.qgroup-header .qgroup-arrow{
-  font-size:10px;color:#8099b3;transition:transform .2s;
-}
-.qgroup.expanded .qgroup-arrow{transform:rotate(180deg);}
-.qgroup-body{
-  max-height:0;overflow:hidden;
-  transition:max-height .3s ease;
-  padding:0 10px;
-}
-.qgroup.expanded .qgroup-body{
-  max-height:600px;
-  padding:10px;
-}
+.qgroup-body{padding:10px;}
 .qgroup-grid{display:flex;flex-wrap:wrap;gap:7px;}
 
 /* ============ 右侧试卷区 ============ */
@@ -176,9 +161,9 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 .clear-history{text-align:center;padding:7px;color:#b13e3e;cursor:pointer;font-size:12px;font-weight:500;}
 .clear-history:hover{background:#fff5f5;border-radius:8px;}
 
-/* ============ 弹窗通用 ============ */
+/* ============ 弹窗 ============ */
 .modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);display:none;justify-content:center;align-items:center;z-index:3000;padding:20px;}
-.modal-overlay.show{display:flex;}
+.modal-overlay.show{display:flex !important;}
 .modal-overlay.hidden{display:none !important;}
 .modal-overlay.top-level{z-index:9999;}
 .modal-overlay.ultra-top{z-index:99999 !important;}
@@ -276,7 +261,6 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 .login-form .btns .secondary{background:#eef2f8;color:#2e405b;}
 .login-form .btns .secondary:hover{background:#e1e9f2;}
 
-/* 用户栏 */
 .user-bar{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#f6f9fe;border-radius:12px;border:1px solid #e9edf4;font-size:13px;color:#2e405b;margin-bottom:10px;}
 .user-bar .user-info{display:flex;align-items:center;gap:6px;font-weight:600;}
 .user-bar .logout-btn{padding:6px 12px;background:#eef2f8;border:none;border-radius:10px;font-size:12px;font-weight:600;color:#b13e3e;cursor:pointer;margin-left:6px;}
@@ -284,7 +268,6 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 .user-bar .edit-btn{padding:6px 12px;background:#1e2b3c;border:none;border-radius:10px;font-size:12px;font-weight:600;color:#fff;cursor:pointer;margin-right:6px;}
 .user-bar .edit-btn:hover{background:#14202e;}
 
-/* 其它 */
 .parse-hint{font-size:12px;color:#7a8aa3;line-height:1.5;padding:8px 12px;background:#f6f9fe;border-radius:10px;}
 .backup-item{background:#fff;border:1.5px solid #e9edf4;border-radius:12px;padding:10px 12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:8px;}
 .backup-item .info{flex:1;min-width:0;}
@@ -310,7 +293,6 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 .revive-actions .warn:hover{background:#8a2f2f;}
 .revive-actions button:disabled{opacity:.4;cursor:not-allowed;}
 
-/* GitHub 折叠 */
 .github-section{background:#f0f7ff;border:1px solid #c8d9ec;border-radius:12px;margin-top:12px;overflow:hidden;}
 .github-header{padding:10px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;background:#e8f2ff;transition:.15s;user-select:none;}
 .github-header:hover{background:#dceaff;}
@@ -342,7 +324,6 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 ::-webkit-scrollbar-track{background:#f0f4fa;}
 ::-webkit-scrollbar-thumb{background:#b9c8db;border-radius:10px;}
 
-/* 评分横幅 */
 .score-banner{padding:16px 24px;background:#f0f7ff;border-radius:16px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;border:1px solid #d4e4f7;flex-wrap:wrap;gap:8px;}
 .score-banner .total-score{font-size:28px;font-weight:800;color:#1e2b3c;}
 .score-banner .total-score.pass{color:#28a745;}
@@ -352,7 +333,6 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 .score-banner .result-status.pass{background:#d4edda;color:#155724;}
 .score-banner .result-status.fail{background:#f8d7da;color:#721c24;}
 
-/* 预览弹窗 */
 .preview-tabs{display:flex;gap:4px;margin-bottom:12px;border-bottom:1px solid #eef2f8;}
 .preview-tab{padding:8px 16px;font-size:13px;color:#6a8aad;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;font-weight:500;transition:.15s;}
 .preview-tab:hover{color:#3b82f6;}
@@ -360,7 +340,6 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 .preview-pane{display:none;}
 .preview-pane.active{display:block;}
 
-/* 试卷预览 - 可展开 */
 .preview-paper-wrap{
   max-height:60vh;overflow-y:auto;
   padding-right:4px;
@@ -408,7 +387,7 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 }
 .pv-edit-area{margin-top:14px;padding-top:14px;border-top:1px solid #eef2f8;}
 .pv-edit-title{font-size:13px;font-weight:700;color:#1e2b3c;margin-bottom:10px;}
-.pv-edit-list{max-height:300px;overflow-y:auto;border:1px solid #eef2f8;border-radius:10px;padding:6px;}
+.pv-edit-list{max-height:400px;overflow-y:auto;border:1px solid #eef2f8;border-radius:10px;padding:6px;background:#fbfdff;}
 .pv-edit-item{
   display:flex;align-items:flex-start;gap:8px;padding:8px 10px;
   border-bottom:1px dashed #eef2f8;font-size:12.5px;color:#3a506b;
@@ -421,13 +400,12 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 }
 .pv-edit-item .pei-del:hover{background:#f8d7da;}
 
-/* 崩溃恢复弹窗 */
 .revive-crash-overlay{
   position:fixed;inset:0;z-index:999999;
   background:rgba(0,0,0,.75);backdrop-filter:blur(6px);
   display:none;align-items:center;justify-content:center;padding:16px;
 }
-.revive-crash-overlay.show{display:flex;}
+.revive-crash-overlay.show{display:flex !important;}
 .revive-crash-box{
   background:#fff;border-radius:22px;max-width:460px;width:100%;
   box-shadow:0 30px 80px rgba(0,0,0,.5);
@@ -463,7 +441,6 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 .revive-crash-actions .rc-secondary{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0;}
 .revive-crash-actions .rc-secondary:hover{background:#e2e8f0;}
 
-/* 悬浮球 & 移动端 */
 .float-ball{display:none;}
 .card-panel{display:none;}
 
@@ -529,7 +506,7 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
   .card-panel-stats .stat-value.unanswered{color:#b13e3e;}
   .card-panel-stats .divider{width:1px;background:#e2e8f0;margin:0 4px;}
   .card-panel-actions{padding:10px 14px;display:flex;flex-direction:column;gap:9px;flex-shrink:0;border-bottom:1px solid #e9edf4;background:#fff;overflow-y:auto;max-height:45vh;}
-  .card-panel-grid{display:flex;flex-direction:column;gap:8px;padding:12px;overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1;background:#fff;}
+  .card-panel-grid{display:flex;flex-direction:column;gap:10px;padding:12px;overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1;background:#fff;}
   .card-panel-grid .question-btn{width:36px;height:36px;border-radius:10px;font-size:12px;}
 }
 
@@ -541,14 +518,13 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
   .option label{font-size:13px;}
   .result-item{font-size:13px;}
   .card-panel{max-height:68vh;}
-  .card-panel-grid{gap:6px;padding:10px;}
+  .card-panel-grid{gap:8px;padding:10px;}
 }
 </style>
 </head>
 <body>
 
 <div class="app" id="app">
-  <!-- 左侧：固定答题卡（电脑端） -->
   <aside class="side-panel" id="sidePanel">
     <div class="side-panel-header">
       <div class="title">
@@ -605,7 +581,6 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
     </div>
   </aside>
 
-  <!-- 右侧：试卷区 -->
   <main class="paper-area" id="paperArea">
     <div class="paper-header">
       <div class="ph-left">
@@ -623,10 +598,8 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
   </main>
 </div>
 
-<!-- 移动端悬浮球 -->
 <div class="float-ball" id="floatBall">📝<span class="ball-badge hidden" id="ballBadge">0</span></div>
 
-<!-- 移动端答题卡面板 -->
 <div class="card-panel" id="cardPanel">
   <div class="card-panel-header">
     <div class="title">
@@ -684,7 +657,6 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
   </div>
 </div>
 
-<!-- 试卷选择 -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <h3>📑 选择试卷</h3>
@@ -693,7 +665,6 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
   </div>
 </div>
 
-<!-- 提交确认 -->
 <div class="modal-overlay" id="confirmOverlay">
   <div class="modal confirm-modal">
     <div class="modal-content">
@@ -707,7 +678,6 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
   </div>
 </div>
 
-<!-- 登录 -->
 <div class="modal-overlay" id="loginOverlay">
   <div class="modal">
     <h3>🔑 登录</h3>
@@ -722,7 +692,6 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
   </div>
 </div>
 
-<!-- 管理面板 -->
 <div class="modal-overlay top-level" id="manageOverlay">
   <div class="modal manage-modal">
     <div class="manage-header">
@@ -776,21 +745,16 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
   </div>
 </div>
 
-<!-- 题库管理（含预览/编辑/删除题目） -->
 <div class="modal-overlay" id="deletePaperOverlay">
   <div class="modal" style="width:640px;">
     <h3>📚 题库管理</h3>
-    <div class="parse-hint" style="margin-bottom:12px;">预览、编辑、删除题库中的题目。修改后请点击下方「保存修改」同步至 GitHub 仓库。</div>
+    <div class="parse-hint" style="margin-bottom:12px;">预览、编辑、删除题库中的题目。修改后请点击保存同步至 GitHub 仓库。</div>
     <div class="paper-list" id="deletePaperList"></div>
-    <div class="btns" style="margin-top:12px;display:flex;gap:8px;">
-      <button class="secondary" id="deletePaperCancelBtn" style="flex:1;">关闭</button>
-      <button class="primary" id="saveEditBtn" style="flex:1;background:#2a7a4b;display:none;">💾 保存修改</button>
-    </div>
+    <button class="close-modal" id="deletePaperCancelBtn">关闭</button>
   </div>
 </div>
 
-<!-- 单题库编辑 -->
-<div class="modal-overlay" id="editPaperOverlay">
+<div class="modal-overlay ultra-top" id="editPaperOverlay">
   <div class="modal" style="width:720px;">
     <h3 id="editPaperTitle">📝 编辑题库</h3>
     <div class="parse-hint" style="margin-bottom:12px;">可删除题目。删除后点击「保存修改」同步至 GitHub 仓库，并自动保存一次备份仓。</div>
@@ -802,7 +766,6 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
   </div>
 </div>
 
-<!-- 新增题库 -->
 <div class="modal-overlay" id="addPaperOverlay">
   <div class="modal" style="width:640px;">
     <h3>➕ 新增题库</h3>
@@ -847,7 +810,6 @@ E. 使用预先约定的信号或方法报警
   </div>
 </div>
 
-<!-- GitHub 同步配置 -->
 <div class="modal-overlay" id="ghOverlay">
   <div class="modal" style="width:600px;">
     <h3>🐙 GitHub 仓库同步配置</h3>
@@ -883,7 +845,6 @@ E. 使用预先约定的信号或方法报警
   </div>
 </div>
 
-<!-- 备份仓 -->
 <div class="modal-overlay" id="backupOverlay">
   <div class="modal" style="width:640px;">
     <h3>💾 备份仓（最多4个，A最新D最旧）</h3>
@@ -896,7 +857,7 @@ E. 使用预先约定的信号或方法报警
   </div>
 </div>
 
-<!-- 预览（试卷预览 & 完整代码） -->
+<!-- 代码/试卷列表预览 -->
 <div class="modal-overlay ultra-top" id="previewOverlay">
   <div class="modal" style="width:760px;max-height:90vh;display:flex;flex-direction:column;">
     <h3 id="previewTitle" style="flex-shrink:0;">📄 预览</h3>
@@ -916,7 +877,7 @@ E. 使用预先约定的信号或方法报警
   </div>
 </div>
 
-<!-- 答题预览弹窗（模拟真实答题） -->
+<!-- 模拟真实答题预览 -->
 <div class="modal-overlay ultra-top" id="answerPreviewOverlay">
   <div class="modal" style="width:760px;max-height:90vh;display:flex;flex-direction:column;padding:0;overflow:hidden;">
     <div style="padding:16px 22px;background:#1e2b3c;color:#fff;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;">
@@ -933,7 +894,6 @@ E. 使用预先约定的信号或方法报警
   </div>
 </div>
 
-<!-- 复活备份 -->
 <div class="modal-overlay" id="reviveOverlay">
   <div class="modal" style="width:600px;">
     <h3>🛟 复活备份</h3>
@@ -955,8 +915,7 @@ E. 使用预先约定的信号或方法报警
   </div>
 </div>
 
-<!-- 密码验证 -->
-<div class="modal-overlay" id="passOverlay">
+<div class="modal-overlay ultra-top" id="passOverlay">
   <div class="modal" style="width:420px;">
     <h3>🔐 输入验证密码</h3>
     <div class="login-form">
@@ -970,7 +929,6 @@ E. 使用预先约定的信号或方法报警
   </div>
 </div>
 
-<!-- 崩溃恢复弹窗 -->
 <div class="revive-crash-overlay" id="reviveCrashOverlay">
   <div class="revive-crash-box">
     <div class="revive-crash-header">
@@ -995,7 +953,7 @@ E. 使用预先约定的信号或方法报警
 
 <script>
 // ============================================================
-// 题库数据（原始）
+// 题库数据
 // ============================================================
 const PAPER1_QUESTIONS = [
   { id:1, type:'single', text:'单位全面负责是做好消防工作的（ ）？', options:['核心','关键','根本','基础'], answer:2 },
@@ -1565,12 +1523,11 @@ let activeQuestionId = null;
 let isSubmitted = false;
 let score = 0;
 let randomMode = false;
-let noHighlight = false;  // 跳转不高亮 + 计时
+let noHighlight = false;
 let wrongOnly = false;
 let panelOpen = false;
 let historyRecords = [];
 
-// 计时相关
 let timerStartTs = 0;
 let timerInterval = null;
 let timerElapsedSec = 0;
@@ -1584,11 +1541,11 @@ const BACKUP_MAX = 4;
 const BACKUP_LOCK_MAX = 3;
 let passAttempts = 0;
 
-const GH_CFG_KEY = 'zktest_gh_cfg_v4';
-const BACKUP_STORAGE_KEY = 'zktest_backups_v4';
-const REVIVE_STORAGE_KEY = 'zktest_revive_v4';
-const HEALTH_KEY = 'zktest_health_v4';
-const SESSION_KEY = 'zktest_session_v4';
+const GH_CFG_KEY = 'zktest_gh_cfg_v5';
+const BACKUP_STORAGE_KEY = 'zktest_backups_v5';
+const REVIVE_STORAGE_KEY = 'zktest_revive_v5';
+const HEALTH_KEY = 'zktest_health_v5';
+const SESSION_KEY = 'zktest_session_v5';
 const CRASH_TIMEOUT_MS = 60000;
 
 // ============================================================
@@ -1733,7 +1690,6 @@ const rcMeta = $('rcMeta');
 const rcLaterBtn = $('rcLaterBtn');
 const rcRestoreBtn = $('rcRestoreBtn');
 
-// 编辑中的题库临时数据
 let editingPaperId = null;
 let editingPaperQuestions = [];
 
@@ -1761,9 +1717,7 @@ function isAnswerCorrect(q,ans){
   }
   return false;
 }
-function serializePapers(){return JSON.stringify(papers,null,2);}
 function escapeHTML(str){return String(str).replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
-
 function formatTime(sec){
   const m = Math.floor(sec/60);
   const s = sec % 60;
@@ -1771,7 +1725,7 @@ function formatTime(sec){
 }
 
 // ============================================================
-// 计时相关
+// 计时
 // ============================================================
 function startTimer(){
   if(timerRunning) return;
@@ -1818,7 +1772,6 @@ async function getFullPageHTML(){
         return null;
       }
     }
-    // 清空三个旧题库定义，改为从 DEFAULT_PAPERS 派生
     html = html.replace(/const\s+PAPER1_QUESTIONS\s*=\s*\[[\s\S]*?\];/, `const PAPER1_QUESTIONS = DEFAULT_PAPERS[0] ? DEFAULT_PAPERS[0].questions : [];`);
     html = html.replace(/const\s+PAPER2_QUESTIONS\s*=\s*\[[\s\S]*?\];/, `const PAPER2_QUESTIONS = DEFAULT_PAPERS[1] ? DEFAULT_PAPERS[1].questions : [];`);
     html = html.replace(/const\s+PAPER3_QUESTIONS\s*=\s*\[[\s\S]*?\];/, `const PAPER3_QUESTIONS = DEFAULT_PAPERS[2] ? DEFAULT_PAPERS[2].questions : [];`);
@@ -1851,12 +1804,11 @@ function updateStats(){
 }
 
 // ============================================================
-// 答题卡（按题型分组）
+// 答题卡（分组，全展开，单一滑动条）
 // ============================================================
 function buildQuestionGridHTML(){
   if(!currentPaper) return '';
   const answers=userAnswers[currentPaper.id]||{};
-  // 分组
   const groups = [
     { key:'single', label:'单选题', icon:'🔘' },
     { key:'multiple', label:'多选题', icon:'☑️' },
@@ -1885,10 +1837,9 @@ function buildQuestionGridHTML(){
       btns += `<button class="question-btn ${extraClass} ${activeClass}" data-qid="${q.id}">${q.displayId}</button>`;
     });
     if(!btns) return;
-    html += `<div class="qgroup expanded" data-group="${g.key}">
+    html += `<div class="qgroup">
       <div class="qgroup-header">
         <div class="qgroup-title">${g.icon} ${g.label} <span class="qgroup-badge">${qs.length}</span></div>
-        <span class="qgroup-arrow">▼</span>
       </div>
       <div class="qgroup-body">
         <div class="qgroup-grid">${btns}</div>
@@ -1907,15 +1858,6 @@ function renderQuestionButtons(){
   const html = buildQuestionGridHTML();
   questionGrid.innerHTML = html;
   questionGridM.innerHTML = html;
-  // 绑定分组展开/收起
-  [questionGrid, questionGridM].forEach(g=>{
-    g.querySelectorAll('.qgroup-header').forEach(h=>{
-      h.addEventListener('click',(e)=>{
-        e.stopPropagation();
-        h.parentElement.classList.toggle('expanded');
-      });
-    });
-  });
   randomCheck.disabled=false;noHighlightCheck.disabled=false;wrongOnlyCheck.disabled=false;
   randomCheckM.disabled=false;noHighlightCheckM.disabled=false;wrongOnlyCheckM.disabled=false;
 }
@@ -1925,7 +1867,6 @@ function renderQuestionButtons(){
 // ============================================================
 function updateActiveQuestionHighlight(){
   document.querySelectorAll('.question-item').forEach(el=>el.classList.remove('active-question'));
-  // 只有提交后才高亮当前题目
   if(isSubmitted && activeQuestionId){
     const el=document.querySelector(`.question-item[data-qid="${activeQuestionId}"]`);
     if(el)el.classList.add('active-question');
@@ -1937,7 +1878,6 @@ function scrollToQuestion(qid){
   if(targetEl)targetEl.scrollIntoView({behavior:'auto',block:'center'});
   activeQuestionId=qid;
   renderQuestionButtons();
-  // 提交后才高亮
   updateActiveQuestionHighlight();
   if(noHighlight){setTimeout(()=>{document.querySelectorAll('.question-item').forEach(el=>el.classList.remove('active-question'));},1000);}
 }
@@ -1946,7 +1886,6 @@ function handleAnswerSelect(pid,qid,val,type){
   initAnswersForPaper(pid);
   if(type==='single'||type==='judge')userAnswers[pid][qid]=val;
   else if(type==='multiple')userAnswers[pid][qid]=val;
-  // 首次答题启动计时
   if(noHighlight && !timerRunning){
     startTimer();
   }
@@ -2031,7 +1970,7 @@ function renderPaperContent(){
 }
 
 // ============================================================
-// 渲染答题结果（选项改为竖排）
+// 渲染答题结果
 // ============================================================
 function renderResultContent(){
   if(!currentPaper)return;
@@ -2061,7 +2000,6 @@ function renderResultContent(){
       <div class="result-item"><span class="result-label">标准答案：</span><span class="result-value correct">${cas}</span></div>
       <div class="result-item"><span class="result-label">结果：</span><span class="result-value ${correct?'correct':'wrong'}">${correct?'✔ 正确':'✘ 错误'}</span></div>
     </div><div class="result-options">`;
-    // 竖排显示（每题一行）
     if(q.type==='single'||q.type==='judge'){
       q.options.forEach((opt,idx)=>{
         let cls='';
@@ -2155,7 +2093,6 @@ function submitPaper(){
   renderQuestionButtons();
   updateActionButtons();
   renderHistory();
-  // 提交后不高亮任何题（只在点击答题卡时高亮）
   activeQuestionId=null;
   updateActiveQuestionHighlight();
 }
@@ -2318,7 +2255,7 @@ function renderGhConfigToInputs(){
 }
 
 // ============================================================
-// 备份仓（保存完整代码）
+// 备份仓
 // ============================================================
 function loadBackupsFromStorage(){
   try{
@@ -2355,7 +2292,6 @@ async function saveBackup(){
   return true;
 }
 
-// 从完整 HTML 中解析出 papers
 function parsePapersFromHTML(html){
   if(!html) return null;
   try{
@@ -2369,7 +2305,7 @@ function parsePapersFromHTML(html){
 }
 
 // ============================================================
-// 试卷预览（独立弹窗，模拟真实答题）
+// 试卷预览（模拟真实答题）
 // ============================================================
 function showAnswerPreview(paper){
   apvPaperName.textContent = paper.name;
@@ -2394,12 +2330,14 @@ function showAnswerPreview(paper){
     html += `</div>`;
   });
   apvContainer.innerHTML = html;
+  // 置顶
+  answerPreviewOverlay.style.zIndex = '99999';
   answerPreviewOverlay.classList.add('show');
 }
 apvCloseBtn.addEventListener('click',()=>{answerPreviewOverlay.classList.remove('show');});
 answerPreviewOverlay.addEventListener('click',e=>{if(e.target===answerPreviewOverlay)answerPreviewOverlay.classList.remove('show');});
 
-// 预览弹窗（可展开试卷列表）
+// 备份仓试卷预览 —— 每个试卷是独立的卡片，点击卡片可打开模拟真实答题的预览
 function buildPreviewPaperList(parsedPapers){
   if(!parsedPapers || !parsedPapers.length){
     return '<div style="text-align:center;padding:20px;color:#8aa2c0;">无法解析题库内容</div>';
@@ -2407,35 +2345,13 @@ function buildPreviewPaperList(parsedPapers){
   let h = '';
   parsedPapers.forEach((p,pi)=>{
     const qs = p.questions || [];
-    h += `<div class="pv-paper-item" data-paper-idx="${pi}">
-      <div class="pv-paper-header">
-        <div class="pv-ph-left">
-          <span>📄 ${escapeHTML(p.name || ('试卷'+(pi+1)))}</span>
-          <span class="pv-ph-badge">${qs.length} 题</span>
-        </div>
-        <span class="pv-ph-arrow">▼</span>
+    h += `<div class="pv-paper-item" style="padding:12px 14px;margin-bottom:10px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;" data-paper-idx="${pi}">
+      <div class="pv-ph-left" style="display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700;color:#1e2b3c;">
+        <span>📄 ${escapeHTML(p.name || ('试卷'+(pi+1)))}</span>
+        <span class="pv-ph-badge" style="background:#d9e2ef;color:#2b3f5a;font-size:11px;padding:2px 9px;border-radius:8px;font-weight:600;">${qs.length} 题</span>
       </div>
-      <div class="pv-paper-body">`;
-    qs.forEach((q,qi)=>{
-      const tl = q.type==='single'?'单选':q.type==='multiple'?'多选':'判断';
-      h += `<div class="pv-question">
-        <div class="pv-q-title"><span class="pv-q-type">${tl}</span>${qi+1}. ${escapeHTML(q.text)}</div>`;
-      if(q.options && q.options.length){
-        q.options.forEach((opt,oi)=>{
-          h += `<div class="pv-q-option">${String.fromCharCode(65+oi)}. ${escapeHTML(opt)}</div>`;
-        });
-      }
-      // 显示答案
-      let ansTxt = '';
-      if(q.type==='multiple'){
-        ansTxt = (q.answer||[]).map(i=>String.fromCharCode(65+i)).join('');
-      }else{
-        ansTxt = String.fromCharCode(65 + q.answer);
-      }
-      h += `<div class="pv-q-answer">✔ 答案：${ansTxt}</div>`;
-      h += `</div>`;
-    });
-    h += `</div></div>`;
+      <span style="font-size:12px;color:#3b82f6;font-weight:600;">点击预览试卷 →</span>
+    </div>`;
   });
   return h;
 }
@@ -2444,14 +2360,20 @@ function showPreviewModal(titleText, code, defaultTab){
   previewContent.textContent = code || '（无代码内容）';
   const parsedPapers = parsePapersFromHTML(code);
   previewPaperList.innerHTML = buildPreviewPaperList(parsedPapers);
-  // 绑定展开
-  previewPaperList.querySelectorAll('.pv-paper-header').forEach(h=>{
-    h.addEventListener('click',(e)=>{
+  // 保存供点击使用
+  previewPaperList._parsedPapers = parsedPapers || [];
+  // 点击某份试卷，打开模拟真实答题的预览
+  previewPaperList.querySelectorAll('[data-paper-idx]').forEach(item=>{
+    item.addEventListener('click',(e)=>{
       e.stopPropagation();
-      h.parentElement.classList.toggle('expanded');
+      const idx = parseInt(item.dataset.paperIdx);
+      const p = previewPaperList._parsedPapers[idx];
+      if(!p) return;
+      showAnswerPreview(p);
     });
   });
   switchPreviewTab(defaultTab || 'paper');
+  previewOverlay.style.zIndex = '99999';
   previewOverlay.classList.add('show');
 }
 function switchPreviewTab(tab){
@@ -2603,11 +2525,16 @@ function renderReviveInfo(){
     reviveFileInfo.textContent = '当前无备份文件，请上传 txt 文件或导入当前代码。';
   }
 }
+
+// 密码验证弹窗 —— 永远置顶
 function showPassModal(callback){
   passAttempts = 0;
   passInput.value = '';
   passHint.textContent = '提示：操作需要输入代码 qiuhua。';
+  // 确保置顶
+  passOverlay.style.zIndex = '999999';
   passOverlay.classList.add('show');
+  setTimeout(()=>{ try{ passInput.focus(); }catch(e){} }, 100);
   const confirmHandler = (e)=>{
     e.stopPropagation();
     const val = passInput.value.trim();
@@ -2765,7 +2692,7 @@ newPaperContent.addEventListener('input',()=>{
   }
 });
 
-// 预览并确认：打开独立预览弹窗（仅预览当前新增试卷）
+// 预览并确认 —— 打开含「试卷预览」+「代码预览」的预览弹窗
 addPaperPreviewBtn.addEventListener('click', async (e)=>{
   e.stopPropagation();
   const title = newPaperTitle.value.trim();
@@ -2774,9 +2701,19 @@ addPaperPreviewBtn.addEventListener('click', async (e)=>{
   if(!content){alert('请输入题库内容');return;}
   const qs = parseQuestions(content);
   if(qs.length === 0){alert('未解析到任何题目，请检查格式');return;}
-  // 预览只显示新增的试卷（模拟真实答题）
-  const tempPaper = {id:'preview', name:title, questions:qs};
-  showAnswerPreview(tempPaper);
+  // 生成含新增试卷的完整代码
+  const tempId = 'paper_preview_'+Date.now();
+  const tempPaper = {id:tempId, name:title, description:`自定义题库 · 共 ${qs.length} 题`, questions:qs};
+  const originalPapers = JSON.parse(JSON.stringify(papers));
+  papers.push(tempPaper);
+  const html = await getFullPageHTML();
+  papers = originalPapers;
+  if(!html){
+    alert('无法生成预览代码');
+    return;
+  }
+  // 打开预览弹窗（含试卷预览 + 代码预览 两个 tab）
+  showPreviewModal(`📄 新增预览：${title}`, html, 'paper');
   addPaperFirstRow.style.display='none';
   addPaperSecondRow.style.display='flex';
 });
@@ -2814,7 +2751,7 @@ addPaperConfirmBtn.addEventListener('click', async (e)=>{
 });
 
 // ============================================================
-// 题库管理（删除/预览/编辑题目）
+// 题库管理
 // ============================================================
 function openManagePaperModal(){
   if(papers.length === 0){
@@ -2870,11 +2807,14 @@ function openManagePaperModal(){
   deletePaperOverlay.classList.add('show');
 }
 
+// 打开编辑 —— 编辑弹窗置顶
 function openEditPaper(p){
   editingPaperId = p.id;
   editingPaperQuestions = JSON.parse(JSON.stringify(p.questions));
   editPaperTitle.textContent = `📝 编辑：${p.name}`;
   renderEditPaperList();
+  // 编辑弹窗永远置顶
+  editPaperOverlay.style.zIndex = '99999';
   editPaperOverlay.classList.add('show');
 }
 function renderEditPaperList(){
@@ -2912,9 +2852,7 @@ editPaperSaveBtn.addEventListener('click', async ()=>{
   const p = papers.find(x=>x.id===editingPaperId);
   if(!p) return;
   if(!confirm(`确定保存对「${p.name}」的修改吗？\n将同步完整代码至 GitHub，并自动保存一次备份仓。`)) return;
-  // 先备份旧的完整代码
   await saveBackup();
-  // 更新题库
   p.questions = editingPaperQuestions.map((q,i)=>({...q, id:i+1}));
   p.description = `自定义题库 · 共 ${p.questions.length} 题`;
   editPaperOverlay.classList.remove('show');
@@ -2941,8 +2879,11 @@ function gotoSub(fn){
   setTimeout(()=>{
     const opened = document.querySelectorAll('.modal-overlay.show');
     opened.forEach(el=>{
-      if(el.id === 'previewOverlay' || el.id === 'answerPreviewOverlay') el.style.zIndex = '99999';
-      else if(el.id !== 'manageOverlay') el.style.zIndex = '10000';
+      if(el.id === 'previewOverlay' || el.id === 'answerPreviewOverlay' || el.id === 'editPaperOverlay' || el.id === 'passOverlay'){
+        el.style.zIndex = '99999';
+      } else if(el.id !== 'manageOverlay') {
+        el.style.zIndex = '10000';
+      }
     });
   }, 0);
 }
@@ -3063,6 +3004,8 @@ manageRevive.addEventListener('click',e=>{e.stopPropagation();gotoSub(()=>{
   showPassModal((ok)=>{
     if(!ok) return;
     renderReviveInfo();
+    // 复活备份弹窗置顶
+    reviveOverlay.style.zIndex = '10000';
     reviveOverlay.classList.add('show');
   });
 });});
@@ -3154,7 +3097,6 @@ previewOverlay.addEventListener('click',e=>{if(e.target===previewOverlay)preview
 reviveCloseBtn.addEventListener('click',e=>{e.stopPropagation();reviveOverlay.classList.remove('show');backToManage();});
 reviveOverlay.addEventListener('click',e=>{if(e.target===reviveOverlay){reviveOverlay.classList.remove('show');backToManage();}});
 
-// 上传 TXT —— 需要密码验证
 reviveUploadBtn.addEventListener('click',e=>{
   e.stopPropagation();
   showPassModal((ok)=>{
@@ -3183,7 +3125,6 @@ reviveFileInput.addEventListener('change',e=>{
   reviveFileInput.value = '';
 });
 
-// 导入当前代码 —— 从 GitHub 拉取当前仓库代码，需要密码验证
 reviveImportBtn.addEventListener('click', (e)=>{
   e.stopPropagation();
   showPassModal(async (ok)=>{
@@ -3211,7 +3152,6 @@ reviveImportBtn.addEventListener('click', (e)=>{
   });
 });
 
-// 预览 —— 需要密码验证
 revivePreviewBtn.addEventListener('click',(e)=>{
   e.stopPropagation();
   showPassModal((ok)=>{
@@ -3222,7 +3162,6 @@ revivePreviewBtn.addEventListener('click',(e)=>{
   });
 });
 
-// 下载 —— 需要密码验证
 reviveDownloadBtn.addEventListener('click',(e)=>{
   e.stopPropagation();
   showPassModal((ok)=>{
@@ -3233,7 +3172,6 @@ reviveDownloadBtn.addEventListener('click',(e)=>{
   });
 });
 
-// 恢复到 GitHub —— 需要密码验证
 reviveRestoreBtn.addEventListener('click',(e)=>{
   e.stopPropagation();
   const backup = loadReviveBackup();
