@@ -1604,6 +1604,7 @@ function renderUserBar(){
     userBarContainer.innerHTML=`<div class="user-bar"><span class="user-info">👤 ${currentUser}</span><div><button class="edit-btn" id="manageBtn">⚙️ 编辑</button><button class="logout-btn" id="logoutBtn">退出</button></div></div>`;
     document.getElementById('logoutBtn')?.addEventListener('click',e=>{e.stopPropagation();currentUser=null;renderUserBar();});
     document.getElementById('manageBtn')?.addEventListener('click',e=>{e.stopPropagation();manageOverlay.classList.add('show');});
+    document.getElementById('manageBtn')?.addEventListener('click',e=>{e.stopPropagation();manageOverlay.style.display='';manageOverlay.classList.add('show');});
   }else{
     userBarContainer.innerHTML='';
   }
@@ -1911,9 +1912,11 @@ function openDeletePaperModal(){
 // ============================================================
 function gotoSub(fn){
   manageOverlay.classList.remove('show');
-  setTimeout(()=>{ fn(); }, 80);
+  manageOverlay.style.display = 'none';
+  fn();
 }
 function backToManage(){
+  manageOverlay.style.display = '';
   manageOverlay.classList.add('show');
 }
 
@@ -1994,6 +1997,8 @@ manageDeletePaper.addEventListener('click',e=>{e.stopPropagation();gotoSub(openD
 manageGh.addEventListener('click',e=>{e.stopPropagation();gotoSub(openGhModal);});
 manageBackup.addEventListener('click',e=>{e.stopPropagation();gotoSub(()=>{renderBackupList();backupOverlay.classList.add('show');});});
 manageRevive.addEventListener('click',e=>{e.stopPropagation();gotoSub(()=>{renderReviveInfo();reviveOverlay.classList.add('show');});});
+manageCloseBtn.addEventListener('click',e=>{e.stopPropagation();manageOverlay.classList.remove('show');manageOverlay.style.display='none';});
+manageOverlay.addEventListener('click',e=>{if(e.target===manageOverlay){manageOverlay.classList.remove('show');manageOverlay.style.display='none';}});
 
 // 新增题库弹窗
 addPaperCancelBtn.addEventListener('click',e=>{e.stopPropagation();addPaperOverlay.classList.remove('show');backToManage();});
