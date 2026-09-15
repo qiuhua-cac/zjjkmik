@@ -177,15 +177,46 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 .revive-actions .warn{background:#b13e3e;color:#fff;}
 .revive-actions .warn:hover{background:#8a2f2f;}
 .revive-actions button:disabled{opacity:.4;cursor:not-allowed;}
-.gh-config{display:flex;flex-direction:column;gap:10px;}
-.gh-config .field{display:flex;flex-direction:column;gap:4px;}
-.gh-config .field label{font-size:12px;font-weight:600;color:#3a4b62;}
-.gh-config .field input{width:100%;padding:9px 12px;border:1.5px solid #dce2ec;border-radius:10px;font-size:13px;color:#1a2637;outline:none;font-family:inherit;}
-.gh-config .field input:focus{border-color:#1e2b3c;}
-.gh-config .btns{display:flex;gap:8px;margin-top:6px;}
-.gh-config .btns button{flex:1;padding:10px;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;}
+.gh-config{display:flex;flex-direction:column;gap:12px;}
+.gh-config .field{width:100%;}
+.gh-config .field input{
+  width:100%;
+  padding:14px 16px;
+  border:1.5px solid #dce2ec;
+  border-radius:12px;
+  font-size:14px;
+  color:#1a2637;
+  outline:none;
+  font-family:inherit;
+  background:#f8fafd;
+  transition:border .15s,background .15s;
+}
+.gh-config .field input:focus{
+  border-color:#1e2b3c;
+  background:#fff;
+}
+.gh-config .field input::placeholder{
+  color:#a0aec0;
+}
+.gh-config .btns{
+  display:flex;
+  gap:8px;
+  margin-top:6px;
+}
+.gh-config .btns button{
+  flex:1;
+  padding:12px;
+  border:none;
+  border-radius:12px;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  transition:background .15s;
+}
 .gh-config .btns .primary{background:#1e2b3c;color:#fff;}
+.gh-config .btns .primary:hover{background:#14202e;}
 .gh-config .btns .secondary{background:#eef2f8;color:#2e405b;}
+.gh-config .btns .secondary:hover{background:#e1e9f2;}
 .code-preview{background:#1e2b3c;color:#a5d6ff;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;line-height:1.5;padding:12px;border-radius:10px;max-height:240px;overflow:auto;white-space:pre-wrap;word-break:break-all;}
 .code-preview::-webkit-scrollbar{width:6px;height:6px;}
 .code-preview::-webkit-scrollbar-thumb{background:#4a5b70;border-radius:6px;}
@@ -451,12 +482,19 @@ E. 使用预先约定的信号或方法报警
     <h3>🐙 GitHub 仓库同步配置</h3>
     <div class="gh-status" id="ghStatus"></div>
     <div class="gh-config">
-      <div class="field"><label>仓库地址（owner/repo）</label><input type="text" id="ghRepo" placeholder="例如：username/my-quiz-repo"></div>
-      <div class="field"><label>分支</label><input type="text" id="ghBranch" placeholder="main" value="main"></div>
-      <div class="field"><label>Personal Access Token</label><input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxx"></div>
-      <div class="field"><label>文件路径</label><input type="text" id="ghPath" placeholder="data/papers.json" value="data/papers.json"></div>
-      <div class="parse-hint">💡 提示：需要 Token 具有 repo 权限。</div>
-      <button class="secondary" id="ghCancelBtn" style="display:none;">取消</button>
+      <div class="field">
+        <input type="text" id="ghRepo" placeholder="仓库地址（owner/repo）">
+      </div>
+      <div class="field">
+        <input type="text" id="ghBranch" placeholder="分支" value="main">
+      </div>
+      <div class="field">
+        <input type="text" id="ghPath" placeholder="文件路径" value="index.html">
+      </div>
+      <div class="field">
+        <input type="password" id="ghToken" placeholder="Personal Access Token">
+      </div>
+      <div class="parse-hint">💡 格式示例：仓库地址 qiuhua-cac/qiuhua-cac，分支 main，文件路径 index.html</div>
       <div class="btns">
         <button class="secondary" id="ghTestBtn">🔌 测试连接</button>
         <button class="primary" id="ghSaveBtn">💾 保存配置</button>
@@ -469,6 +507,7 @@ E. 使用预先约定的信号或方法报警
       </div>
     </div>
     <button class="close-modal" id="ghCloseBtn" style="margin-top:12px;">关闭</button>
+    <button class="secondary" id="ghCancelBtn" style="display:none;">取消</button>
   </div>
 </div>
 
