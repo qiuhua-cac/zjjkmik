@@ -177,67 +177,109 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 .revive-actions .warn{background:#b13e3e;color:#fff;}
 .revive-actions .warn:hover{background:#8a2f2f;}
 .revive-actions button:disabled{opacity:.4;cursor:not-allowed;}
-.gh-config{display:flex;flex-direction:column;gap:12px;}
-.gh-config .field{width:100%;}
-.gh-config .field input{
-  width:100%;
-  padding:14px 16px;
-  border:1.5px solid #dce2ec;
+
+/* ============ GitHub 同步区（新配置方式） ============ */
+.github-section{
+  background:#f0f7ff;
+  border:1px solid #c8d9ec;
   border-radius:12px;
-  font-size:14px;
-  color:#1a2637;
-  outline:none;
-  font-family:inherit;
-  background:#f8fafd;
-  transition:border .15s,background .15s;
+  margin-top:12px;
+  overflow:hidden;
 }
-.gh-config .field input:focus{
-  border-color:#1e2b3c;
-  background:#fff;
-}
-.gh-config .field input::placeholder{
-  color:#a0aec0;
-}
-.gh-config .btns{
+.github-header{
+  padding:10px 14px;
   display:flex;
-  gap:8px;
+  align-items:center;
+  justify-content:space-between;
+  cursor:pointer;
+  background:#e8f2ff;
+  transition:.15s;
+  user-select:none;
+}
+.github-header:hover{background:#dceaff;}
+.github-header .gh-title{
+  font-weight:600;
+  color:#1e40af;
+  font-size:12px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.github-header .gh-status{
+  font-size:11px;
+  padding:2px 8px;
+  border-radius:8px;
+  font-weight:500;
+}
+.gh-status.configured{background:#dcfce7;color:#166534;}
+.gh-status.unconfigured{background:#fee2e2;color:#991b1b;}
+.github-header .gh-arrow{
+  font-size:11px;
+  color:#5a7a9a;
+  transition:transform .2s;
+  margin-left:6px;
+}
+.github-section.expanded .gh-arrow{transform:rotate(90deg);}
+.github-body{
+  max-height:0;
+  overflow:hidden;
+  transition:max-height .28s ease;
+  padding:0 14px;
+}
+.github-section.expanded .github-body{
+  max-height:520px;
+  padding:12px 14px 14px;
+}
+.github-body .gh-hint{
+  color:#5a7a9a;
+  font-size:11px;
+  line-height:1.6;
+  margin-bottom:8px;
+}
+.github-row{
+  display:flex;
+  gap:6px;
+  align-items:center;
   margin-top:6px;
 }
-.gh-config .btns button{
+.github-row input{
   flex:1;
-  padding:12px;
-  border:none;
-  border-radius:12px;
-  font-size:14px;
-  font-weight:600;
-  cursor:pointer;
-  transition:background .15s;
+  padding:8px 10px;
+  font-size:12px;
+  border:1.5px solid #c8d9ec;
+  border-radius:8px;
+  outline:none;
+  background:#fff;
+  font-family:inherit;
 }
-.gh-config .btns .primary{background:#1e2b3c;color:#fff;}
-.gh-config .btns .primary:hover{background:#14202e;}
-.gh-config .btns .secondary{background:#eef2f8;color:#2e405b;}
-.gh-config .btns .secondary:hover{background:#e1e9f2;}
-.code-preview{background:#1e2b3c;color:#a5d6ff;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;line-height:1.5;padding:12px;border-radius:10px;max-height:240px;overflow:auto;white-space:pre-wrap;word-break:break-all;}
-.code-preview::-webkit-scrollbar{width:6px;height:6px;}
-.code-preview::-webkit-scrollbar-thumb{background:#4a5b70;border-radius:6px;}
-.manage-grid{display:flex;flex-direction:column;gap:8px;}
-.manage-grid .item{display:flex;align-items:center;gap:10px;padding:12px 14px;background:#f6f9fe;border:1.5px solid #e9edf4;border-radius:12px;cursor:pointer;transition:all .15s;}
-.manage-grid .item:hover{background:#e8f0fe;border-color:#b8cae0;}
-.manage-grid .item .icon{font-size:20px;flex-shrink:0;}
-.manage-grid .item .info{flex:1;min-width:0;}
-.manage-grid .item .info .title{font-size:14px;font-weight:700;color:#1e2b3c;}
-.manage-grid .item .info .desc{font-size:11px;color:#7a8aa3;margin-top:2px;line-height:1.4;}
-.manage-grid .item.danger .info .title{color:#b13e3e;}
-.gh-status{padding:8px 12px;border-radius:10px;font-size:12px;font-weight:600;margin-bottom:8px;display:none;}
-.gh-status.show{display:block;}
-.gh-status.success{background:#d4edda;color:#155724;border:1px solid #b8ddc3;}
-.gh-status.fail{background:#f8d7da;color:#721c24;border:1px solid #f0c0c4;}
-.gh-status.testing{background:#fff3cd;color:#856404;border:1px solid #ffe08a;}
-.add-paper-preview{background:#f6f9fe;border:1px solid #e9edf4;border-radius:10px;padding:10px 12px;margin-top:8px;font-size:12px;color:#3a506b;max-height:180px;overflow-y:auto;line-height:1.6;}
-.add-paper-preview .p-title{font-weight:700;color:#1e2b3c;margin-bottom:6px;}
-.add-paper-preview .q-item{padding:4px 0;border-bottom:1px dashed #e9edf4;}
-.add-paper-preview .q-item:last-child{border-bottom:none;}
-.add-paper-preview .q-type{display:inline-block;background:#e9edf4;color:#2b3f5a;font-size:10px;padding:1px 6px;border-radius:6px;margin-right:4px;}
+.github-row input:focus{border-color:#1e2b3c;}
+.gh-sync-info{
+  font-size:11px;
+  color:#166534;
+  background:#dcfce7;
+  border-radius:8px;
+  padding:6px 10px;
+  margin-top:8px;
+  line-height:1.6;
+  display:none;
+}
+.gh-sync-info.show{display:block;}
+.gh-btn-sm{
+  font-size:12px;
+  padding:7px 12px;
+  border-radius:8px;
+  border:1px solid #c8d9ec;
+  background:#fff;
+  color:#1e3a5f;
+  cursor:pointer;
+  font-weight:500;
+  transition:.15s;
+  white-space:nowrap;
+}
+.gh-btn-sm:hover{background:#e8f2fe;border-color:#9bbde0;}
+.gh-btn-sm.primary{background:#1e2b3c;color:#fff;border-color:#1e2b3c;}
+.gh-btn-sm.primary:hover{background:#14202e;}
+
 @media (max-width:900px){
   html,body{overflow:auto;-webkit-overflow-scrolling:touch;height:auto;}
   body{align-items:flex-start;min-height:100vh;display:block;}
@@ -477,37 +519,54 @@ E. 使用预先约定的信号或方法报警
   </div>
 </div>
 
+<!-- ========== GitHub 同步配置弹窗（新配置方式：owner/repo/path/token 四字段） ========== -->
 <div class="modal-overlay" id="ghOverlay">
   <div class="modal" style="width:600px;">
     <h3>🐙 GitHub 仓库同步配置</h3>
-    <div class="gh-status" id="ghStatus"></div>
-    <div class="gh-config">
-      <div class="field">
-        <input type="text" id="ghRepo" placeholder="仓库地址（owner/repo）">
+
+    <div class="github-section" id="ghSection">
+      <div class="github-header" id="ghHeader">
+        <div class="gh-title">
+          🐙 仓库信息
+          <span class="gh-status unconfigured" id="ghStatusBadge">未配置</span>
+        </div>
+        <span class="gh-arrow">▶</span>
       </div>
-      <div class="field">
-        <input type="text" id="ghBranch" placeholder="分支" value="main">
-      </div>
-      <div class="field">
-        <input type="text" id="ghPath" placeholder="文件路径" value="index.html">
-      </div>
-      <div class="field">
-        <input type="password" id="ghToken" placeholder="Personal Access Token">
-      </div>
-      <div class="parse-hint">💡 格式示例：仓库地址 qiuhua-cac/qiuhua-cac，分支 main，文件路径 index.html</div>
-      <div class="btns">
-        <button class="secondary" id="ghTestBtn">🔌 测试连接</button>
-        <button class="primary" id="ghSaveBtn">💾 保存配置</button>
-      </div>
-      <div class="btns">
-        <button class="primary" id="ghPushBtn" style="background:#2a7a4b;">⬆ 推送当前题库到 GitHub</button>
-      </div>
-      <div class="btns">
-        <button class="secondary" id="ghPullBtn">⬇ 从 GitHub 拉取题库</button>
+      <div class="github-body">
+        <div class="gh-hint">
+          配置好仓库信息后，每次保存（新增/删除/恢复）将自动同步完整题库到 GitHub。<br>
+          需要 Personal Access Token（至少 repo 权限）。
+        </div>
+        <div class="github-row">
+          <input type="text" id="ghOwner" placeholder="用户名/组织 (owner)">
+        </div>
+        <div class="github-row">
+          <input type="text" id="ghRepo" placeholder="仓库名 (repo)">
+        </div>
+        <div class="github-row">
+          <input type="text" id="ghPath" placeholder="文件路径 (如 data/papers.json)">
+        </div>
+        <div class="github-row">
+          <input type="password" id="ghToken" placeholder="Personal Access Token">
+        </div>
+        <div class="github-row" style="justify-content:flex-end;flex-wrap:wrap;">
+          <button class="gh-btn-sm" id="ghTestBtn">🔌 测试连接</button>
+          <button class="gh-btn-sm" id="ghSaveCfgBtn">💾 保存配置</button>
+          <button class="gh-btn-sm primary" id="ghSyncNowBtn">☁ 立即同步</button>
+        </div>
+        <div class="gh-sync-info" id="ghSyncInfo">✅ 已同步完整题库</div>
       </div>
     </div>
-    <button class="close-modal" id="ghCloseBtn" style="margin-top:12px;">关闭</button>
-    <button class="secondary" id="ghCancelBtn" style="display:none;">取消</button>
+
+    <div class="parse-hint" style="margin-top:12px;">
+      💡 示例：owner = qiuhua-cac，repo = qiuhua-cac，path = data/papers.json，token = ghp_xxxxxxxx
+    </div>
+
+    <div class="btns" style="margin-top:12px;">
+      <button class="secondary" id="ghPushBtn">⬆ 推送题库</button>
+      <button class="secondary" id="ghPullBtn">⬇ 拉取题库</button>
+    </div>
+    <button class="close-modal" id="ghCloseBtn" style="margin-top:10px;">关闭</button>
   </div>
 </div>
 
@@ -1153,12 +1212,17 @@ let historyVisible = false;
 let historyRecords = [];
 let panelOpen = false;
 let currentUser = null;
-let ghConfig = { repo:'', branch:'main', token:'', path:'data/papers.json' };
+
+/* ========== GitHub 配置（新配置方式：owner / repo / path / token） ========== */
+let ghConfig = { owner:'', repo:'', path:'data/papers.json', token:'' };
+
 let backups = [];
 const BACKUP_MAX = 4;
 const BACKUP_LOCK_MAX = 3;
 let reviveBackup = null;
 let passAttempts = 0;
+
+const GH_CFG_KEY = 'zktest_gh_cfg_v2';
 
 // ============================================================
 // DOM 引用
@@ -1214,15 +1278,20 @@ const ghBtn = $('ghBtn');
 const backupBtn = $('backupBtn');
 const reviveBtn = $('reviveBtn');
 const ghOverlay = $('ghOverlay');
+const ghOwner = $('ghOwner');
 const ghRepo = $('ghRepo');
-const ghBranch = $('ghBranch');
-const ghToken = $('ghToken');
 const ghPath = $('ghPath');
-const ghCancelBtn = $('ghCancelBtn');
-const ghSaveBtn = $('ghSaveBtn');
+const ghToken = $('ghToken');
+const ghCloseBtn = $('ghCloseBtn');
+const ghSection = $('ghSection');
+const ghHeader = $('ghHeader');
+const ghStatusBadge = $('ghStatusBadge');
+const ghSyncInfo = $('ghSyncInfo');
+const ghTestBtn = $('ghTestBtn');
+const ghSaveCfgBtn = $('ghSaveCfgBtn');
+const ghSyncNowBtn = $('ghSyncNowBtn');
 const ghPushBtn = $('ghPushBtn');
 const ghPullBtn = $('ghPullBtn');
-const ghCloseBtn = $('ghCloseBtn');
 const backupOverlay = $('backupOverlay');
 const backupList = $('backupList');
 const backupCreateBtn = $('backupCreateBtn');
@@ -1255,8 +1324,6 @@ const manageRevive = $('manageRevive');
 const deletePaperOverlay = $('deletePaperOverlay');
 const deletePaperList = $('deletePaperList');
 const deletePaperCancelBtn = $('deletePaperCancelBtn');
-const ghStatus = $('ghStatus');
-const ghTestBtn = $('ghTestBtn');
 const addPaperPreview = $('addPaperPreview');
 const addPaperPreviewBtn = $('addPaperPreviewBtn');
 const addPaperFirstRow = $('addPaperFirstRow');
@@ -1655,6 +1722,48 @@ function showLogin(){loginUser.value='';loginPass.value='';loginOverlay.classLis
 function hideLogin(){loginOverlay.classList.remove('show');}
 
 // ============================================================
+// GitHub 配置（新方式）
+// ============================================================
+function loadGhConfig(){
+  try{
+    const raw = localStorage.getItem(GH_CFG_KEY);
+    if(raw){
+      const obj = JSON.parse(raw);
+      if(obj && typeof obj === 'object'){
+        ghConfig = {
+          owner: obj.owner || '',
+          repo:  obj.repo  || '',
+          path:  obj.path  || 'data/papers.json',
+          token: obj.token || ''
+        };
+      }
+    }
+  }catch(e){}
+}
+function saveGhConfigToStorage(){
+  try{ localStorage.setItem(GH_CFG_KEY, JSON.stringify(ghConfig)); }catch(e){}
+}
+function isGhConfigured(){
+  return !!(ghConfig.owner && ghConfig.repo && ghConfig.path && ghConfig.token);
+}
+function updateGhStatusBadge(){
+  if(isGhConfigured()){
+    ghStatusBadge.textContent = '已配置';
+    ghStatusBadge.className = 'gh-status configured';
+  }else{
+    ghStatusBadge.textContent = '未配置';
+    ghStatusBadge.className = 'gh-status unconfigured';
+  }
+}
+function renderGhConfigToInputs(){
+  ghOwner.value = ghConfig.owner || '';
+  ghRepo.value = ghConfig.repo || '';
+  ghPath.value = ghConfig.path || '';
+  ghToken.value = ghConfig.token || '';
+  updateGhStatusBadge();
+}
+
+// ============================================================
 // 备份仓
 // ============================================================
 function saveBackup(){
@@ -1739,20 +1848,20 @@ function downloadText(text, filename){
 }
 
 // ============================================================
-// GitHub 同步
+// GitHub 同步（新方式）
 // ============================================================
 async function ghPush(){
-  if(!ghConfig.repo || !ghConfig.token){alert('请先配置 GitHub 仓库信息');return;}
+  if(!isGhConfigured()){alert('请先配置 GitHub 仓库信息');return;}
   try {
     const content = serializePapers();
     const base64Content = btoa(unescape(encodeURIComponent(content)));
-    const url = `https://api.github.com/repos/${ghConfig.repo}/contents/${ghConfig.path}`;
-    const getResp = await fetch(url + `?ref=${ghConfig.branch}`, {
+    const url = `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/contents/${ghConfig.path}`;
+    const getResp = await fetch(url, {
       headers: {'Authorization': `token ${ghConfig.token}`,'Accept': 'application/vnd.github.v3+json'}
     });
     let sha = null;
     if(getResp.ok){const data = await getResp.json();sha = data.sha;}
-    const body = {message: `更新题库 ${new Date().toLocaleString()}`,content: base64Content,branch: ghConfig.branch};
+    const body = {message: `更新题库 ${new Date().toLocaleString()}`,content: base64Content,branch: 'main'};
     if(sha) body.sha = sha;
     const putResp = await fetch(url, {
       method: 'PUT',
@@ -1764,9 +1873,9 @@ async function ghPush(){
   } catch(e){alert('❌ 网络错误：' + e.message);}
 }
 async function ghPull(){
-  if(!ghConfig.repo || !ghConfig.token){alert('请先配置 GitHub 仓库信息');return;}
+  if(!isGhConfigured()){alert('请先配置 GitHub 仓库信息');return;}
   try {
-    const url = `https://api.github.com/repos/${ghConfig.repo}/contents/${ghConfig.path}?ref=${ghConfig.branch}`;
+    const url = `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/contents/${ghConfig.path}`;
     const resp = await fetch(url, {headers: {'Authorization': `token ${ghConfig.token}`,'Accept': 'application/vnd.github.v3+json'}});
     if(!resp.ok){alert('❌ 拉取失败：' + resp.status);return;}
     const data = await resp.json();
@@ -1780,16 +1889,16 @@ async function ghPull(){
   } catch(e){alert('❌ 网络错误：' + e.message);}
 }
 async function ghPushSilent(){
-  if(!ghConfig.repo || !ghConfig.token) throw new Error('未配置 GitHub');
+  if(!isGhConfigured()) throw new Error('未配置 GitHub');
   const content = serializePapers();
   const base64Content = btoa(unescape(encodeURIComponent(content)));
-  const url = `https://api.github.com/repos/${ghConfig.repo}/contents/${ghConfig.path}`;
-  const getResp = await fetch(url + `?ref=${ghConfig.branch}`, {
+  const url = `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/contents/${ghConfig.path}`;
+  const getResp = await fetch(url, {
     headers: {'Authorization': `token ${ghConfig.token}`,'Accept': 'application/vnd.github.v3+json'}
   });
   let sha = null;
   if(getResp.ok){const data = await getResp.json();sha = data.sha;}
-  const body = {message: `更新题库 ${new Date().toLocaleString()}`,content: base64Content,branch: ghConfig.branch};
+  const body = {message: `更新题库 ${new Date().toLocaleString()}`,content: base64Content,branch: 'main'};
   if(sha) body.sha = sha;
   const putResp = await fetch(url, {
     method: 'PUT',
@@ -1799,9 +1908,27 @@ async function ghPushSilent(){
   if(!putResp.ok){const err = await putResp.json();throw new Error(err.message || '推送失败');}
   return true;
 }
-function showGhStatus(type, text){
-  ghStatus.className = 'gh-status show ' + type;
-  ghStatus.textContent = text;
+async function testGhConnection(){
+  if(!isGhConfigured()){alert('请先完整填写并保存配置');return;}
+  try{
+    const apiBase = `https://api.github.com/repos/${ghConfig.owner}/${ghConfig.repo}/contents/${ghConfig.path}`;
+    const resp = await fetch(apiBase, {
+      method: 'GET',
+      headers: {
+        'Authorization': `token ${ghConfig.token}`,
+        'Accept': 'application/vnd.github.v3+json'
+      }
+    });
+    if(resp.ok){
+      alert('✅ 连接成功，文件已存在');
+    }else if(resp.status === 404){
+      alert('✅ 连接成功（文件暂不存在，首次同步将创建）');
+    }else{
+      alert('连接失败：' + resp.status + ' ' + resp.statusText);
+    }
+  }catch(e){
+    alert('连接异常：' + e.message);
+  }
 }
 
 // ============================================================
@@ -1920,7 +2047,7 @@ function openDeletePaperModal(){
           papers.splice(idx,1);
           saveBackup();
           deletePaperOverlay.classList.remove('show');
-          if(ghConfig.repo && ghConfig.token){
+          if(isGhConfigured()){
             try{
               await ghPushSilent();
               alert('✅ 已删除并同步至 GitHub，页面即将刷新');
@@ -1941,16 +2068,14 @@ function openDeletePaperModal(){
 }
 
 // ============================================================
-// 弹窗层级控制（核心修复）
+// 弹窗层级控制
 // ============================================================
 function gotoSub(fn){
-  // 立即隐藏管理面板（display:none），确保遮罩层不拦截点击
   manageOverlay.classList.remove('show');
   manageOverlay.style.display = 'none';
   fn();
 }
 function backToManage(){
-  // 恢复管理面板显示
   manageOverlay.style.display = '';
   manageOverlay.classList.remove('hidden');
   manageOverlay.classList.add('show');
@@ -1978,7 +2103,6 @@ cancelSubmitBtn.addEventListener('click',hideConfirm);
 confirmSubmitBtn.addEventListener('click',()=>{hideConfirm();submitPaper();});
 confirmOverlay.addEventListener('click',e=>{if(e.target===confirmOverlay)hideConfirm();});
 
-// 三个开关：永远可点击
 randomCheck.addEventListener('change',e=>{
   e.stopPropagation();
   randomMode=e.target.checked;
@@ -2025,7 +2149,7 @@ loginConfirmBtn.addEventListener('click',e=>{
 });
 loginOverlay.addEventListener('click',e=>{if(e.target===loginOverlay)hideLogin();});
 
-// 管理面板 —— 打开子功能（先完全隐藏管理面板，避免遮罩拦截）
+// 管理面板
 manageCloseBtn.addEventListener('click',e=>{
   e.stopPropagation();
   manageOverlay.classList.remove('show');
@@ -2043,7 +2167,7 @@ manageGh.addEventListener('click',e=>{e.stopPropagation();gotoSub(openGhModal);}
 manageBackup.addEventListener('click',e=>{e.stopPropagation();gotoSub(()=>{renderBackupList();backupOverlay.classList.add('show');});});
 manageRevive.addEventListener('click',e=>{e.stopPropagation();gotoSub(()=>{renderReviveInfo();reviveOverlay.classList.add('show');});});
 
-// 新增题库弹窗 —— 关闭回到管理面板
+// 新增题库弹窗
 addPaperCancelBtn.addEventListener('click',e=>{e.stopPropagation();addPaperOverlay.classList.remove('show');backToManage();});
 addPaperOverlay.addEventListener('click',e=>{if(e.target===addPaperOverlay){addPaperOverlay.classList.remove('show');backToManage();}});
 newPaperContent.addEventListener('input',()=>{
@@ -2103,7 +2227,7 @@ addPaperConfirmBtn.addEventListener('click', async (e)=>{
   papers.push({id:id,name:title,description:`自定义题库 · 共 ${qs.length} 题`,questions:qs});
   saveBackup();
   addPaperOverlay.classList.remove('show');
-  if(ghConfig.repo && ghConfig.token){
+  if(isGhConfigured()){
     try{
       await ghPushSilent();
       alert(`✅ 题库「${title}」已添加并同步至 GitHub，页面即将刷新`);
@@ -2118,65 +2242,89 @@ addPaperConfirmBtn.addEventListener('click', async (e)=>{
   }
 });
 
-// 删除题库弹窗 —— 关闭回到管理面板
+// 删除题库弹窗
 deletePaperCancelBtn.addEventListener('click',e=>{e.stopPropagation();deletePaperOverlay.classList.remove('show');backToManage();});
 deletePaperOverlay.addEventListener('click',e=>{if(e.target===deletePaperOverlay){deletePaperOverlay.classList.remove('show');backToManage();}});
 
-// GitHub 弹窗 —— 关闭回到管理面板
+// ============================================================
+// GitHub 弹窗（新方式）
+// ============================================================
 function openGhModal(){
-  ghRepo.value = ghConfig.repo;
-  ghBranch.value = ghConfig.branch;
-  ghToken.value = ghConfig.token;
-  ghPath.value = ghConfig.path;
-  if(ghConfig.repo && ghConfig.token){showGhStatus('success','✅ 已配置：'+ghConfig.repo);}
-  else{ghStatus.className='gh-status';}
+  loadGhConfig();
+  renderGhConfigToInputs();
+  ghSyncInfo.classList.remove('show');
+  ghSyncInfo.textContent = '';
+  ghSection.classList.remove('expanded');
   ghOverlay.classList.add('show');
 }
 ghBtn.addEventListener('click',e=>{e.stopPropagation();openGhModal();});
-ghCancelBtn.addEventListener('click',e=>{e.stopPropagation();ghOverlay.classList.remove('show');backToManage();});
 ghCloseBtn.addEventListener('click',e=>{e.stopPropagation();ghOverlay.classList.remove('show');backToManage();});
 ghOverlay.addEventListener('click',e=>{if(e.target===ghOverlay){ghOverlay.classList.remove('show');backToManage();}});
-ghSaveBtn.addEventListener('click',e=>{
+
+ghHeader.addEventListener('click',()=>{
+  ghSection.classList.toggle('expanded');
+});
+
+ghSaveCfgBtn.addEventListener('click',e=>{
   e.stopPropagation();
-  ghConfig.repo = ghRepo.value.trim();
-  ghConfig.branch = ghBranch.value.trim() || 'main';
+  ghConfig.owner = ghOwner.value.trim();
+  ghConfig.repo  = ghRepo.value.trim();
+  ghConfig.path  = ghPath.value.trim() || 'data/papers.json';
   ghConfig.token = ghToken.value.trim();
-  ghConfig.path = ghPath.value.trim() || 'data/papers.json';
-  if(!ghConfig.repo || !ghConfig.token){showGhStatus('fail','❌ 请填写仓库地址和 Token');return;}
-  showGhStatus('success','✅ 已配置：'+ghConfig.repo);
+  if(!ghConfig.owner || !ghConfig.repo || !ghConfig.token){
+    alert('❌ 请填写 owner、repo 和 token');
+    return;
+  }
+  saveGhConfigToStorage();
+  updateGhStatusBadge();
   alert('✅ 配置已保存');
 });
-ghTestBtn.addEventListener('click', async (e)=>{
+
+ghTestBtn.addEventListener('click',e=>{
   e.stopPropagation();
-  const repo = ghRepo.value.trim();
-  const token = ghToken.value.trim();
-  if(!repo || !token){showGhStatus('fail','❌ 请填写仓库地址和 Token');return;}
-  showGhStatus('testing','🔄 正在测试连接...');
-  try{
-    const url = `https://api.github.com/repos/${repo}`;
-    const resp = await fetch(url, {headers: {'Authorization': `token ${token}`,'Accept': 'application/vnd.github.v3+json'}});
-    if(resp.ok){
-      const data = await resp.json();
-      showGhStatus('success',`✅ 连接成功：${data.full_name}（默认分支：${data.default_branch}）`);
-    } else {
-      showGhStatus('fail',`❌ 连接失败：${resp.status} ${resp.statusText}`);
-    }
-  }catch(err){showGhStatus('fail','❌ 网络错误：'+err.message);}
+  // 先用输入框的值临时同步到 ghConfig
+  ghConfig.owner = ghOwner.value.trim();
+  ghConfig.repo  = ghRepo.value.trim();
+  ghConfig.path  = ghPath.value.trim() || 'data/papers.json';
+  ghConfig.token = ghToken.value.trim();
+  saveGhConfigToStorage();
+  updateGhStatusBadge();
+  testGhConnection();
 });
+
+ghSyncNowBtn.addEventListener('click', async (e)=>{
+  e.stopPropagation();
+  ghConfig.owner = ghOwner.value.trim();
+  ghConfig.repo  = ghRepo.value.trim();
+  ghConfig.path  = ghPath.value.trim() || 'data/papers.json';
+  ghConfig.token = ghToken.value.trim();
+  if(!isGhConfigured()){alert('请先完整填写并保存配置');return;}
+  saveGhConfigToStorage();
+  updateGhStatusBadge();
+  try{
+    await ghPushSilent();
+    ghSyncInfo.textContent = `✅ 已同步完整题库（含 ${papers.length} 套试卷）`;
+    ghSyncInfo.classList.add('show');
+    alert('✅ 同步成功');
+  }catch(err){
+    alert('❌ 同步失败：' + err.message);
+  }
+});
+
 ghPushBtn.addEventListener('click',e=>{e.stopPropagation();ghPush();});
 ghPullBtn.addEventListener('click',e=>{e.stopPropagation();ghPull();});
 
-// 备份仓弹窗 —— 关闭回到管理面板
+// 备份仓弹窗
 backupBtn.addEventListener('click',e=>{e.stopPropagation();renderBackupList();backupOverlay.classList.add('show');});
 backupCancelBtn.addEventListener('click',e=>{e.stopPropagation();backupOverlay.classList.remove('show');backToManage();});
 backupOverlay.addEventListener('click',e=>{if(e.target===backupOverlay){backupOverlay.classList.remove('show');backToManage();}});
 backupCreateBtn.addEventListener('click',e=>{e.stopPropagation();saveBackup();renderBackupList();alert('✅ 已创建新的备份');});
 
-// 预览弹窗 —— 关闭只关自己（保持上下文）
+// 预览弹窗
 previewCloseBtn.addEventListener('click',e=>{e.stopPropagation();previewOverlay.classList.remove('show');});
 previewOverlay.addEventListener('click',e=>{if(e.target===previewOverlay)previewOverlay.classList.remove('show');});
 
-// 复活备份弹窗 —— 关闭回到管理面板
+// 复活备份弹窗
 reviveBtn.addEventListener('click',e=>{e.stopPropagation();renderReviveInfo();reviveOverlay.classList.add('show');});
 reviveCloseBtn.addEventListener('click',e=>{e.stopPropagation();reviveOverlay.classList.remove('show');backToManage();});
 reviveOverlay.addEventListener('click',e=>{if(e.target===reviveOverlay){reviveOverlay.classList.remove('show');backToManage();}});
@@ -2227,7 +2375,7 @@ reviveRestoreBtn.addEventListener('click',e=>{
       if(Array.isArray(parsed) && parsed.length > 0){
         papers.length = 0;papers.push(...parsed);
         saveBackup();
-        if(ghConfig.repo && ghConfig.token){
+        if(isGhConfigured()){
           ghPush().then(()=>{alert('✅ 恢复成功并已同步至 GitHub');}).catch(()=>{alert('✅ 恢复成功，但 GitHub 同步失败，请手动推送');});
         } else {alert('✅ 恢复成功（未配置 GitHub，未同步）');}
       } else {alert('❌ 数据格式不正确');}
@@ -2235,7 +2383,7 @@ reviveRestoreBtn.addEventListener('click',e=>{
   });
 });
 
-// 密码弹窗 —— 取消回到复活备份
+// 密码弹窗
 passCancelBtn.addEventListener('click',e=>{e.stopPropagation();passOverlay.classList.remove('show');reviveOverlay.classList.add('show');});
 passOverlay.addEventListener('click',e=>{if(e.target===passOverlay){passOverlay.classList.remove('show');reviveOverlay.classList.add('show');}});
 
@@ -2243,6 +2391,8 @@ passOverlay.addEventListener('click',e=>{if(e.target===passOverlay){passOverlay.
 // 初始化
 // ============================================================
 (function init(){
+  loadGhConfig();
+  updateGhStatusBadge();
   currentPaper=null;currentQuestions=[];activeQuestionId=null;isSubmitted=false;
   randomCheck.checked = false;
   noHighlightCheck.checked = false;
