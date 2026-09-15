@@ -17,6 +17,7 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
   background:#fbfdff;border-right:1px solid #edf2f9;
   display:flex;flex-direction:column;
   overflow:hidden;
+  height:100%;
 }
 .side-panel-header{
   padding:16px 18px;background:#1e2b3c;color:#fff;
@@ -25,7 +26,7 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 .side-panel-header .title{font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;}
 .side-panel-header .title .paper-name{font-size:11px;background:rgba(255,255,255,.2);padding:3px 10px;border-radius:20px;font-weight:500;max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 
-.side-panel #userBarContainerSide{padding:10px 14px 0;}
+.side-panel #userBarContainerSide{padding:10px 14px 0;flex-shrink:0;}
 .side-panel .user-bar{margin-bottom:0;}
 
 .side-stats{display:flex;background:#fff;padding:12px 16px;border-bottom:1px solid #e9edf4;flex-shrink:0;}
@@ -38,25 +39,43 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 
 .side-actions{padding:12px 16px;display:flex;flex-direction:column;gap:10px;flex-shrink:0;border-bottom:1px solid #e9edf4;background:#fff;}
 
-/* 单一滑动条 - 所有分组全展开 */
+/* 计时器（独立，直接显示） */
+.timer-inline{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:9px 14px;
+  background:#1e2b3c;color:#fff;
+  border-radius:12px;
+  font-size:14px;font-weight:700;
+  font-variant-numeric:tabular-nums;
+  letter-spacing:.5px;
+}
+.timer-inline .tb-icon{font-size:16px;}
+.timer-inline.running{background:#2a7a4b;}
+
+/* 答题卡滚动区 —— 一体式，全部展开 */
 .side-grid{
-  display:flex;flex-direction:column;gap:12px;
+  display:flex;flex-direction:column;gap:0;
   padding:14px 16px;
-  overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+  flex:1 1 auto;
+  min-height:0;
   background:#fff;
 }
 .qgroup{
   border:1px solid #eef2f8;
   border-radius:12px;
   background:#fbfdff;
-  overflow:hidden;
+  overflow:visible;
+  margin-bottom:14px;
 }
+.qgroup:last-child{margin-bottom:0;}
 .qgroup-header{
   display:flex;align-items:center;justify-content:space-between;
   padding:9px 12px;
   background:#f6f9fe;
   font-size:12.5px;font-weight:700;color:#2e405b;
   user-select:none;
+  border-radius:12px 12px 0 0;
 }
 .qgroup-header .qgroup-title{display:flex;align-items:center;gap:6px;}
 .qgroup-header .qgroup-badge{
@@ -68,23 +87,9 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 
 /* ============ 右侧试卷区 ============ */
 .paper-area{flex:1;display:flex;flex-direction:column;background:#fff;position:relative;overflow:hidden;min-width:0;}
-.paper-header{padding:28px 32px 12px;border-bottom:1px solid #edf2f9;flex-shrink:0;display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;}
-.paper-header .ph-left{flex:1;min-width:200px;}
+.paper-header{padding:28px 32px 12px;border-bottom:1px solid #edf2f9;flex-shrink:0;}
 .paper-title{font-size:22px;font-weight:700;color:#0b1a2b;letter-spacing:-.2px;margin-bottom:6px;}
 .paper-sub{font-size:14px;color:#6f7f96;}
-.timer-box{
-  display:none;
-  align-items:center;gap:8px;
-  padding:8px 14px;
-  background:#1e2b3c;color:#fff;
-  border-radius:12px;
-  font-size:14px;font-weight:700;
-  font-variant-numeric:tabular-nums;
-  box-shadow:0 4px 12px rgba(30,43,60,.2);
-}
-.timer-box.show{display:flex;}
-.timer-box .tb-icon{font-size:16px;}
-
 .questions-container{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px 32px 32px;scroll-behavior:auto;}
 .question-item{margin-bottom:24px;padding:18px 22px;background:#fff;border-radius:18px;border:1px solid #eef2f8;box-shadow:0 4px 12px rgba(0,0,0,.02);transition:border .15s,box-shadow .15s;scroll-margin-top:20px;}
 .question-item.active-question{border:1.5px solid #1e2b3c;box-shadow:0 10px 20px -6px rgba(0,0,0,.12);}
@@ -192,7 +197,6 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 .confirm-modal .modal-content .btns .cancel{background:#eef2f8;color:#2e405b;}
 .confirm-modal .modal-content .btns .confirm{background:#2a7a4b;color:#fff;}
 
-/* 管理面板 */
 .manage-modal{
   width:540px;padding:0;overflow:hidden;
   border-radius:24px;
@@ -247,7 +251,6 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 .manage-card.danger .mc-title{color:#b13e3e;}
 .manage-card.danger:hover{border-color:#f0c0c4;background:#fff8f8;}
 
-/* 表单 */
 .login-form{display:flex;flex-direction:column;gap:14px;}
 .login-form .field{display:flex;flex-direction:column;gap:6px;}
 .login-form .field label{font-size:13px;font-weight:600;color:#3a4b62;}
@@ -340,51 +343,23 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 .preview-pane{display:none;}
 .preview-pane.active{display:block;}
 
-.preview-paper-wrap{
-  max-height:60vh;overflow-y:auto;
-  padding-right:4px;
-}
+.preview-paper-wrap{max-height:60vh;overflow-y:auto;padding-right:4px;}
 .pv-paper-item{
   border:1.5px solid #eef2f8;border-radius:14px;margin-bottom:10px;
   overflow:hidden;background:#fbfdff;
+  padding:12px 14px;
+  display:flex;justify-content:space-between;align-items:center;gap:10px;
+  cursor:pointer;
+  transition:all .15s;
 }
-.pv-paper-header{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:12px 14px;background:#f6f9fe;
-  font-size:13.5px;font-weight:700;color:#1e2b3c;cursor:pointer;user-select:none;
-  transition:background .15s;
-}
-.pv-paper-header:hover{background:#eef3fa;}
-.pv-paper-header .pv-ph-left{display:flex;align-items:center;gap:8px;}
-.pv-paper-header .pv-ph-badge{
+.pv-paper-item:hover{background:#eef6ff;border-color:#b8cae0;}
+.pv-paper-item .pv-ph-left{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700;color:#1e2b3c;}
+.pv-paper-item .pv-ph-badge{
   background:#d9e2ef;color:#2b3f5a;
   font-size:11px;padding:2px 9px;border-radius:8px;font-weight:600;
 }
-.pv-paper-header .pv-ph-arrow{font-size:11px;color:#8099b3;transition:transform .2s;}
-.pv-paper-item.expanded .pv-ph-arrow{transform:rotate(180deg);}
-.pv-paper-body{
-  max-height:0;overflow:hidden;transition:max-height .3s ease;
-  padding:0 14px;
-}
-.pv-paper-item.expanded .pv-paper-body{
-  max-height:2000px;
-  padding:12px 14px 14px;
-}
-.pv-question{
-  padding:10px 12px;border-bottom:1px dashed #eef2f8;font-size:13px;color:#2e405b;line-height:1.6;
-}
-.pv-question:last-child{border-bottom:none;}
-.pv-question .pv-q-title{font-weight:600;color:#1a2637;margin-bottom:6px;}
-.pv-question .pv-q-type{
-  display:inline-block;background:#e9edf4;color:#2b3f5a;
-  font-size:10px;padding:1px 7px;border-radius:6px;margin-right:5px;font-weight:600;
-}
-.pv-question .pv-q-option{
-  padding:2px 0 2px 16px;color:#3a506b;font-size:12.5px;
-}
-.pv-question .pv-q-answer{
-  margin-top:4px;color:#28a745;font-weight:600;font-size:12.5px;
-}
+.pv-paper-item .pv-ph-arrow{font-size:12px;color:#3b82f6;font-weight:600;}
+
 .pv-edit-area{margin-top:14px;padding-top:14px;border-top:1px solid #eef2f8;}
 .pv-edit-title{font-size:13px;font-weight:700;color:#1e2b3c;margin-bottom:10px;}
 .pv-edit-list{max-height:400px;overflow-y:auto;border:1px solid #eef2f8;border-radius:10px;padding:6px;background:#fbfdff;}
@@ -506,7 +481,7 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
   .card-panel-stats .stat-value.unanswered{color:#b13e3e;}
   .card-panel-stats .divider{width:1px;background:#e2e8f0;margin:0 4px;}
   .card-panel-actions{padding:10px 14px;display:flex;flex-direction:column;gap:9px;flex-shrink:0;border-bottom:1px solid #e9edf4;background:#fff;overflow-y:auto;max-height:45vh;}
-  .card-panel-grid{display:flex;flex-direction:column;gap:10px;padding:12px;overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1;background:#fff;}
+  .card-panel-grid{display:flex;flex-direction:column;gap:0;padding:12px;overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1 1 auto;min-height:0;background:#fff;}
   .card-panel-grid .question-btn{width:36px;height:36px;border-radius:10px;font-size:12px;}
 }
 
@@ -559,13 +534,18 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
           <input type="checkbox" id="randomCheck">
         </label>
         <label class="switch-item" id="noHighlightSwitchItem" for="noHighlightCheck">
-          <span class="switch-label">✨ 跳转不高亮 + 计时</span>
+          <span class="switch-label">✨ 跳转不高亮</span>
           <input type="checkbox" id="noHighlightCheck">
         </label>
         <label class="switch-item" id="wrongOnlySwitchItem" style="display:none;" for="wrongOnlyCheck">
           <span class="switch-label">📕 只看错题</span>
           <input type="checkbox" id="wrongOnlyCheck">
         </label>
+      </div>
+      <!-- 计时器（独立，直接显示，无开关） -->
+      <div class="timer-inline" id="timerInline">
+        <span class="tb-icon">⏱</span>
+        <span id="timerInlineText">00:00</span>
       </div>
       <button class="btn-primary" id="loginBtn" style="background:#2a7a4b;"><span>🔑 登录</span></button>
     </div>
@@ -583,14 +563,8 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 
   <main class="paper-area" id="paperArea">
     <div class="paper-header">
-      <div class="ph-left">
-        <div class="paper-title" id="paperTitle">请选择试卷</div>
-        <div class="paper-sub" id="paperSub">点击左侧「选择试卷」开始答题</div>
-      </div>
-      <div class="timer-box" id="timerBox">
-        <span class="tb-icon">⏱</span>
-        <span id="timerText">00:00</span>
-      </div>
+      <div class="paper-title" id="paperTitle">请选择试卷</div>
+      <div class="paper-sub" id="paperSub">点击左侧「选择试卷」开始答题</div>
     </div>
     <div class="questions-container" id="questionsContainer">
       <div class="empty-paper"><span>📋</span><div>请选择试卷开始答题</div></div>
@@ -635,13 +609,18 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
         <input type="checkbox" id="randomCheckM">
       </label>
       <label class="switch-item" for="noHighlightCheckM">
-        <span class="switch-label">✨ 跳转不高亮 + 计时</span>
+        <span class="switch-label">✨ 跳转不高亮</span>
         <input type="checkbox" id="noHighlightCheckM">
       </label>
       <label class="switch-item" id="wrongOnlySwitchItemM" style="display:none;" for="wrongOnlyCheckM">
         <span class="switch-label">📕 只看错题</span>
         <input type="checkbox" id="wrongOnlyCheckM">
       </label>
+    </div>
+    <!-- 移动端计时器 -->
+    <div class="timer-inline" id="timerInlineM">
+      <span class="tb-icon">⏱</span>
+      <span id="timerInlineTextM">00:00</span>
     </div>
     <button class="btn-primary" id="loginBtnM" style="background:#2a7a4b;"><span>🔑 登录</span></button>
   </div>
@@ -857,7 +836,6 @@ E. 使用预先约定的信号或方法报警
   </div>
 </div>
 
-<!-- 代码/试卷列表预览 -->
 <div class="modal-overlay ultra-top" id="previewOverlay">
   <div class="modal" style="width:760px;max-height:90vh;display:flex;flex-direction:column;">
     <h3 id="previewTitle" style="flex-shrink:0;">📄 预览</h3>
@@ -877,7 +855,6 @@ E. 使用预先约定的信号或方法报警
   </div>
 </div>
 
-<!-- 模拟真实答题预览 -->
 <div class="modal-overlay ultra-top" id="answerPreviewOverlay">
   <div class="modal" style="width:760px;max-height:90vh;display:flex;flex-direction:column;padding:0;overflow:hidden;">
     <div style="padding:16px 22px;background:#1e2b3c;color:#fff;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;">
@@ -1541,11 +1518,11 @@ const BACKUP_MAX = 4;
 const BACKUP_LOCK_MAX = 3;
 let passAttempts = 0;
 
-const GH_CFG_KEY = 'zktest_gh_cfg_v5';
-const BACKUP_STORAGE_KEY = 'zktest_backups_v5';
-const REVIVE_STORAGE_KEY = 'zktest_revive_v5';
-const HEALTH_KEY = 'zktest_health_v5';
-const SESSION_KEY = 'zktest_session_v5';
+const GH_CFG_KEY = 'zktest_gh_cfg_v6';
+const BACKUP_STORAGE_KEY = 'zktest_backups_v6';
+const REVIVE_STORAGE_KEY = 'zktest_revive_v6';
+const HEALTH_KEY = 'zktest_health_v6';
+const SESSION_KEY = 'zktest_session_v6';
 const CRASH_TIMEOUT_MS = 60000;
 
 // ============================================================
@@ -1578,8 +1555,8 @@ const historyArrow = $('historyArrow');
 const historyList = $('historyList');
 const loginBtn = $('loginBtn');
 const userBarContainer = $('userBarContainerSide');
-const timerBox = $('timerBox');
-const timerText = $('timerText');
+const timerInline = $('timerInline');
+const timerInlineText = $('timerInlineText');
 
 const floatBall = $('floatBall');
 const ballBadge = $('ballBadge');
@@ -1607,6 +1584,8 @@ const historyArrowM = $('historyArrowM');
 const historyListM = $('historyListM');
 const loginBtnM = $('loginBtnM');
 const userBarContainerM = $('userBarContainer');
+const timerInlineM = $('timerInlineM');
+const timerInlineTextM = $('timerInlineTextM');
 
 const modalOverlay = $('modalOverlay');
 const paperList = $('paperList');
@@ -1725,30 +1704,37 @@ function formatTime(sec){
 }
 
 // ============================================================
-// 计时
+// 计时器
 // ============================================================
 function startTimer(){
   if(timerRunning) return;
   timerRunning = true;
   timerStartTs = Date.now() - timerElapsedSec * 1000;
-  timerBox.classList.add('show');
+  timerInline.classList.add('running');
+  timerInlineM.classList.add('running');
   timerInterval = setInterval(()=>{
     timerElapsedSec = Math.floor((Date.now() - timerStartTs) / 1000);
-    timerText.textContent = formatTime(timerElapsedSec);
+    const txt = formatTime(timerElapsedSec);
+    timerInlineText.textContent = txt;
+    timerInlineTextM.textContent = txt;
   }, 1000);
-  timerText.textContent = formatTime(timerElapsedSec);
+  const txt = formatTime(timerElapsedSec);
+  timerInlineText.textContent = txt;
+  timerInlineTextM.textContent = txt;
 }
 function stopTimer(){
   if(!timerRunning) return;
   timerRunning = false;
   if(timerInterval){ clearInterval(timerInterval); timerInterval = null; }
+  timerInline.classList.remove('running');
+  timerInlineM.classList.remove('running');
 }
 function resetTimer(){
   stopTimer();
   timerElapsedSec = 0;
   timerStartTs = 0;
-  timerText.textContent = '00:00';
-  timerBox.classList.remove('show');
+  timerInlineText.textContent = '00:00';
+  timerInlineTextM.textContent = '00:00';
 }
 
 // ============================================================
@@ -1804,7 +1790,7 @@ function updateStats(){
 }
 
 // ============================================================
-// 答题卡（分组，全展开，单一滑动条）
+// 答题卡 —— 一体式，三组全展开
 // ============================================================
 function buildQuestionGridHTML(){
   if(!currentPaper) return '';
@@ -1886,7 +1872,8 @@ function handleAnswerSelect(pid,qid,val,type){
   initAnswersForPaper(pid);
   if(type==='single'||type==='judge')userAnswers[pid][qid]=val;
   else if(type==='multiple')userAnswers[pid][qid]=val;
-  if(noHighlight && !timerRunning){
+  // 首次答题自动启动计时器
+  if(!timerRunning){
     startTimer();
   }
   updateStats();
@@ -2305,7 +2292,7 @@ function parsePapersFromHTML(html){
 }
 
 // ============================================================
-// 试卷预览（模拟真实答题）
+// 试卷预览
 // ============================================================
 function showAnswerPreview(paper){
   apvPaperName.textContent = paper.name;
@@ -2330,14 +2317,12 @@ function showAnswerPreview(paper){
     html += `</div>`;
   });
   apvContainer.innerHTML = html;
-  // 置顶
   answerPreviewOverlay.style.zIndex = '99999';
   answerPreviewOverlay.classList.add('show');
 }
 apvCloseBtn.addEventListener('click',()=>{answerPreviewOverlay.classList.remove('show');});
 answerPreviewOverlay.addEventListener('click',e=>{if(e.target===answerPreviewOverlay)answerPreviewOverlay.classList.remove('show');});
 
-// 备份仓试卷预览 —— 每个试卷是独立的卡片，点击卡片可打开模拟真实答题的预览
 function buildPreviewPaperList(parsedPapers){
   if(!parsedPapers || !parsedPapers.length){
     return '<div style="text-align:center;padding:20px;color:#8aa2c0;">无法解析题库内容</div>';
@@ -2345,12 +2330,12 @@ function buildPreviewPaperList(parsedPapers){
   let h = '';
   parsedPapers.forEach((p,pi)=>{
     const qs = p.questions || [];
-    h += `<div class="pv-paper-item" style="padding:12px 14px;margin-bottom:10px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;" data-paper-idx="${pi}">
-      <div class="pv-ph-left" style="display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700;color:#1e2b3c;">
+    h += `<div class="pv-paper-item" data-paper-idx="${pi}">
+      <div class="pv-ph-left">
         <span>📄 ${escapeHTML(p.name || ('试卷'+(pi+1)))}</span>
-        <span class="pv-ph-badge" style="background:#d9e2ef;color:#2b3f5a;font-size:11px;padding:2px 9px;border-radius:8px;font-weight:600;">${qs.length} 题</span>
+        <span class="pv-ph-badge">${qs.length} 题</span>
       </div>
-      <span style="font-size:12px;color:#3b82f6;font-weight:600;">点击预览试卷 →</span>
+      <span class="pv-ph-arrow">点击预览 →</span>
     </div>`;
   });
   return h;
@@ -2360,9 +2345,7 @@ function showPreviewModal(titleText, code, defaultTab){
   previewContent.textContent = code || '（无代码内容）';
   const parsedPapers = parsePapersFromHTML(code);
   previewPaperList.innerHTML = buildPreviewPaperList(parsedPapers);
-  // 保存供点击使用
   previewPaperList._parsedPapers = parsedPapers || [];
-  // 点击某份试卷，打开模拟真实答题的预览
   previewPaperList.querySelectorAll('[data-paper-idx]').forEach(item=>{
     item.addEventListener('click',(e)=>{
       e.stopPropagation();
@@ -2525,13 +2508,10 @@ function renderReviveInfo(){
     reviveFileInfo.textContent = '当前无备份文件，请上传 txt 文件或导入当前代码。';
   }
 }
-
-// 密码验证弹窗 —— 永远置顶
 function showPassModal(callback){
   passAttempts = 0;
   passInput.value = '';
   passHint.textContent = '提示：操作需要输入代码 qiuhua。';
-  // 确保置顶
   passOverlay.style.zIndex = '999999';
   passOverlay.classList.add('show');
   setTimeout(()=>{ try{ passInput.focus(); }catch(e){} }, 100);
@@ -2692,7 +2672,6 @@ newPaperContent.addEventListener('input',()=>{
   }
 });
 
-// 预览并确认 —— 打开含「试卷预览」+「代码预览」的预览弹窗
 addPaperPreviewBtn.addEventListener('click', async (e)=>{
   e.stopPropagation();
   const title = newPaperTitle.value.trim();
@@ -2701,7 +2680,6 @@ addPaperPreviewBtn.addEventListener('click', async (e)=>{
   if(!content){alert('请输入题库内容');return;}
   const qs = parseQuestions(content);
   if(qs.length === 0){alert('未解析到任何题目，请检查格式');return;}
-  // 生成含新增试卷的完整代码
   const tempId = 'paper_preview_'+Date.now();
   const tempPaper = {id:tempId, name:title, description:`自定义题库 · 共 ${qs.length} 题`, questions:qs};
   const originalPapers = JSON.parse(JSON.stringify(papers));
@@ -2712,7 +2690,6 @@ addPaperPreviewBtn.addEventListener('click', async (e)=>{
     alert('无法生成预览代码');
     return;
   }
-  // 打开预览弹窗（含试卷预览 + 代码预览 两个 tab）
   showPreviewModal(`📄 新增预览：${title}`, html, 'paper');
   addPaperFirstRow.style.display='none';
   addPaperSecondRow.style.display='flex';
@@ -2807,13 +2784,11 @@ function openManagePaperModal(){
   deletePaperOverlay.classList.add('show');
 }
 
-// 打开编辑 —— 编辑弹窗置顶
 function openEditPaper(p){
   editingPaperId = p.id;
   editingPaperQuestions = JSON.parse(JSON.stringify(p.questions));
   editPaperTitle.textContent = `📝 编辑：${p.name}`;
   renderEditPaperList();
-  // 编辑弹窗永远置顶
   editPaperOverlay.style.zIndex = '99999';
   editPaperOverlay.classList.add('show');
 }
@@ -2933,9 +2908,6 @@ bindToggle(randomCheck, randomCheckM, (v)=>{
 });
 bindToggle(noHighlightCheck, noHighlightCheckM, (v)=>{
   noHighlight=v;
-  if(!v && !isSubmitted){
-    resetTimer();
-  }
 });
 bindToggle(wrongOnlyCheck, wrongOnlyCheckM, (v)=>{
   wrongOnly=v;
@@ -2982,7 +2954,6 @@ loginConfirmBtn.addEventListener('click',e=>{
 });
 loginOverlay.addEventListener('click',e=>{if(e.target===loginOverlay)hideLogin();});
 
-// 管理面板
 manageCloseBtn.addEventListener('click',e=>{
   e.stopPropagation();
   manageOverlay.classList.remove('show');
@@ -3004,7 +2975,6 @@ manageRevive.addEventListener('click',e=>{e.stopPropagation();gotoSub(()=>{
   showPassModal((ok)=>{
     if(!ok) return;
     renderReviveInfo();
-    // 复活备份弹窗置顶
     reviveOverlay.style.zIndex = '10000';
     reviveOverlay.classList.add('show');
   });
@@ -3093,7 +3063,6 @@ document.querySelectorAll('.preview-tab').forEach(tab=>{
 previewCloseBtn.addEventListener('click',e=>{e.stopPropagation();previewOverlay.classList.remove('show');});
 previewOverlay.addEventListener('click',e=>{if(e.target===previewOverlay)previewOverlay.classList.remove('show');});
 
-// 复活备份
 reviveCloseBtn.addEventListener('click',e=>{e.stopPropagation();reviveOverlay.classList.remove('show');backToManage();});
 reviveOverlay.addEventListener('click',e=>{if(e.target===reviveOverlay){reviveOverlay.classList.remove('show');backToManage();}});
 
@@ -3194,7 +3163,6 @@ reviveRestoreBtn.addEventListener('click',(e)=>{
 passCancelBtn.addEventListener('click',e=>{e.stopPropagation();passOverlay.classList.remove('show');});
 passOverlay.addEventListener('click',e=>{if(e.target===passOverlay)passOverlay.classList.remove('show');});
 
-// 崩溃恢复
 rcLaterBtn.addEventListener('click',()=>{
   reviveCrashOverlay.classList.remove('show');
 });
