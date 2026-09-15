@@ -89,7 +89,7 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 .card-panel-stats .stat-value.answered{color:#2a7a4b;}
 .card-panel-stats .stat-value.unanswered{color:#b13e3e;}
 .card-panel-stats .divider{width:1px;background:#e2e8f0;margin:0 4px;}
-.card-panel-actions{padding:12px 16px;display:flex;flex-direction:column;gap:10px;flex-shrink:0;border-bottom:1px solid #e9edf4;background:#fff;}
+.card-panel-actions{padding:12px 16px;display:flex;flex-direction:column;gap:10px;flex-shrink:0;border-bottom:1px solid #e9edf4;background:#fff;overflow-y:auto;}
 .btn-primary{width:100%;background:#1e2b3c;color:#fff;border:none;padding:12px 14px;border-radius:14px;font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:background .2s;}
 .btn-primary:hover{background:#14202e;}
 .btn-primary:active{transform:scale(.98);}
@@ -110,7 +110,7 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 .switch-group{display:flex;flex-direction:column;gap:8px;padding:10px 14px;background:#f6f9fe;border-radius:14px;border:1px solid #e9edf4;}
 .switch-item{display:flex;align-items:center;justify-content:space-between;font-size:13px;color:#2e405b;cursor:pointer;user-select:none;padding:4px 0;}
 .switch-item .switch-label{display:flex;align-items:center;gap:6px;font-weight:500;}
-.switch-item input[type="checkbox"]{width:18px;height:18px;accent-color:#1e2b3c;cursor:pointer;margin:0;}
+.switch-item input[type="checkbox"]{width:18px;height:18px;accent-color:#1e2b3c;cursor:pointer;margin:0;pointer-events:auto;}
 .card-panel-grid{display:flex;flex-wrap:wrap;gap:8px;padding:16px;overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1;align-content:flex-start;min-height:100px;background:#fff;}
 .question-btn{width:44px;height:44px;border-radius:12px;background:#f6f9fe;border:1.5px solid #dce2ec;font-weight:600;font-size:14px;color:#1f2c3f;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;}
 .question-btn:hover{border-color:#8099b3;background:#e8f0fe;}
@@ -153,6 +153,49 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 .user-bar .logout-btn{padding:6px 12px;background:#eef2f8;border:none;border-radius:10px;font-size:12px;font-weight:600;color:#b13e3e;cursor:pointer;}
 .user-bar .logout-btn:hover{background:#f8d7da;}
 .parse-hint{font-size:12px;color:#7a8aa3;line-height:1.5;padding:8px 12px;background:#f6f9fe;border-radius:10px;}
+.section-label{font-size:12px;color:#5b6e8c;font-weight:600;margin:6px 0 4px 2px;letter-spacing:.3px;}
+
+/* 备份仓样式 */
+.backup-item{background:#fff;border:1.5px solid #e9edf4;border-radius:12px;padding:10px 12px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:8px;}
+.backup-item .info{flex:1;min-width:0;}
+.backup-item .info .name{font-size:13px;font-weight:700;color:#1e2b3c;display:flex;align-items:center;gap:6px;}
+.backup-item .info .meta{font-size:11px;color:#7a8aa3;margin-top:2px;}
+.backup-item .actions{display:flex;gap:4px;flex-shrink:0;}
+.backup-item .actions button{border:none;background:#eef2f8;color:#2e405b;font-size:11px;font-weight:600;padding:5px 8px;border-radius:8px;cursor:pointer;}
+.backup-item .actions button:hover{background:#e1e9f2;}
+.backup-item .actions button.danger{color:#b13e3e;}
+.backup-item .actions button.danger:hover{background:#f8d7da;}
+.backup-item .actions button.locked{background:#2a7a4b;color:#fff;}
+.backup-item .actions button:disabled{opacity:.4;cursor:not-allowed;}
+.backup-empty{text-align:center;padding:14px;color:#7a8aa3;font-size:12px;}
+
+.revive-info{background:#fff8e6;border:1px solid #ffe08a;border-radius:12px;padding:10px 12px;font-size:12px;color:#7a5c00;line-height:1.5;margin-bottom:10px;}
+.revive-info strong{color:#b13e3e;}
+.revive-info .file-info{color:#1e2b3c;margin-top:4px;}
+.revive-actions{display:flex;flex-wrap:wrap;gap:6px;}
+.revive-actions button{flex:1;min-width:calc(50% - 3px);padding:9px;border:none;border-radius:10px;font-size:12px;font-weight:600;cursor:pointer;transition:background .15s;}
+.revive-actions .primary{background:#1e2b3c;color:#fff;}
+.revive-actions .primary:hover{background:#14202e;}
+.revive-actions .secondary{background:#eef2f8;color:#2e405b;}
+.revive-actions .secondary:hover{background:#e1e9f2;}
+.revive-actions .warn{background:#b13e3e;color:#fff;}
+.revive-actions .warn:hover{background:#8a2f2f;}
+.revive-actions button:disabled{opacity:.4;cursor:not-allowed;}
+
+.gh-config{display:flex;flex-direction:column;gap:10px;}
+.gh-config .field{display:flex;flex-direction:column;gap:4px;}
+.gh-config .field label{font-size:12px;font-weight:600;color:#3a4b62;}
+.gh-config .field input{width:100%;padding:9px 12px;border:1.5px solid #dce2ec;border-radius:10px;font-size:13px;color:#1a2637;outline:none;font-family:inherit;}
+.gh-config .field input:focus{border-color:#1e2b3c;}
+.gh-config .btns{display:flex;gap:8px;margin-top:6px;}
+.gh-config .btns button{flex:1;padding:10px;border:none;border-radius:10px;font-size:13px;font-weight:600;cursor:pointer;}
+.gh-config .btns .primary{background:#1e2b3c;color:#fff;}
+.gh-config .btns .secondary{background:#eef2f8;color:#2e405b;}
+
+.code-preview{background:#1e2b3c;color:#a5d6ff;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:11px;line-height:1.5;padding:12px;border-radius:10px;max-height:240px;overflow:auto;white-space:pre-wrap;word-break:break-all;}
+.code-preview::-webkit-scrollbar{width:6px;height:6px;}
+.code-preview::-webkit-scrollbar-thumb{background:#4a5b70;border-radius:6px;}
+
 @media (max-width:900px){
   html,body{overflow:auto;-webkit-overflow-scrolling:touch;height:auto;}
   body{align-items:flex-start;min-height:100vh;display:block;}
@@ -259,6 +302,9 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
     </div>
     <button class="btn-primary" id="loginBtn" style="background:#2a7a4b;"><span>🔑 登录</span></button>
     <button class="btn-primary" id="addPaperBtn" style="background:#1e5e38;display:none;"><span>➕ 新增题库</span></button>
+    <button class="btn-primary" id="ghBtn" style="background:#24292e;display:none;"><span>🐙 GitHub 同步</span></button>
+    <button class="btn-primary" id="backupBtn" style="background:#6f42c1;display:none;"><span>💾 备份仓</span></button>
+    <button class="btn-primary" id="reviveBtn" style="background:#b13e3e;"><span>🛟 复活备份</span></button>
   </div>
 
   <div class="card-panel-grid" id="questionGrid"></div>
@@ -272,6 +318,7 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
   </div>
 </div>
 
+<!-- 选择试卷弹窗 -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <h3>📑 选择试卷</h3>
@@ -280,6 +327,7 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
   </div>
 </div>
 
+<!-- 提交确认弹窗 -->
 <div class="modal-overlay" id="confirmOverlay">
   <div class="modal confirm-modal">
     <div class="modal-content">
@@ -293,6 +341,7 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
   </div>
 </div>
 
+<!-- 登录弹窗 -->
 <div class="modal-overlay" id="loginOverlay">
   <div class="modal">
     <h3>🔑 登录</h3>
@@ -307,6 +356,7 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
   </div>
 </div>
 
+<!-- 新增题库弹窗 -->
 <div class="modal-overlay" id="addPaperOverlay">
   <div class="modal" style="width:640px;">
     <h3>➕ 新增题库</h3>
@@ -332,7 +382,7 @@ E. 使用预先约定的信号或方法报警
 
 水塔内部专业人员可以进入施工作业，所以水塔属于建筑物。(错)[判断题]"></textarea>
       </div>
-      <div class="parse-hint">💡 提示：格式为「题目（答案）？[题型]」，题型支持 [单选题]、[多选题]、[判断题]。判断题答案写 (对) 或 (错)。</div>
+      <div class="parse-hint">💡 格式：「题目（答案）？[题型]」，题型支持 [单选题]、[多选题]、[判断题]。判断题答案写 (对) 或 (错)。</div>
       <div class="btns">
         <button class="secondary" id="addPaperCancelBtn">取消</button>
         <button class="primary" id="addPaperConfirmBtn">确认添加</button>
@@ -341,9 +391,93 @@ E. 使用预先约定的信号或方法报警
   </div>
 </div>
 
+<!-- GitHub 同步配置弹窗 -->
+<div class="modal-overlay" id="ghOverlay">
+  <div class="modal" style="width:600px;">
+    <h3>🐙 GitHub 仓库同步配置</h3>
+    <div class="gh-config">
+      <div class="field"><label>仓库地址（owner/repo）</label><input type="text" id="ghRepo" placeholder="例如：username/my-quiz-repo"></div>
+      <div class="field"><label>分支</label><input type="text" id="ghBranch" placeholder="main" value="main"></div>
+      <div class="field"><label>Personal Access Token</label><input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxx"></div>
+      <div class="field"><label>文件路径</label><input type="text" id="ghPath" placeholder="data/papers.json" value="data/papers.json"></div>
+      <div class="parse-hint">💡 提示：需要 Personal Access Token 具有 repo 权限。文件路径例如 data/papers.json。</div>
+      <div class="btns">
+        <button class="secondary" id="ghCancelBtn">取消</button>
+        <button class="primary" id="ghSaveBtn">保存配置</button>
+      </div>
+      <div class="btns">
+        <button class="primary" id="ghPushBtn" style="background:#2a7a4b;">⬆ 推送当前题库到 GitHub</button>
+      </div>
+      <div class="btns">
+        <button class="secondary" id="ghPullBtn">⬇ 从 GitHub 拉取题库</button>
+      </div>
+    </div>
+    <button class="close-modal" id="ghCloseBtn" style="margin-top:12px;">关闭</button>
+  </div>
+</div>
+
+<!-- 备份仓弹窗 -->
+<div class="modal-overlay" id="backupOverlay">
+  <div class="modal" style="width:640px;">
+    <h3>💾 备份仓（最多4个，A最新D最旧）</h3>
+    <div class="parse-hint" style="margin-bottom:12px;">每次修改题库内容会自动保存为备份仓（ABCD顺延，A最新D最旧）。最多锁定3个备份，锁定后不会被新的存档顶替。</div>
+    <div id="backupList"></div>
+    <div class="btns" style="margin-top:12px;">
+      <button class="secondary" id="backupCreateBtn">➕ 手动创建备份</button>
+      <button class="secondary" id="backupCancelBtn">关闭</button>
+    </div>
+  </div>
+</div>
+
+<!-- 备份预览弹窗 -->
+<div class="modal-overlay" id="previewOverlay">
+  <div class="modal" style="width:640px;">
+    <h3 id="previewTitle">📄 代码预览</h3>
+    <div class="code-preview" id="previewContent"></div>
+    <button class="close-modal" id="previewCloseBtn" style="margin-top:12px;">关闭</button>
+  </div>
+</div>
+
+<!-- 复活备份弹窗 -->
+<div class="modal-overlay" id="reviveOverlay">
+  <div class="modal" style="width:600px;">
+    <h3>🛟 复活备份</h3>
+    <div class="revive-info">
+      <strong>⚠ 复活备份优先权最高</strong><br>
+      用于系统崩溃时恢复所用。恢复后会同步至 GitHub 仓库。<br>
+      恢复时需要输入代码 <strong>qiuhua</strong> 才可以继续执行。
+      <div class="file-info" id="reviveFileInfo">当前无备份文件，请上传 txt 文件。</div>
+    </div>
+    <div class="revive-actions">
+      <button class="primary" id="reviveUploadBtn">📤 上传 TXT 文件</button>
+      <button class="secondary" id="revivePreviewBtn">👁 预览代码</button>
+      <button class="secondary" id="reviveDownloadBtn">⬇ 下载备份文件</button>
+      <button class="secondary" id="reviveImportBtn">📥 导入当前代码</button>
+      <button class="warn" id="reviveRestoreBtn" style="flex:1 1 100%;">🚨 一键恢复到 GitHub 仓库</button>
+    </div>
+    <input type="file" id="reviveFileInput" accept=".txt" style="display:none;">
+    <button class="close-modal" id="reviveCloseBtn" style="margin-top:12px;">关闭</button>
+  </div>
+</div>
+
+<!-- 密码验证弹窗 -->
+<div class="modal-overlay" id="passOverlay">
+  <div class="modal" style="width:420px;">
+    <h3>🔐 输入恢复密码</h3>
+    <div class="login-form">
+      <div class="field"><label>恢复密码（代码）</label><input type="password" id="passInput" placeholder="请输入代码"></div>
+      <div class="parse-hint" id="passHint">提示：恢复需要输入代码 qiuhua，错误可重试最多5次。</div>
+      <div class="btns">
+        <button class="secondary" id="passCancelBtn">取消</button>
+        <button class="primary" id="passConfirmBtn">确认</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 // ==================== 完整三套试卷数据 ====================
-const papers = [
+const DEFAULT_PAPERS = [
   {
     id: 'paper1',
     name: '中级监控精准题库01',
@@ -909,7 +1043,8 @@ const papers = [
   }
 ];
 
-// ==================== 全局状态 ====================
+// ==================== 状态 ====================
+let papers = JSON.parse(JSON.stringify(DEFAULT_PAPERS));
 let currentPaper = null;
 let currentQuestions = [];
 let userAnswers = {};
@@ -924,53 +1059,100 @@ let historyRecords = [];
 let panelOpen = false;
 let currentUser = null;
 
-// DOM
-const totalCountEl = document.getElementById('totalCount');
-const answeredCountEl = document.getElementById('answeredCount');
-const unansweredCountEl = document.getElementById('unansweredCount');
-const questionGrid = document.getElementById('questionGrid');
-const paperTitle = document.getElementById('paperTitle');
-const paperSub = document.getElementById('paperSub');
-const questionsContainer = document.getElementById('questionsContainer');
-const selectPaperBtn = document.getElementById('selectPaperBtn');
-const modalOverlay = document.getElementById('modalOverlay');
-const paperList = document.getElementById('paperList');
-const closeModalBtn = document.getElementById('closeModalBtn');
-const cardPaperName = document.getElementById('cardPaperName');
-const answerActionRow = document.getElementById('answerActionRow');
-const resultActionRow = document.getElementById('resultActionRow');
-const submitBtn = document.getElementById('submitBtn');
-const resetBtn = document.getElementById('resetBtn');
-const retryBtn = document.getElementById('retryBtn');
-const reselectBtn = document.getElementById('reselectBtn');
-const randomCheck = document.getElementById('randomCheck');
-const noHighlightCheck = document.getElementById('noHighlightCheck');
-const wrongOnlyCheck = document.getElementById('wrongOnlyCheck');
-const wrongOnlySwitchItem = document.getElementById('wrongOnlySwitchItem');
-const confirmOverlay = document.getElementById('confirmOverlay');
-const cancelSubmitBtn = document.getElementById('cancelSubmitBtn');
-const confirmSubmitBtn = document.getElementById('confirmSubmitBtn');
-const historySection = document.getElementById('historySection');
-const historyHeader = document.getElementById('historyHeader');
-const historyArrow = document.getElementById('historyArrow');
-const historyList = document.getElementById('historyList');
-const floatBall = document.getElementById('floatBall');
-const ballBadge = document.getElementById('ballBadge');
-const cardPanel = document.getElementById('cardPanel');
-const closePanelBtn = document.getElementById('closePanelBtn');
-const loginBtn = document.getElementById('loginBtn');
-const addPaperBtn = document.getElementById('addPaperBtn');
-const userBarContainer = document.getElementById('userBarContainer');
-const loginOverlay = document.getElementById('loginOverlay');
-const loginUser = document.getElementById('loginUser');
-const loginPass = document.getElementById('loginPass');
-const loginCancelBtn = document.getElementById('loginCancelBtn');
-const loginConfirmBtn = document.getElementById('loginConfirmBtn');
-const addPaperOverlay = document.getElementById('addPaperOverlay');
-const newPaperTitle = document.getElementById('newPaperTitle');
-const newPaperContent = document.getElementById('newPaperContent');
-const addPaperCancelBtn = document.getElementById('addPaperCancelBtn');
-const addPaperConfirmBtn = document.getElementById('addPaperConfirmBtn');
+// GitHub 配置
+let ghConfig = { repo: '', branch: 'main', token: '', path: 'data/papers.json' };
+
+// 备份仓
+let backups = []; // {id, name, timestamp, data, locked}
+const BACKUP_MAX = 4;
+const BACKUP_LOCK_MAX = 3;
+
+// 复活备份
+let reviveBackup = null; // {name, timestamp, data}
+
+// ==================== DOM ====================
+const $ = id => document.getElementById(id);
+const totalCountEl = $('totalCount');
+const answeredCountEl = $('answeredCount');
+const unansweredCountEl = $('unansweredCount');
+const questionGrid = $('questionGrid');
+const paperTitle = $('paperTitle');
+const paperSub = $('paperSub');
+const questionsContainer = $('questionsContainer');
+const selectPaperBtn = $('selectPaperBtn');
+const modalOverlay = $('modalOverlay');
+const paperList = $('paperList');
+const closeModalBtn = $('closeModalBtn');
+const cardPaperName = $('cardPaperName');
+const answerActionRow = $('answerActionRow');
+const resultActionRow = $('resultActionRow');
+const submitBtn = $('submitBtn');
+const resetBtn = $('resetBtn');
+const retryBtn = $('retryBtn');
+const reselectBtn = $('reselectBtn');
+const randomCheck = $('randomCheck');
+const noHighlightCheck = $('noHighlightCheck');
+const wrongOnlyCheck = $('wrongOnlyCheck');
+const wrongOnlySwitchItem = $('wrongOnlySwitchItem');
+const confirmOverlay = $('confirmOverlay');
+const cancelSubmitBtn = $('cancelSubmitBtn');
+const confirmSubmitBtn = $('confirmSubmitBtn');
+const historySection = $('historySection');
+const historyHeader = $('historyHeader');
+const historyArrow = $('historyArrow');
+const historyList = $('historyList');
+const floatBall = $('floatBall');
+const ballBadge = $('ballBadge');
+const cardPanel = $('cardPanel');
+const closePanelBtn = $('closePanelBtn');
+const loginBtn = $('loginBtn');
+const addPaperBtn = $('addPaperBtn');
+const userBarContainer = $('userBarContainer');
+const loginOverlay = $('loginOverlay');
+const loginUser = $('loginUser');
+const loginPass = $('loginPass');
+const loginCancelBtn = $('loginCancelBtn');
+const loginConfirmBtn = $('loginConfirmBtn');
+const addPaperOverlay = $('addPaperOverlay');
+const newPaperTitle = $('newPaperTitle');
+const newPaperContent = $('newPaperContent');
+const addPaperCancelBtn = $('addPaperCancelBtn');
+const addPaperConfirmBtn = $('addPaperConfirmBtn');
+const ghBtn = $('ghBtn');
+const backupBtn = $('backupBtn');
+const reviveBtn = $('reviveBtn');
+const ghOverlay = $('ghOverlay');
+const ghRepo = $('ghRepo');
+const ghBranch = $('ghBranch');
+const ghToken = $('ghToken');
+const ghPath = $('ghPath');
+const ghCancelBtn = $('ghCancelBtn');
+const ghSaveBtn = $('ghSaveBtn');
+const ghPushBtn = $('ghPushBtn');
+const ghPullBtn = $('ghPullBtn');
+const ghCloseBtn = $('ghCloseBtn');
+const backupOverlay = $('backupOverlay');
+const backupList = $('backupList');
+const backupCreateBtn = $('backupCreateBtn');
+const backupCancelBtn = $('backupCancelBtn');
+const previewOverlay = $('previewOverlay');
+const previewTitle = $('previewTitle');
+const previewContent = $('previewContent');
+const previewCloseBtn = $('previewCloseBtn');
+const reviveOverlay = $('reviveOverlay');
+const reviveFileInfo = $('reviveFileInfo');
+const reviveUploadBtn = $('reviveUploadBtn');
+const revivePreviewBtn = $('revivePreviewBtn');
+const reviveDownloadBtn = $('reviveDownloadBtn');
+const reviveImportBtn = $('reviveImportBtn');
+const reviveRestoreBtn = $('reviveRestoreBtn');
+const reviveFileInput = $('reviveFileInput');
+const reviveCloseBtn = $('reviveCloseBtn');
+const passOverlay = $('passOverlay');
+const passInput = $('passInput');
+const passHint = $('passHint');
+const passCancelBtn = $('passCancelBtn');
+const passConfirmBtn = $('passConfirmBtn');
 
 // ==================== 工具 ====================
 function shuffleArray(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
@@ -995,6 +1177,36 @@ function isAnswerCorrect(q,ans){
   return false;
 }
 
+// 从题目数据序列化为文本
+function serializeQuestions(qs){
+  let text='';
+  const typeMap={single:'单选题',multiple:'多选题',judge:'判断题'};
+  qs.forEach(q=>{
+    let answerStr='';
+    if(q.type==='single'){
+      answerStr=String.fromCharCode(65+q.answer);
+    }else if(q.type==='multiple'){
+      answerStr=q.answer.map(i=>String.fromCharCode(65+i)).join('');
+    }else if(q.type==='judge'){
+      answerStr=q.answer===0?'对':'错';
+    }
+    text+=`${q.text}（${answerStr}）[${typeMap[q.type]}]\n`;
+    if(q.type!=='judge'){
+      q.options.forEach((opt,i)=>{
+        text+=`${String.fromCharCode(65+i)}. ${opt}\n`;
+      });
+    }
+    text+='\n';
+  });
+  return text;
+}
+
+// 序列化题库（用于备份和预览）
+function serializePapers(){
+  return JSON.stringify(papers,null,2);
+}
+
+// ==================== 统计 ====================
 function updateStats(){
   if(!currentPaper){totalCountEl.textContent='0';answeredCountEl.textContent='0';unansweredCountEl.textContent='0';ballBadge.classList.add('hidden');return;}
   const total=currentQuestions.length;
@@ -1007,6 +1219,7 @@ function updateStats(){
   else ballBadge.classList.add('hidden');
 }
 
+// ==================== 答题卡 ====================
 function renderQuestionButtons(){
   if(!currentPaper){questionGrid.innerHTML='';return;}
   const answers=userAnswers[currentPaper.id]||{};
@@ -1309,6 +1522,7 @@ function openPanel(){panelOpen=true;cardPanel.classList.add('open');}
 function closePanel(){panelOpen=false;cardPanel.classList.remove('open');}
 function togglePanel(){if(panelOpen)closePanel();else openPanel();}
 
+// ==================== 用户 ====================
 function renderUserBar(){
   if(currentUser){
     userBarContainer.innerHTML=`<div class="user-bar"><span class="user-info">👤 ${currentUser}</span><button class="logout-btn" id="logoutBtn">退出</button></div>`;
@@ -1316,21 +1530,340 @@ function renderUserBar(){
       e.stopPropagation();
       currentUser=null;
       renderUserBar();
-      addPaperBtn.style.display='none';
-      loginBtn.style.display='flex';
+      updateUserButtons();
     });
-    loginBtn.style.display='none';
-    addPaperBtn.style.display='flex';
+    updateUserButtons();
   }else{
     userBarContainer.innerHTML='';
-    loginBtn.style.display='flex';
-    addPaperBtn.style.display='none';
+    updateUserButtons();
   }
+}
+
+function updateUserButtons(){
+  const logged = !!currentUser;
+  loginBtn.style.display = logged ? 'none' : 'flex';
+  addPaperBtn.style.display = logged ? 'flex' : 'none';
+  ghBtn.style.display = logged ? 'flex' : 'none';
+  backupBtn.style.display = logged ? 'flex' : 'none';
+  reviveBtn.style.display = 'flex'; // 复活备份始终显示
 }
 
 function showLogin(){loginUser.value='';loginPass.value='';loginOverlay.classList.add('show');}
 function hideLogin(){loginOverlay.classList.remove('show');}
 
+// ==================== 备份 ====================
+function saveBackup(){
+  const data = serializePapers();
+  const now = new Date();
+  const ts = now.toLocaleString();
+  // 检查是否需要锁定逻辑：A最新D最旧
+  // 新备份插入到开头
+  const newBackup = {
+    id: 'b_'+Date.now(),
+    name: '',
+    timestamp: ts,
+    data: data,
+    locked: false
+  };
+  backups.unshift(newBackup);
+  // 超过4个，移除最旧的未锁定
+  while(backups.length > BACKUP_MAX){
+    // 从后往前找第一个未锁定的
+    let removed = false;
+    for(let i=backups.length-1;i>=0;i--){
+      if(!backups[i].locked){
+        backups.splice(i,1);
+        removed = true;
+        break;
+      }
+    }
+    if(!removed){
+      // 全部都锁定了，移除最后一个
+      backups.pop();
+    }
+  }
+  // 重新命名：A最新，B第二，C第三，D最旧
+  const names = ['A','B','C','D'];
+  backups.forEach((b,i)=>{b.name = names[i] || String.fromCharCode(65+i);});
+}
+
+// ==================== 渲染备份列表 ====================
+function renderBackupList(){
+  if(backups.length === 0){
+    backupList.innerHTML = '<div class="backup-empty">暂无备份</div>';
+    return;
+  }
+  let html='';
+  const lockedCount = backups.filter(b=>b.locked).length;
+  backups.forEach(b=>{
+    const lockedClass = b.locked ? 'locked' : '';
+    const lockBtnText = b.locked ? '🔓' : '🔒';
+    const lockTitle = b.locked ? '解锁' : '锁定';
+    const canLock = b.locked || lockedCount < BACKUP_LOCK_MAX;
+    html += `<div class="backup-item">
+      <div class="info">
+        <div class="name">📦 备份 ${b.name} ${b.locked?'<span style="font-size:11px;color:#2a7a4b;">[已锁定]</span>':''}</div>
+        <div class="meta">${b.timestamp}</div>
+      </div>
+      <div class="actions">
+        <button data-action="preview" data-id="${b.id}">👁 预览</button>
+        <button data-action="download" data-id="${b.id}">⬇ 下载</button>
+        <button data-action="lock" data-id="${b.id}" class="${lockedClass}" ${canLock?'':'disabled'}>${lockBtnText}</button>
+        <button data-action="delete" data-id="${b.id}" class="danger" ${b.locked?'disabled':''}>🗑 删除</button>
+      </div>
+    </div>`;
+  });
+  backupList.innerHTML = html;
+  // 绑定
+  backupList.querySelectorAll('button').forEach(btn=>{
+    btn.addEventListener('click',e=>{
+      e.stopPropagation();
+      const action = btn.dataset.action;
+      const id = btn.dataset.id;
+      const b = backups.find(x=>x.id===id);
+      if(!b) return;
+      if(action === 'preview'){
+        previewTitle.textContent = `📄 备份 ${b.name} 预览`;
+        previewContent.textContent = b.data;
+        previewOverlay.classList.add('show');
+      } else if(action === 'download'){
+        downloadText(b.data, `backup_${b.name}_${b.timestamp.replace(/[:\/ ]/g,'_')}.txt`);
+      } else if(action === 'lock'){
+        if(b.locked){
+          b.locked = false;
+        } else {
+          if(backups.filter(x=>x.locked).length >= BACKUP_LOCK_MAX){
+            alert(`最多锁定 ${BACKUP_LOCK_MAX} 个备份`);
+            return;
+          }
+          b.locked = true;
+        }
+        renderBackupList();
+      } else if(action === 'delete'){
+        if(b.locked){
+          alert('已锁定的备份不可删除');
+          return;
+        }
+        if(confirm(`确定删除备份 ${b.name} 吗？`)){
+          const idx = backups.findIndex(x=>x.id===id);
+          if(idx > -1){
+            backups.splice(idx,1);
+            // 重新命名
+            const names = ['A','B','C','D'];
+            backups.forEach((x,i)=>{x.name = names[i] || String.fromCharCode(65+i);});
+            renderBackupList();
+          }
+        }
+      }
+    });
+  });
+}
+
+function downloadText(text, filename){
+  const blob = new Blob([text], {type:'text/plain;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// ==================== GitHub 同步 ====================
+async function ghPush(){
+  if(!ghConfig.repo || !ghConfig.token){
+    alert('请先配置 GitHub 仓库信息');
+    return;
+  }
+  try {
+    const content = serializePapers();
+    const base64Content = btoa(unescape(encodeURIComponent(content)));
+    // 获取当前文件 SHA
+    const url = `https://api.github.com/repos/${ghConfig.repo}/contents/${ghConfig.path}`;
+    const getResp = await fetch(url + `?ref=${ghConfig.branch}`, {
+      headers: {
+        'Authorization': `token ${ghConfig.token}`,
+        'Accept': 'application/vnd.github.v3+json'
+      }
+    });
+    let sha = null;
+    if(getResp.ok){
+      const data = await getResp.json();
+      sha = data.sha;
+    }
+    const body = {
+      message: `更新题库 ${new Date().toLocaleString()}`,
+      content: base64Content,
+      branch: ghConfig.branch
+    };
+    if(sha) body.sha = sha;
+    const putResp = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `token ${ghConfig.token}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    });
+    if(putResp.ok){
+      alert('✅ 推送成功！');
+    } else {
+      const err = await putResp.json();
+      alert('❌ 推送失败：' + (err.message || '未知错误'));
+    }
+  } catch(e){
+    alert('❌ 网络错误：' + e.message);
+  }
+}
+
+async function ghPull(){
+  if(!ghConfig.repo || !ghConfig.token){
+    alert('请先配置 GitHub 仓库信息');
+    return;
+  }
+  try {
+    const url = `https://api.github.com/repos/${ghConfig.repo}/contents/${ghConfig.path}?ref=${ghConfig.branch}`;
+    const resp = await fetch(url, {
+      headers: {
+        'Authorization': `token ${ghConfig.token}`,
+        'Accept': 'application/vnd.github.v3+json'
+      }
+    });
+    if(!resp.ok){
+      alert('❌ 拉取失败：' + resp.status);
+      return;
+    }
+    const data = await resp.json();
+    const content = decodeURIComponent(escape(atob(data.content)));
+    const parsed = JSON.parse(content);
+    if(Array.isArray(parsed) && parsed.length > 0){
+      papers.length = 0;
+      papers.push(...parsed);
+      saveBackup();
+      alert('✅ 拉取成功！共 ' + papers.length + ' 套题库');
+    } else {
+      alert('❌ 数据格式不正确');
+    }
+  } catch(e){
+    alert('❌ 网络错误：' + e.message);
+  }
+}
+
+// ==================== 复活备份 ====================
+function renderReviveInfo(){
+  if(reviveBackup){
+    reviveFileInfo.innerHTML = `✅ 已保存备份文件：<strong>${reviveBackup.name}</strong>（${reviveBackup.timestamp}）`;
+  } else {
+    reviveFileInfo.textContent = '当前无备份文件，请上传 txt 文件。';
+  }
+}
+
+function showPassModal(callback){
+  let attempts = 0;
+  passInput.value = '';
+  passHint.textContent = '提示：恢复需要输入代码 qiuhua，错误可重试最多5次。';
+  passOverlay.classList.add('show');
+  const confirmHandler = (e)=>{
+    e.stopPropagation();
+    const val = passInput.value.trim();
+    if(val === 'qiuhua'){
+      passOverlay.classList.remove('show');
+      passConfirmBtn.removeEventListener('click', confirmHandler);
+      callback(true);
+    } else {
+      attempts++;
+      if(attempts >= 5){
+        passOverlay.classList.remove('show');
+        passHint.textContent = '❌ 密码错误次数过多，请手动下载 txt 文件去 GitHub 仓库恢复。';
+        passConfirmBtn.removeEventListener('click', confirmHandler);
+        callback(false);
+      } else {
+        passHint.textContent = `❌ 密码错误，剩余 ${5-attempts} 次机会。`;
+      }
+    }
+  };
+  passConfirmBtn.removeEventListener('click', confirmHandler);
+  passConfirmBtn.addEventListener('click', confirmHandler);
+}
+
+// ==================== 初始化 ====================
+function init(){
+  currentPaper=null;currentQuestions=[];activeQuestionId=null;isSubmitted=false;
+  randomCheck.checked = false;
+  noHighlightCheck.checked = false;
+  wrongOnlyCheck.checked = false;
+  randomMode=false;noHighlight=false;wrongOnly=false;panelOpen=false;
+  updateStats();renderQuestionButtons();renderPaperContent();updateActionButtons();
+  renderUserBar();
+  saveBackup();
+  renderReviveInfo();
+}
+
+// ==================== 事件绑定 ====================
+floatBall.addEventListener('click',e=>{e.stopPropagation();togglePanel();});
+closePanelBtn.addEventListener('click',e=>{e.stopPropagation();closePanel();});
+document.addEventListener('click',e=>{
+  if(!panelOpen)return;
+  if(cardPanel.contains(e.target)||floatBall.contains(e.target))return;
+  closePanel();
+});
+
+selectPaperBtn.addEventListener('click',e=>{e.stopPropagation();showModal();});
+submitBtn.addEventListener('click',e=>{e.stopPropagation();if(!currentPaper||isSubmitted)return;confirmOverlay.classList.add('show');});
+resetBtn.addEventListener('click',e=>{e.stopPropagation();if(!currentPaper||isSubmitted)return;resetPaper();});
+retryBtn.addEventListener('click',e=>{e.stopPropagation();retryPaper();});
+reselectBtn.addEventListener('click',e=>{e.stopPropagation();reselectPaper();});
+closeModalBtn.addEventListener('click',hideModal);
+modalOverlay.addEventListener('click',e=>{if(e.target===modalOverlay)hideModal();});
+cancelSubmitBtn.addEventListener('click',hideConfirm);
+confirmSubmitBtn.addEventListener('click',()=>{hideConfirm();submitPaper();});
+confirmOverlay.addEventListener('click',e=>{if(e.target===confirmOverlay)hideConfirm();});
+
+// 开关 - 永远可点击
+randomCheck.addEventListener('change',e=>{
+  e.stopPropagation();
+  randomMode=e.target.checked;
+  if(currentPaper&&!isSubmitted){
+    if(randomMode)currentQuestions=shuffleAndRenumber(currentPaper.questions);
+    else currentQuestions=renumber(currentPaper.questions);
+    updateStats();renderQuestionButtons();renderPaperContent();
+  }
+});
+noHighlightCheck.addEventListener('change',e=>{
+  e.stopPropagation();
+  noHighlight=e.target.checked;
+});
+wrongOnlyCheck.addEventListener('change',e=>{
+  e.stopPropagation();
+  wrongOnly=e.target.checked;
+  if(isSubmitted){
+    renderResultContent();
+    renderQuestionButtons();
+  }
+});
+
+questionGrid.addEventListener('click',e=>{
+  const btn=e.target.closest('.question-btn');
+  if(!btn)return;
+  const qid=parseInt(btn.dataset.qid);
+  if(!currentPaper)return;
+  scrollToQuestion(qid);
+  if(window.innerWidth<=900)closePanel();
+});
+
+historyHeader.addEventListener('click',e=>{
+  e.stopPropagation();
+  historyVisible=!historyVisible;
+  historyList.classList.toggle('open',historyVisible);
+  historyArrow.classList.toggle('open',historyVisible);
+});
+
+cardPanel.addEventListener('click',e=>{e.stopPropagation();});
+
+// 登录
 loginBtn.addEventListener('click',e=>{e.stopPropagation();showLogin();});
 loginCancelBtn.addEventListener('click',e=>{e.stopPropagation();hideLogin();});
 loginConfirmBtn.addEventListener('click',e=>{
@@ -1347,6 +1880,7 @@ loginConfirmBtn.addEventListener('click',e=>{
 });
 loginOverlay.addEventListener('click',e=>{if(e.target===loginOverlay)hideLogin();});
 
+// 新增题库
 addPaperBtn.addEventListener('click',e=>{e.stopPropagation();newPaperTitle.value='';newPaperContent.value='';addPaperOverlay.classList.add('show');});
 addPaperCancelBtn.addEventListener('click',e=>{e.stopPropagation();addPaperOverlay.classList.remove('show');});
 addPaperOverlay.addEventListener('click',e=>{if(e.target===addPaperOverlay)addPaperOverlay.classList.remove('show');});
@@ -1367,6 +1901,7 @@ addPaperConfirmBtn.addEventListener('click',e=>{
       description:`自定义题库 · 共 ${questions.length} 题`,
       questions:questions
     });
+    saveBackup();
     addPaperOverlay.classList.remove('show');
     alert(`✅ 成功添加题库「${title}」，共 ${questions.length} 题`);
   }catch(err){
@@ -1374,6 +1909,7 @@ addPaperConfirmBtn.addEventListener('click',e=>{
   }
 });
 
+// 解析题库文本
 function parseQuestions(text){
   const questions=[];
   const blocks=text.split(/\n\s*\n/).map(b=>b.trim()).filter(b=>b);
@@ -1419,71 +1955,150 @@ function parseQuestions(text){
   return questions;
 }
 
-floatBall.addEventListener('click',e=>{e.stopPropagation();togglePanel();});
-closePanelBtn.addEventListener('click',e=>{e.stopPropagation();closePanel();});
-document.addEventListener('click',e=>{
-  if(!panelOpen)return;
-  if(cardPanel.contains(e.target)||floatBall.contains(e.target))return;
-  closePanel();
-});
-selectPaperBtn.addEventListener('click',e=>{e.stopPropagation();showModal();});
-submitBtn.addEventListener('click',e=>{e.stopPropagation();if(!currentPaper||isSubmitted)return;confirmOverlay.classList.add('show');});
-resetBtn.addEventListener('click',e=>{e.stopPropagation();if(!currentPaper||isSubmitted)return;resetPaper();});
-retryBtn.addEventListener('click',e=>{e.stopPropagation();retryPaper();});
-reselectBtn.addEventListener('click',e=>{e.stopPropagation();reselectPaper();});
-closeModalBtn.addEventListener('click',hideModal);
-modalOverlay.addEventListener('click',e=>{if(e.target===modalOverlay)hideModal();});
-cancelSubmitBtn.addEventListener('click',hideConfirm);
-confirmSubmitBtn.addEventListener('click',()=>{hideConfirm();submitPaper();});
-confirmOverlay.addEventListener('click',e=>{if(e.target===confirmOverlay)hideConfirm();});
-
-randomCheck.addEventListener('change',e=>{
+// GitHub 按钮
+ghBtn.addEventListener('click',e=>{
   e.stopPropagation();
-  randomMode=e.target.checked;
-  if(currentPaper&&!isSubmitted){
-    if(randomMode)currentQuestions=shuffleAndRenumber(currentPaper.questions);
-    else currentQuestions=renumber(currentPaper.questions);
-    updateStats();renderQuestionButtons();renderPaperContent();
+  ghRepo.value = ghConfig.repo;
+  ghBranch.value = ghConfig.branch;
+  ghToken.value = ghConfig.token;
+  ghPath.value = ghConfig.path;
+  ghOverlay.classList.add('show');
+});
+ghCancelBtn.addEventListener('click',e=>{e.stopPropagation();ghOverlay.classList.remove('show');});
+ghCloseBtn.addEventListener('click',e=>{e.stopPropagation();ghOverlay.classList.remove('show');});
+ghOverlay.addEventListener('click',e=>{if(e.target===ghOverlay)ghOverlay.classList.remove('show');});
+ghSaveBtn.addEventListener('click',e=>{
+  e.stopPropagation();
+  ghConfig.repo = ghRepo.value.trim();
+  ghConfig.branch = ghBranch.value.trim() || 'main';
+  ghConfig.token = ghToken.value.trim();
+  ghConfig.path = ghPath.value.trim() || 'data/papers.json';
+  alert('✅ 配置已保存');
+});
+ghPushBtn.addEventListener('click',e=>{e.stopPropagation();ghPush();});
+ghPullBtn.addEventListener('click',e=>{e.stopPropagation();ghPull();});
+
+// 备份按钮
+backupBtn.addEventListener('click',e=>{
+  e.stopPropagation();
+  renderBackupList();
+  backupOverlay.classList.add('show');
+});
+backupCancelBtn.addEventListener('click',e=>{e.stopPropagation();backupOverlay.classList.remove('show');});
+backupOverlay.addEventListener('click',e=>{if(e.target===backupOverlay)backupOverlay.classList.remove('show');});
+backupCreateBtn.addEventListener('click',e=>{
+  e.stopPropagation();
+  saveBackup();
+  renderBackupList();
+  alert('✅ 已创建新的备份');
+});
+
+// 预览关闭
+previewCloseBtn.addEventListener('click',e=>{e.stopPropagation();previewOverlay.classList.remove('show');});
+previewOverlay.addEventListener('click',e=>{if(e.target===previewOverlay)previewOverlay.classList.remove('show');});
+
+// 复活备份
+reviveBtn.addEventListener('click',e=>{
+  e.stopPropagation();
+  renderReviveInfo();
+  reviveOverlay.classList.add('show');
+});
+reviveCloseBtn.addEventListener('click',e=>{e.stopPropagation();reviveOverlay.classList.remove('show');});
+reviveOverlay.addEventListener('click',e=>{if(e.target===reviveOverlay)reviveOverlay.classList.remove('show');});
+
+reviveUploadBtn.addEventListener('click',e=>{
+  e.stopPropagation();
+  reviveFileInput.click();
+});
+
+reviveFileInput.addEventListener('change',e=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev)=>{
+    reviveBackup = {
+      name: file.name,
+      timestamp: new Date().toLocaleString(),
+      data: ev.target.result
+    };
+    renderReviveInfo();
+    alert('✅ 文件已上传并保存');
+  };
+  reader.readAsText(file);
+  reviveFileInput.value = '';
+});
+
+revivePreviewBtn.addEventListener('click',e=>{
+  e.stopPropagation();
+  if(!reviveBackup){alert('请先上传备份文件');return;}
+  previewTitle.textContent = '📄 复活备份预览';
+  previewContent.textContent = reviveBackup.data;
+  previewOverlay.classList.add('show');
+});
+
+reviveDownloadBtn.addEventListener('click',e=>{
+  e.stopPropagation();
+  if(!reviveBackup){alert('无备份文件可下载');return;}
+  downloadText(reviveBackup.data, `revive_backup_${new Date().toISOString().slice(0,10)}.txt`);
+});
+
+reviveImportBtn.addEventListener('click',e=>{
+  e.stopPropagation();
+  if(!reviveBackup){alert('请先上传备份文件');return;}
+  try{
+    const parsed = JSON.parse(reviveBackup.data);
+    if(Array.isArray(parsed) && parsed.length > 0){
+      papers.length = 0;
+      papers.push(...parsed);
+      saveBackup();
+      alert('✅ 已导入当前代码');
+    } else {
+      alert('❌ 数据格式不正确');
+    }
+  }catch(err){
+    alert('❌ 导入失败：' + err.message);
   }
 });
-noHighlightCheck.addEventListener('change',e=>{
+
+reviveRestoreBtn.addEventListener('click',e=>{
   e.stopPropagation();
-  noHighlight=e.target.checked;
+  if(!reviveBackup){alert('请先上传备份文件');return;}
+  showPassModal((success)=>{
+    if(!success) return;
+    try{
+      const parsed = JSON.parse(reviveBackup.data);
+      if(Array.isArray(parsed) && parsed.length > 0){
+        papers.length = 0;
+        papers.push(...parsed);
+        saveBackup();
+        // 同步至 GitHub
+        if(ghConfig.repo && ghConfig.token){
+          ghPush().then(()=>{
+            alert('✅ 恢复成功并已同步至 GitHub');
+          }).catch(()=>{
+            alert('✅ 恢复成功，但 GitHub 同步失败，请手动推送');
+          });
+        } else {
+          alert('✅ 恢复成功（未配置 GitHub，未同步）');
+        }
+      } else {
+        alert('❌ 数据格式不正确');
+      }
+    }catch(err){
+      alert('❌ 恢复失败：' + err.message);
+    }
+  });
 });
-wrongOnlyCheck.addEventListener('change',e=>{
+
+// 密码弹窗
+passCancelBtn.addEventListener('click',e=>{
   e.stopPropagation();
-  wrongOnly=e.target.checked;
-  if(isSubmitted){
-    renderResultContent();
-    renderQuestionButtons();
-  }
+  passOverlay.classList.remove('show');
 });
+passOverlay.addEventListener('click',e=>{if(e.target===passOverlay)passOverlay.classList.remove('show');});
 
-questionGrid.addEventListener('click',e=>{
-  const btn=e.target.closest('.question-btn');
-  if(!btn)return;
-  const qid=parseInt(btn.dataset.qid);
-  if(!currentPaper)return;
-  scrollToQuestion(qid);
-  if(window.innerWidth<=900)closePanel();
-});
-
-historyHeader.addEventListener('click',e=>{
-  e.stopPropagation();
-  historyVisible=!historyVisible;
-  historyList.classList.toggle('open',historyVisible);
-  historyArrow.classList.toggle('open',historyVisible);
-});
-
-cardPanel.addEventListener('click',e=>{e.stopPropagation();});
-
-(function init(){
-  currentPaper=null;currentQuestions=[];activeQuestionId=null;isSubmitted=false;
-  updateStats();renderQuestionButtons();renderPaperContent();updateActionButtons();
-  randomCheck.checked=false;noHighlightCheck.checked=false;wrongOnlyCheck.checked=false;
-  randomMode=false;noHighlight=false;wrongOnly=false;panelOpen=false;
-  renderUserBar();
-})();
+// 启动
+init();
 </script>
 </body>
 </html>
