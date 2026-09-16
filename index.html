@@ -2074,7 +2074,7 @@ function parseQuestions(text){
   let idCounter=1;
   blocks.forEach(block=>{
     const lines=block.split('\n').map(l=>l.trim()).filter(l=>l);
-    if(lines.length<2)return;
+    if(lines.length<1)return;
     const header=lines[0];
     const typeMatch=header.match(/\[(单选题|多选题|判断题)\]/);
     if(!typeMatch)return;
