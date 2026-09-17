@@ -25,6 +25,22 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 }
 .side-panel-header .title{font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;}
 .side-panel-header .title .paper-name{font-size:11px;background:rgba(255,255,255,.2);padding:3px 10px;border-radius:20px;font-weight:500;max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+/* 顶部重选试卷按钮 */
+.reselect-top-btn{
+  width:30px;height:30px;border-radius:50%;
+  background:rgba(255,255,255,.15);
+  border:none;color:#fff;
+  font-size:14px;line-height:1;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s,transform .15s;
+  flex-shrink:0;
+  padding:0;
+}
+.reselect-top-btn:hover{background:rgba(255,255,255,.3);}
+.reselect-top-btn:active{transform:scale(.9);}
+.reselect-top-btn:disabled{opacity:.35;cursor:not-allowed;}
+.reselect-top-btn:disabled:hover{background:rgba(255,255,255,.15);}
 
 .side-panel #userBarContainerSide{padding:10px 14px 0;flex-shrink:0;}
 .side-panel .user-bar{margin-bottom:0;}
@@ -598,6 +614,7 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
         <span>🔢 答题卡</span>
         <span class="paper-name" id="cardPaperNameSide">未选择</span>
       </div>
+      <button class="reselect-top-btn" id="reselectTopBtn" title="重选试卷">🔄</button>
     </div>
 
     <div id="userBarContainerSide"></div>
@@ -668,12 +685,15 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 
 <div class="card-panel" id="cardPanel">
   <div class="card-panel-header">
-    <div class="title">
-      <span>🔢 答题卡</span>
-      <span class="paper-name" id="cardPaperName">未选择</span>
-    </div>
+  <div class="title">
+    <span>🔢 答题卡</span>
+    <span class="paper-name" id="cardPaperName">未选择</span>
+  </div>
+  <div style="display:flex;gap:6px;align-items:center;">
+    <button class="reselect-top-btn" id="reselectTopBtnM" title="重选试卷">🔄</button>
     <button class="close-panel" id="closePanelBtn">×</button>
   </div>
+</div>
 
   <div id="userBarContainer"></div>
 
@@ -1068,7 +1088,7 @@ const BACKUP_STORAGE_KEY = 'zktest_backups_v6';
 const REVIVE_STORAGE_KEY = 'zktest_revive_v6';
 const HEALTH_KEY = 'zktest_health_v6';
 const SESSION_KEY = 'zktest_session_v6';
-const CRASH_TIMEOUT_MS = 60000;
+// 不再使用超时判断，改用完整性检测
 
 // ============================================================
 // DOM 引用
@@ -1083,6 +1103,8 @@ const answeredCountEl = $('answeredCountSide');
 const unansweredCountEl = $('unansweredCountSide');
 const questionGrid = $('questionGridSide');
 const cardPaperName = $('cardPaperNameSide');
+const reselectTopBtn = $('reselectTopBtn');
+const reselectTopBtnM = $('reselectTopBtnM');
 const selectPaperBtn = $('selectPaperBtn');
 const answerActionRow = $('answerActionRow');
 const resultActionRow = $('resultActionRow');
@@ -1590,6 +1612,17 @@ function calculateScore(){
 }
 
 function updateActionButtons(){
+  // 顶部重选按钮：仅在已选中试卷时可用
+  const hasPaper = !!currentPaper;
+  if(reselectTopBtn){
+    reselectTopBtn.disabled = !hasPaper;
+    reselectTopBtn.style.display = hasPaper ? 'flex' : 'none';
+  }
+  if(reselectTopBtnM){
+    reselectTopBtnM.disabled = !hasPaper;
+    reselectTopBtnM.style.display = hasPaper ? 'flex' : 'none';
+  }
+
   if(!currentPaper){
     selectPaperBtn.style.display='flex';
     selectPaperBtnM.style.display='flex';
@@ -1657,6 +1690,7 @@ function resetPaper(){
   else currentQuestions=renumber(currentPaper.questions);
   updateStats();renderQuestionButtons();renderPaperContent();updateActionButtons();
   activeQuestionId=null;updateActiveQuestionHighlight();
+  scrollToTopOfQuestions();
 }
 function retryPaper(){
   if(!currentPaper)return;
@@ -1667,6 +1701,19 @@ function retryPaper(){
   else currentQuestions=renumber(currentPaper.questions);
   updateStats();renderQuestionButtons();renderPaperContent();updateActionButtons();
   activeQuestionId=null;updateActiveQuestionHighlight();
+  // 自动回到顶部第一题
+  scrollToTopOfQuestions();
+}
+function scrollToTopOfQuestions(){
+  // 桌面端：右侧试卷区滚到顶
+  const desktopContainer = document.getElementById('questionsContainer');
+  if(desktopContainer){
+    desktopContainer.scrollTo({ top: 0, behavior: 'auto' });
+  }
+  // 移动端：整个页面滚到顶（因为移动端试卷是页面级滚动）
+  if(window.innerWidth <= 900){
+    window.scrollTo({ top: 0, behavior: 'auto' });
+  }
 }
 function reselectPaper(){
   isSubmitted=false;score=0;activeQuestionId=null;
@@ -2107,40 +2154,44 @@ function showPassModal(callback){
 }
 
 // ============================================================
-// 崩溃检测
 // ============================================================
-function getSessionId(){
-  try{
-    let sid = sessionStorage.getItem(SESSION_KEY);
-    if(!sid){
-      sid = 'sess_' + Date.now() + '_' + Math.random().toString(36).slice(2, 8);
-      sessionStorage.setItem(SESSION_KEY, sid);
+// 页面完整性检测（替代心跳超时，避免移动端误判）
+// ============================================================
+function checkPageIntegrity() {
+  const coreFunctions = [
+    'shuffleAndRenumber', 'renumber', 'getAnsweredCount', 'isAnswerCorrect',
+    'buildQuestionGridHTML', 'renderQuestionButtons', 'renderPaperContent',
+    'renderResultContent', 'calculateScore', 'submitPaper',
+    'getFullPageHTML', 'ghPushHTML', 'loadPaper', 'showModal'
+  ];
+  for (let fn of coreFunctions) {
+    if (typeof window[fn] !== 'function' && typeof eval(fn) !== 'function') {
+      console.error(`[完整性检测] 核心函数 ${fn} 丢失`);
+      return { ok: false, reason: `核心函数 ${fn} 丢失` };
     }
-    return sid;
-  }catch(e){ return 'sess_fallback'; }
+  }
+  const coreElements = ['app', 'paperTitle', 'questionsContainer', 'questionGridSide'];
+  for (let id of coreElements) {
+    if (!document.getElementById(id)) {
+      console.error(`[完整性检测] 核心DOM元素 ${id} 丢失`);
+      return { ok: false, reason: `核心DOM元素 ${id} 丢失` };
+    }
+  }
+  // 尝试执行一次核心逻辑，确认无报错
+  try {
+    if (typeof papers !== 'undefined' && papers && papers.length > 0) {
+      const testQ = papers[0].questions || [];
+      if (testQ.length > 0 && typeof isAnswerCorrect === 'function') {
+        isAnswerCorrect(testQ[0], testQ[0].answer);
+      }
+    }
+  } catch (e) {
+    console.error('[完整性检测] 核心逻辑执行报错:', e);
+    return { ok: false, reason: '核心逻辑执行报错: ' + e.message };
+  }
+  return { ok: true };
 }
-function writeHealthTick(){
-  if(document.hidden) return;
-  try{
-    const sid = getSessionId();
-    localStorage.setItem(HEALTH_KEY, JSON.stringify({ ts: Date.now(), sid }));
-  }catch(e){}
-}
-function clearHealthTick(){
-  try{ localStorage.removeItem(HEALTH_KEY); }catch(e){}
-}
-function checkPreviousCrash(){
-  try{
-    const raw = localStorage.getItem(HEALTH_KEY);
-    if(!raw) return false;
-    const obj = JSON.parse(raw);
-    if(!obj || !obj.ts) return false;
-    const currentSid = getSessionId();
-    if(obj.sid && obj.sid === currentSid) return false;
-    const elapsed = Date.now() - obj.ts;
-    return elapsed > CRASH_TIMEOUT_MS;
-  }catch(e){ return false; }
-}
+
 function showCrashRecoveryPopup(){
   const backup = loadReviveBackup();
   if(!backup){
@@ -2458,7 +2509,8 @@ document.addEventListener('click',e=>{
 [retryBtn, retryBtnM].forEach(btn=>{
   btn.addEventListener('click',e=>{e.stopPropagation();retryPaper();});
 });
-[reselectBtn, reselectBtnM].forEach(btn=>{
+[reselectBtn, reselectBtnM, reselectTopBtn, reselectTopBtnM].forEach(btn=>{
+  if(!btn) return;
   btn.addEventListener('click',e=>{e.stopPropagation();reselectPaper();});
 });
 
@@ -2764,20 +2816,18 @@ rcRestoreBtn.addEventListener('click',()=>{
     saveBackup().catch(()=>{});
   }
 
-  const crashed = checkPreviousCrash();
-  const reviveBackupExists = loadReviveBackup();
-  if(crashed && reviveBackupExists && !document.hidden){
-    setTimeout(()=>{
-      if(!document.hidden) showCrashRecoveryPopup();
-    }, 800);
-  }
-
-  writeHealthTick();
-  setInterval(writeHealthTick, 10000);
-  document.addEventListener('visibilitychange', ()=>{
-    if(!document.hidden) writeHealthTick();
-  });
-  window.addEventListener('beforeunload', clearHealthTick);
+    // 完整性检测（替代心跳超时）
+  setTimeout(() => {
+    const integrity = checkPageIntegrity();
+    if (!integrity.ok) {
+      console.warn('[完整性检测] 未通过:', integrity.reason);
+      if (loadReviveBackup()) {
+        showCrashRecoveryPopup();
+      } else {
+        alert('检测到页面异常，但未找到复活备份，请手动修复代码');
+      }
+    }
+  }, 1200);
 
   currentPaper=null;currentQuestions=[];activeQuestionId=null;isSubmitted=false;
   randomCheck.checked = false; randomCheckM.checked = false;
@@ -2789,17 +2839,6 @@ rcRestoreBtn.addEventListener('click',()=>{
   renderUserBar();
   renderReviveInfo();
 
-  window.addEventListener('error', (e)=>{
-    console.error('页面错误：', e.message);
-    setTimeout(()=>{
-      const bk = loadReviveBackup();
-      if(bk && !reviveCrashOverlay.classList.contains('show')){
-        if(e.message && (e.message.includes('is not defined') || e.message.includes('Cannot read') || e.message.includes('SyntaxError'))){
-          showCrashRecoveryPopup();
-        }
-      }
-    }, 500);
-  });
 })();
 </script>
 </body>
