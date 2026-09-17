@@ -495,6 +495,98 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
   .card-panel{max-height:68vh;}
   .card-panel-grid{gap:8px;padding:10px;}
 }
+/* ============================================================
+   移动端题库管理优化（核心修复）
+   ============================================================ */
+@media (max-width:900px){
+  /* 题库管理弹窗 - 移动端友好 */
+  #deletePaperOverlay .modal {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 20px !important;
+    padding: 0 !important;
+    display: flex;
+    flex-direction: column;
+    max-height: 85vh;
+    overflow: hidden;
+  }
+  #deletePaperOverlay .modal h3 {
+    padding: 20px 20px 10px;
+    margin: 0;
+    font-size: 17px;
+    text-align: left;
+  }
+  #deletePaperOverlay .parse-hint {
+    margin: 0 20px 12px;
+    font-size: 11px;
+  }
+  /* 题库列表区域 - 可滚动 */
+  #deletePaperOverlay .paper-list {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: none !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    padding: 4px 16px 12px;
+    margin-bottom: 0 !important;
+    gap: 10px;
+  }
+  /* 自定义滚动条 */
+  #deletePaperOverlay .paper-list::-webkit-scrollbar {
+    width: 5px;
+  }
+  #deletePaperOverlay .paper-list::-webkit-scrollbar-track {
+    background: #f0f4fa;
+    border-radius: 10px;
+  }
+  #deletePaperOverlay .paper-list::-webkit-scrollbar-thumb {
+    background: #b9c8db;
+    border-radius: 10px;
+  }
+  /* 卡片重排 - 适应小屏 */
+  #deletePaperOverlay .paper-option {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 14px 16px;
+    border-radius: 16px;
+  }
+  #deletePaperOverlay .paper-option > span:first-child {
+    font-size: 14.5px;
+    font-weight: 700;
+    color: #1e2b3c;
+    line-height: 1.4;
+    word-break: break-word;
+    white-space: normal;
+  }
+  #deletePaperOverlay .paper-option .po-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+  }
+  #deletePaperOverlay .paper-option .badge {
+    font-size: 11px;
+    padding: 3px 10px;
+    white-space: nowrap;
+  }
+  #deletePaperOverlay .paper-option .po-btn {
+    font-size: 12px;
+    padding: 6px 12px;
+    border-radius: 10px;
+    flex: 1 1 auto;
+    min-width: fit-content;
+    text-align: center;
+  }
+  /* 关闭按钮 */
+  #deletePaperOverlay .close-modal {
+    margin: 12px 16px 18px;
+    width: auto;
+    flex-shrink: 0;
+  }
+}
 </style>
 </head>
 <body>
@@ -897,7 +989,7 @@ E. 使用预先约定的信号或方法报警
     <h3>🔐 输入验证密码</h3>
     <div class="login-form">
       <div class="field"><label>验证密码（代码）</label><input type="password" id="passInput" placeholder="请输入代码"></div>
-      <div class="parse-hint" id="passHint">提示：操作需要输入代码 qiuhua。</div>
+      <div class="parse-hint" id="passHint">提示：操作需要输入代码</div>
       <div class="btns">
         <button class="secondary" id="passCancelBtn">取消</button>
         <button class="primary" id="passConfirmBtn">确认</button>
