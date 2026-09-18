@@ -13,7 +13,7 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 
 /* ============ 左侧答题卡 ============ */
 .side-panel{
-  width:380px;flex-shrink:0;
+  width:340px;flex-shrink:0;
   background:#fbfdff;border-right:1px solid #edf2f9;
   display:flex;flex-direction:column;
   overflow:hidden;
@@ -41,14 +41,27 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 .reselect-top-btn:active{transform:scale(.9);}
 .reselect-top-btn:disabled{opacity:.35;cursor:not-allowed;}
 .reselect-top-btn:disabled:hover{background:rgba(255,255,255,.15);}
+.login-top-btn{
+  width:30px;height:30px;border-radius:50%;
+  background:rgba(255,255,255,.15);
+  border:none;color:#fff;
+  font-size:14px;line-height:1;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s,transform .15s;
+  flex-shrink:0;
+  padding:0;
+}
+.login-top-btn:hover{background:rgba(255,255,255,.3);}
+.login-top-btn:active{transform:scale(.9);}
 
 .side-panel #userBarContainerSide{padding:10px 14px 0;flex-shrink:0;}
 .side-panel .user-bar{margin-bottom:0;}
 
-.side-stats{display:flex;background:#fff;padding:12px 16px;border-bottom:1px solid #e9edf4;flex-shrink:0;}
+.side-stats{display:flex;background:#fff;padding:8px 12px;border-bottom:1px solid #e9edf4;flex-shrink:0;}
 .side-stats .stat-item{text-align:center;flex:1;}
-.side-stats .stat-label{font-size:11px;color:#5b6e8c;margin-bottom:3px;}
-.side-stats .stat-value{font-size:20px;font-weight:700;color:#1e2b3c;line-height:1.2;}
+.side-stats .stat-label{font-size:10px;color:#5b6e8c;margin-bottom:2px;}
+.side-stats .stat-value{font-size:17px;font-weight:700;color:#1e2b3c;line-height:1.2;}
 .side-stats .stat-value.answered{color:#2a7a4b;}
 .side-stats .stat-value.unanswered{color:#b13e3e;}
 .side-stats .divider{width:1px;background:#e2e8f0;margin:0 4px;}
@@ -71,7 +84,7 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 /* 答题卡滚动区 —— 一体式，全部展开 */
 .side-grid{
   display:flex;flex-direction:column;gap:0;
-  padding:14px 16px;
+  padding:10px 12px;
   overflow-y:auto;-webkit-overflow-scrolling:touch;
   flex:1 1 auto;
   min-height:0;
@@ -105,7 +118,29 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 .paper-area{flex:1;display:flex;flex-direction:column;background:#fff;position:relative;overflow:hidden;min-width:0;}
 .paper-header{padding:28px 32px 12px;border-bottom:1px solid #edf2f9;flex-shrink:0;}
 .paper-title{font-size:22px;font-weight:700;color:#0b1a2b;letter-spacing:-.2px;margin-bottom:6px;}
+.paper-title-row .paper-title{margin-bottom:0;white-space:nowrap;}
 .paper-sub{font-size:14px;color:#6f7f96;}
+.paper-header-top{display:flex;flex-direction:column;align-items:stretch;gap:6px;}
+.paper-title-row{display:flex;align-items:center;flex-wrap:wrap;gap:10px 18px;margin-bottom:6px;}
+.switch-group-compact{display:flex;flex-direction:row;align-items:center;gap:16px;background:transparent;padding:0;border:none;border-radius:0;}
+.switch-item-compact{display:flex;align-items:center;gap:6px;font-size:13px;color:#2e405b;cursor:pointer;user-select:none;padding:0;white-space:nowrap;}
+.switch-item-compact .switch-label{display:flex;align-items:center;gap:4px;font-weight:600;white-space:nowrap;}
+.switch-item-compact input[type="checkbox"]{width:17px;height:17px;accent-color:#1e2b3c;cursor:pointer;margin:0;flex-shrink:0;}
+.paper-header-right{display:none;}
+.switch-group-compact .timer-top-right{margin-left:auto;}
+.timer-top-right{
+  display:flex;align-items:center;gap:6px;
+  padding:5px 10px;
+  background:#1e2b3c;color:#fff;
+  border-radius:8px;
+  font-size:12.5px;font-weight:700;
+  font-variant-numeric:tabular-nums;
+  letter-spacing:.5px;
+  transition:background .2s;
+  flex-shrink:0;
+}
+.timer-top-right .tb-icon{font-size:14px;}
+.timer-top-right.running{background:#2a7a4b;}
 .questions-container{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px 32px 32px;scroll-behavior:auto;}
 .question-item{margin-bottom:24px;padding:18px 22px;background:#fff;border-radius:18px;border:1px solid #eef2f8;box-shadow:0 4px 12px rgba(0,0,0,.02);transition:border .15s,box-shadow .15s;scroll-margin-top:20px;}
 .question-item.active-question{border:1.5px solid #1e2b3c;box-shadow:0 10px 20px -6px rgba(0,0,0,.12);}
@@ -151,10 +186,6 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 .result-action-row .retry-btn:hover{background:#1e5e38;}
 .result-action-row .reselect-btn{background:#eef2f8;color:#2e405b;}
 .result-action-row .reselect-btn:hover{background:#e1e9f2;}
-.switch-group{display:flex;flex-direction:column;gap:6px;padding:10px 14px;background:#f6f9fe;border-radius:12px;border:1px solid #e9edf4;}
-.switch-item{display:flex;align-items:center;justify-content:space-between;font-size:12.5px;color:#2e405b;cursor:pointer;user-select:none;padding:3px 0;}
-.switch-item .switch-label{display:flex;align-items:center;gap:6px;font-weight:500;}
-.switch-item input[type="checkbox"]{width:17px;height:17px;accent-color:#1e2b3c;cursor:pointer;margin:0;flex-shrink:0;}
 
 .question-btn{width:38px;height:38px;border-radius:10px;background:#f6f9fe;border:1.5px solid #dce2ec;font-weight:600;font-size:13px;color:#1f2c3f;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;}
 .question-btn:hover{border-color:#8099b3;background:#e8f0fe;}
@@ -442,6 +473,12 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
   .paper-area{flex:none;overflow:visible;order:1;}
   .side-panel{display:none !important;}
   .paper-header{padding:20px 16px 8px;}
+  .paper-header-top{flex-direction:column;align-items:stretch;gap:8px;}
+  .paper-title-row{flex-direction:column;align-items:flex-start;gap:8px;margin-bottom:4px;}
+  .paper-header-right{align-items:flex-start;}
+  .switch-group-compact{flex-direction:row;flex-wrap:wrap;gap:10px 16px;width:100%;}
+.switch-group-compact .timer-top-right{margin-left:0;}
+  .switch-item-compact{font-size:13px;gap:6px;padding:0;}
   .paper-title{font-size:18px;}
   .paper-sub{font-size:13px;}
   .questions-container{padding:12px 14px 120px;overflow:visible;flex:none;}
@@ -487,6 +524,7 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
   .card-panel-header{padding:14px 16px;background:#1e2b3c;color:#fff;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
   .card-panel-header .title{font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px;}
   .card-panel-header .title .paper-name{font-size:11px;background:rgba(255,255,255,.2);padding:3px 10px;border-radius:20px;font-weight:500;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .login-top-btn{width:28px;height:28px;font-size:13px;}
   .card-panel-header .close-panel{background:rgba(255,255,255,.15);border:none;width:30px;height:30px;border-radius:50%;font-size:18px;color:#fff;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center;}
   .card-panel-header .close-panel:hover{background:rgba(255,255,255,.3);}
   .card-panel-stats{display:flex;background:#f8fafd;padding:12px 14px;border-bottom:1px solid #e9edf4;flex-shrink:0;}
@@ -609,12 +647,15 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 
 <div class="app" id="app">
   <aside class="side-panel" id="sidePanel">
-    <div class="side-panel-header">
+        <div class="side-panel-header">
       <div class="title">
         <span>🔢 答题卡</span>
         <span class="paper-name" id="cardPaperNameSide">未选择</span>
       </div>
-      <button class="reselect-top-btn" id="reselectTopBtn" title="重选试卷">🔄</button>
+      <div style="display:flex;gap:6px;align-items:center;flex-shrink:0;">
+        <button class="login-top-btn" id="loginBtn" title="登录">🔑</button>
+        <button class="reselect-top-btn" id="reselectTopBtn" title="重选试卷">🔄</button>
+      </div>
     </div>
 
     <div id="userBarContainerSide"></div>
@@ -627,7 +668,7 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
       <div class="stat-item"><div class="stat-label">未答</div><div class="stat-value unanswered" id="unansweredCountSide">0</div></div>
     </div>
 
-    <div class="side-actions" id="sideActions">
+        <div class="side-actions" id="sideActions">
       <button class="btn-primary" id="selectPaperBtn"><span>📄 选择试卷</span></button>
       <div class="action-row" id="answerActionRow" style="display:none;">
         <button class="action-btn submit" id="submitBtn">✅ 提交试卷</button>
@@ -637,26 +678,6 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
         <button class="retry-btn" id="retryBtn">🔄 重新答题</button>
         <button class="reselect-btn" id="reselectBtn">📄 重选试卷</button>
       </div>
-      <div class="switch-group" id="switchGroup">
-        <label class="switch-item" id="randomSwitchItem" for="randomCheck">
-          <span class="switch-label">🎲 随机答题</span>
-          <input type="checkbox" id="randomCheck">
-        </label>
-        <label class="switch-item" id="noHighlightSwitchItem" for="noHighlightCheck">
-          <span class="switch-label">✨ 跳转不高亮</span>
-          <input type="checkbox" id="noHighlightCheck">
-        </label>
-        <label class="switch-item" id="wrongOnlySwitchItem" style="display:none;" for="wrongOnlyCheck">
-          <span class="switch-label">📕 只看错题</span>
-          <input type="checkbox" id="wrongOnlyCheck">
-        </label>
-      </div>
-      <!-- 计时器（独立，直接显示，无开关） -->
-      <div class="timer-inline" id="timerInline">
-        <span class="tb-icon">⏱</span>
-        <span id="timerInlineText">00:00</span>
-      </div>
-      <button class="btn-primary" id="loginBtn" style="background:#2a7a4b;"><span>🔑 登录</span></button>
     </div>
 
     <div class="side-grid" id="questionGridSide"></div>
@@ -671,14 +692,36 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
   </aside>
 
   <main class="paper-area" id="paperArea">
-    <div class="paper-header">
-      <div class="paper-title" id="paperTitle">请选择试卷</div>
+  <div class="paper-header">
+    <div class="paper-header-top">
+      <div class="paper-title-row">
+        <div class="paper-title" id="paperTitle">请选择试卷</div>
+        <div class="switch-group-compact" id="switchGroupCompact" style="display:none;">
+          <label class="switch-item-compact" for="randomCheckTop">
+            <span class="switch-label">🎲 随机答题</span>
+            <input type="checkbox" id="randomCheckTop">
+          </label>
+          <label class="switch-item-compact" for="noHighlightCheckTop">
+            <span class="switch-label">✨ 跳转不高亮</span>
+            <input type="checkbox" id="noHighlightCheckTop">
+          </label>
+          <label class="switch-item-compact" id="wrongOnlySwitchItemTop" style="display:none;" for="wrongOnlyCheckTop">
+            <span class="switch-label">📕 只看错题</span>
+            <input type="checkbox" id="wrongOnlyCheckTop">
+          </label>
+          <div class="timer-top-right" id="timerInline" style="display:none;">
+            <span class="tb-icon">🕐</span>
+            <span id="timerInlineText">00:00</span>
+          </div>
+        </div>
+      </div>
       <div class="paper-sub" id="paperSub">点击左侧「选择试卷」开始答题</div>
     </div>
-    <div class="questions-container" id="questionsContainer">
-      <div class="empty-paper"><span>📋</span><div>请选择试卷开始答题</div></div>
-    </div>
-  </main>
+  </div>
+  <div class="questions-container" id="questionsContainer">
+    <div class="empty-paper"><span>📋</span><div>请选择试卷开始答题</div></div>
+  </div>
+</main>
 </div>
 
 <div class="float-ball" id="floatBall">📝<span class="ball-badge hidden" id="ballBadge">0</span></div>
@@ -715,22 +758,8 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
       <button class="retry-btn" id="retryBtnM">🔄 重新答题</button>
       <button class="reselect-btn" id="reselectBtnM">📄 重选试卷</button>
     </div>
-    <div class="switch-group" id="switchGroupM">
-      <label class="switch-item" for="randomCheckM">
-        <span class="switch-label">🎲 随机答题</span>
-        <input type="checkbox" id="randomCheckM">
-      </label>
-      <label class="switch-item" for="noHighlightCheckM">
-        <span class="switch-label">✨ 跳转不高亮</span>
-        <input type="checkbox" id="noHighlightCheckM">
-      </label>
-      <label class="switch-item" id="wrongOnlySwitchItemM" style="display:none;" for="wrongOnlyCheckM">
-        <span class="switch-label">📕 只看错题</span>
-        <input type="checkbox" id="wrongOnlyCheckM">
-      </label>
-    </div>
-    <!-- 移动端计时器 -->
-    <div class="timer-inline" id="timerInlineM">
+        <!-- 移动端计时器 -->
+    <div class="timer-inline" id="timerInlineM" style="display:none;">
       <span class="tb-icon">⏱</span>
       <span id="timerInlineTextM">00:00</span>
     </div>
@@ -1112,10 +1141,6 @@ const submitBtn = $('submitBtn');
 const resetBtn = $('resetBtn');
 const retryBtn = $('retryBtn');
 const reselectBtn = $('reselectBtn');
-const randomCheck = $('randomCheck');
-const noHighlightCheck = $('noHighlightCheck');
-const wrongOnlyCheck = $('wrongOnlyCheck');
-const wrongOnlySwitchItem = $('wrongOnlySwitchItem');
 const historySection = $('historySectionSide');
 const historyHeader = $('historyHeader');
 const historyArrow = $('historyArrow');
@@ -1140,11 +1165,7 @@ const resultActionRowM = $('resultActionRowM');
 const submitBtnM = $('submitBtnM');
 const resetBtnM = $('resetBtnM');
 const retryBtnM = $('retryBtnM');
-const reselectBtnM = $('reselectBtnM');
-const randomCheckM = $('randomCheckM');
-const noHighlightCheckM = $('noHighlightCheckM');
-const wrongOnlyCheckM = $('wrongOnlyCheckM');
-const wrongOnlySwitchItemM = $('wrongOnlySwitchItemM');
+const reselectBtnM = $('reselectBtnM');	
 const historySectionM = $('historySection');
 const historyHeaderM = $('historyHeaderM');
 const historyArrowM = $('historyArrowM');
@@ -1235,6 +1256,13 @@ const rcSub = $('rcSub');
 const rcMeta = $('rcMeta');
 const rcLaterBtn = $('rcLaterBtn');
 const rcRestoreBtn = $('rcRestoreBtn');
+
+// 顶部开关组（放在试卷标题右侧）
+const switchGroupCompact = $('switchGroupCompact');
+const randomCheckTop = $('randomCheckTop');
+const noHighlightCheckTop = $('noHighlightCheckTop');
+const wrongOnlyCheckTop = $('wrongOnlyCheckTop');
+const wrongOnlySwitchItemTop = $('wrongOnlySwitchItemTop');
 
 let editingPaperId = null;
 let editingPaperQuestions = [];
@@ -1431,8 +1459,6 @@ function renderQuestionButtons(){
   const html = buildQuestionGridHTML();
   questionGrid.innerHTML = html;
   questionGridM.innerHTML = html;
-  randomCheck.disabled=false;noHighlightCheck.disabled=false;wrongOnlyCheck.disabled=false;
-  randomCheckM.disabled=false;noHighlightCheckM.disabled=false;wrongOnlyCheckM.disabled=false;
 }
 
 // ============================================================
@@ -1612,11 +1638,22 @@ function calculateScore(){
 }
 
 function updateActionButtons(){
-  // 顶部重选按钮：仅在已选中试卷时可用
   const hasPaper = !!currentPaper;
   if(reselectTopBtn){
     reselectTopBtn.disabled = !hasPaper;
     reselectTopBtn.style.display = hasPaper ? 'flex' : 'none';
+  }
+  // 顶部登录按钮跟随 currentUser 显示
+  if(loginBtn){
+    loginBtn.style.display = currentUser ? 'none' : 'flex';
+  }
+  // 顶部计时器跟随试卷选择状态显示
+  if(timerInline){
+    timerInline.style.display = hasPaper ? 'flex' : 'none';
+  }
+  // 移动端卡片面板计时器跟随试卷选择状态显示
+  if(timerInlineM){
+    timerInlineM.style.display = hasPaper ? 'flex' : 'none';
   }
   if(reselectTopBtnM){
     reselectTopBtnM.disabled = !hasPaper;
@@ -1632,8 +1669,8 @@ function updateActionButtons(){
     resultActionRowM.style.display='none';
     historySection.style.display='none';
     historySectionM.style.display='none';
-    wrongOnlySwitchItem.style.display='none';
-    wrongOnlySwitchItemM.style.display='none';
+    if(switchGroupCompact)switchGroupCompact.style.display='none';
+    if(wrongOnlySwitchItemTop)wrongOnlySwitchItemTop.style.display='none';
   }else if(isSubmitted){
     selectPaperBtn.style.display='none';
     selectPaperBtnM.style.display='none';
@@ -1643,8 +1680,8 @@ function updateActionButtons(){
     resultActionRowM.style.display='flex';
     historySection.style.display='block';
     historySectionM.style.display='block';
-    wrongOnlySwitchItem.style.display='flex';
-    wrongOnlySwitchItemM.style.display='flex';
+    if(switchGroupCompact)switchGroupCompact.style.display='flex';
+    if(wrongOnlySwitchItemTop)wrongOnlySwitchItemTop.style.display='flex';
   }else{
     selectPaperBtn.style.display='none';
     selectPaperBtnM.style.display='none';
@@ -1654,9 +1691,13 @@ function updateActionButtons(){
     resultActionRowM.style.display='none';
     historySection.style.display='none';
     historySectionM.style.display='none';
-    wrongOnlySwitchItem.style.display='none';
-    wrongOnlySwitchItemM.style.display='none';
+    if(switchGroupCompact)switchGroupCompact.style.display='flex';
+    if(wrongOnlySwitchItemTop)wrongOnlySwitchItemTop.style.display='none';
   }
+  // 同步顶部开关勾选状态
+  if(randomCheckTop)randomCheckTop.checked=randomMode;
+  if(noHighlightCheckTop)noHighlightCheckTop.checked=noHighlight;
+  if(wrongOnlyCheckTop)wrongOnlyCheckTop.checked=wrongOnly;
 }
 
 function submitPaper(){
@@ -1680,6 +1721,8 @@ function submitPaper(){
   renderHistory();
   activeQuestionId=null;
   updateActiveQuestionHighlight();
+  // 提交后自动回到顶部第一题
+  scrollToTopOfQuestions();
 }
 function resetPaper(){
   if(!currentPaper)return;
@@ -1719,6 +1762,11 @@ function reselectPaper(){
   isSubmitted=false;score=0;activeQuestionId=null;
   currentPaper=null;currentQuestions=[];
   resetTimer();
+  // 重置开关状态（可选优化）
+  randomMode=false; noHighlight=false; wrongOnly=false;
+  if(randomCheckTop) randomCheckTop.checked=false;
+  if(noHighlightCheckTop) noHighlightCheckTop.checked=false;
+  if(wrongOnlyCheckTop) wrongOnlyCheckTop.checked=false;
   paperTitle.textContent='请选择试卷';
   paperSub.textContent='点击左侧「选择试卷」开始答题';
   questionsContainer.innerHTML=`<div class="empty-paper"><span>📋</span><div>请选择试卷开始答题</div></div>`;
@@ -1764,6 +1812,7 @@ function loadPaper(paperId){
   if(randomMode)currentQuestions=shuffleAndRenumber(paper.questions);
   else currentQuestions=renumber(paper.questions);
   initAnswersForPaper(paperId);
+  hideModal();
   updateStats();renderQuestionButtons();renderPaperContent();updateActionButtons();
   closePanel();
 }
@@ -1772,8 +1821,13 @@ function showModal(){
   papers.forEach(p=>{html+=`<div class="paper-option" data-paperid="${p.id}"><span>${p.name}</span><span class="badge">${p.questions.length} 题</span></div>`;});
   paperList.innerHTML=html;
   document.querySelectorAll('#paperList .paper-option').forEach(opt=>{
-    opt.addEventListener('click',e=>{const pid=opt.dataset.paperid;loadPaper(pid);modalOverlay.classList.remove('show');});
+  opt.addEventListener('click',e=>{
+    e.stopPropagation();
+    const pid=opt.dataset.paperid;
+    hideModal();
+    loadPaper(pid);
   });
+});
   modalOverlay.classList.add('show');
 }
 function hideModal(){modalOverlay.classList.remove('show');}
@@ -1808,8 +1862,8 @@ function renderUserBar(){
 }
 function updateUserButtons(){
   const logged = !!currentUser;
-  loginBtn.style.display = logged ? 'none' : 'flex';
-  loginBtnM.style.display = logged ? 'none' : 'flex';
+  if(loginBtn) loginBtn.style.display = logged ? 'none' : 'flex';
+  if(loginBtnM) loginBtnM.style.display = logged ? 'none' : 'flex';
 }
 function showLogin(){loginUser.value='';loginPass.value='';loginOverlay.classList.add('show');}
 function hideLogin(){loginOverlay.classList.remove('show');}
@@ -2514,25 +2568,30 @@ document.addEventListener('click',e=>{
   btn.addEventListener('click',e=>{e.stopPropagation();reselectPaper();});
 });
 
-function bindToggle(cb1, cb2, setter){
-  cb1.addEventListener('change',e=>{e.stopPropagation();setter(e.target.checked);cb2.checked=e.target.checked;});
-  cb2.addEventListener('change',e=>{e.stopPropagation();setter(e.target.checked);cb1.checked=e.target.checked;});
+// 顶部开关组事件（放在试卷标题右侧，预置 DOM，只绑一次）
+if(randomCheckTop){
+  randomCheckTop.addEventListener('change',e=>{
+    e.stopPropagation();
+    randomMode=e.target.checked;
+    if(currentPaper&&!isSubmitted){
+      currentQuestions=randomMode?shuffleAndRenumber(currentPaper.questions):renumber(currentPaper.questions);
+      updateStats();renderQuestionButtons();renderPaperContent();
+    }
+  });
 }
-bindToggle(randomCheck, randomCheckM, (v)=>{
-  randomMode=v;
-  if(currentPaper&&!isSubmitted){
-    if(randomMode)currentQuestions=shuffleAndRenumber(currentPaper.questions);
-    else currentQuestions=renumber(currentPaper.questions);
-    updateStats();renderQuestionButtons();renderPaperContent();
-  }
-});
-bindToggle(noHighlightCheck, noHighlightCheckM, (v)=>{
-  noHighlight=v;
-});
-bindToggle(wrongOnlyCheck, wrongOnlyCheckM, (v)=>{
-  wrongOnly=v;
-  if(isSubmitted){renderResultContent();renderQuestionButtons();}
-});
+if(noHighlightCheckTop){
+  noHighlightCheckTop.addEventListener('change',e=>{
+    e.stopPropagation();
+    noHighlight=e.target.checked;
+  });
+}
+if(wrongOnlyCheckTop){
+  wrongOnlyCheckTop.addEventListener('change',e=>{
+    e.stopPropagation();
+    wrongOnly=e.target.checked;
+    if(isSubmitted){renderResultContent();renderQuestionButtons();}
+  });
+}
 
 [questionGrid, questionGridM].forEach(grid=>{
   grid.addEventListener('click',e=>{
@@ -2829,10 +2888,10 @@ rcRestoreBtn.addEventListener('click',()=>{
     }
   }, 1200);
 
-  currentPaper=null;currentQuestions=[];activeQuestionId=null;isSubmitted=false;
-  randomCheck.checked = false; randomCheckM.checked = false;
-  noHighlightCheck.checked = false; noHighlightCheckM.checked = false;
-  wrongOnlyCheck.checked = false; wrongOnlyCheckM.checked = false;
+    currentPaper=null;currentQuestions=[];activeQuestionId=null;isSubmitted=false;
+  if(randomCheckTop) randomCheckTop.checked = false;
+  if(noHighlightCheckTop) noHighlightCheckTop.checked = false;
+  if(wrongOnlyCheckTop) wrongOnlyCheckTop.checked = false;
   randomMode=false;noHighlight=false;wrongOnly=false;panelOpen=false;
   resetTimer();
   updateStats();renderQuestionButtons();renderPaperContent();updateActionButtons();
