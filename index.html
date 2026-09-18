@@ -467,12 +467,12 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 .card-panel{display:none;}
 
 @media (max-width:900px){
-  html,body{overflow:auto;-webkit-overflow-scrolling:touch;height:auto;}
-  body{align-items:flex-start;min-height:100vh;display:block;}
-  .app{flex-direction:column;width:100%;height:auto;min-height:100vh;max-height:none;border-radius:0;box-shadow:none;overflow:visible;}
-  .paper-area{flex:none;overflow:visible;order:1;}
+  html,body{overflow:auto !important;-webkit-overflow-scrolling:touch;height:auto !important;}
+  body{align-items:flex-start;min-height:100vh;display:block;overflow:visible !important;}
+  .app{flex-direction:column;width:100%;height:auto;min-height:100vh;max-height:none;border-radius:0;box-shadow:none;overflow:visible !important;}
+  .paper-area{flex:none;overflow:visible !important;order:1;}
   .side-panel{display:none !important;}
-  .paper-header{padding:20px 16px 8px;position:sticky;top:0;z-index:100;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.04);}
+  .paper-header{padding:20px 16px 8px;position:sticky !important;top:0 !important;z-index:100 !important;background:#fff !important;box-shadow:0 2px 8px rgba(0,0,0,.06) !important;}
   .paper-header-top{flex-direction:column;align-items:stretch;gap:8px;}
   .paper-title-row{flex-direction:column;align-items:flex-start;gap:8px;margin-bottom:4px;}
   .paper-header-right{align-items:flex-start;}
@@ -1741,20 +1741,39 @@ function scrollToTopOfQuestions(){
   }
 }
 function reselectPaper(){
+  // 1. 重置所有状态
   isSubmitted=false;score=0;activeQuestionId=null;
-  currentPaper=null;currentQuestions=[];
+  
+  // 2. 清空当前试卷数据
+  if(currentPaper){
+    // 清除当前试卷的答题记录
+    delete userAnswers[currentPaper.id];
+  }
+  currentPaper=null;
+  currentQuestions=[];
+  
+  // 3. 重置计时器
   resetTimer();
-  // 重置开关状态（可选优化）
+  
+  // 4. 重置开关状态
   randomMode=false; noHighlight=false; wrongOnly=false;
   if(randomCheckTop) randomCheckTop.checked=false;
   if(noHighlightCheckTop) noHighlightCheckTop.checked=false;
   if(wrongOnlyCheckTop) wrongOnlyCheckTop.checked=false;
+  
+  // 5. 重置界面
   paperTitle.textContent='请选择试卷';
   paperSub.textContent='点击左侧「选择试卷」开始答题';
   questionsContainer.innerHTML=`<div class="empty-paper"><span>📋</span><div>请选择试卷开始答题</div></div>`;
   cardPaperName.textContent='未选择';
   cardPaperNameM.textContent='未选择';
-  updateStats();renderQuestionButtons();updateActionButtons();
+  
+  // 6. 更新界面
+  updateStats();
+  renderQuestionButtons();
+  updateActionButtons();
+  
+  // 7. 弹出选择试卷窗口
   showModal();
 }
 
@@ -2867,7 +2886,7 @@ rcRestoreBtn.addEventListener('click',()=>{
       } else {
         alert('检测到页面异常，但未找到复活备份，请手动修复代码');
       }
-    }
+    }	
   }, 1200);
 
     currentPaper=null;currentQuestions=[];activeQuestionId=null;isSubmitted=false;
