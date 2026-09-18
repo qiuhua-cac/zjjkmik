@@ -472,7 +472,7 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
   .app{flex-direction:column;width:100%;height:auto;min-height:100vh;max-height:none;border-radius:0;box-shadow:none;overflow:visible;}
   .paper-area{flex:none;overflow:visible;order:1;}
   .side-panel{display:none !important;}
-  .paper-header{padding:20px 16px 8px;}
+  .paper-header{padding:20px 16px 8px;position:sticky;top:0;z-index:100;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.04);}
   .paper-header-top{flex-direction:column;align-items:stretch;gap:8px;}
   .paper-title-row{flex-direction:column;align-items:flex-start;gap:8px;margin-bottom:4px;}
   .paper-header-right{align-items:flex-start;}
@@ -514,7 +514,7 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
 
   .card-panel{
     display:flex;position:fixed;right:16px;bottom:80px;
-    width:calc(100vw - 32px);max-width:400px;max-height:72vh;
+    width:calc(100vw - 32px);max-width:400px;max-height:82vh;
     background:#fff;border-radius:22px;box-shadow:0 20px 50px rgba(0,0,0,.25);
     z-index:1499;flex-direction:column;overflow:hidden;border:1px solid #e2e8f0;
     transform:translateY(20px) scale(.96);opacity:0;pointer-events:none;
@@ -527,16 +527,16 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
   .login-top-btn{width:28px;height:28px;font-size:13px;}
   .card-panel-header .close-panel{background:rgba(255,255,255,.15);border:none;width:30px;height:30px;border-radius:50%;font-size:18px;color:#fff;cursor:pointer;line-height:1;display:flex;align-items:center;justify-content:center;}
   .card-panel-header .close-panel:hover{background:rgba(255,255,255,.3);}
-  .card-panel-stats{display:flex;background:#f8fafd;padding:12px 14px;border-bottom:1px solid #e9edf4;flex-shrink:0;}
+  .card-panel-stats{display:flex;background:#f8fafd;padding:6px 10px;border-bottom:1px solid #e9edf4;flex-shrink:0;}
   .card-panel-stats .stat-item{text-align:center;flex:1;}
-  .card-panel-stats .stat-label{font-size:11px;color:#5b6e8c;margin-bottom:3px;}
-  .card-panel-stats .stat-value{font-size:20px;font-weight:700;color:#1e2b3c;line-height:1.2;}
+  .card-panel-stats .stat-label{font-size:10px;color:#5b6e8c;margin-bottom:1px;}
+  .card-panel-stats .stat-value{font-size:15px;font-weight:700;color:#1e2b3c;line-height:1.2;}
   .card-panel-stats .stat-value.answered{color:#2a7a4b;}
   .card-panel-stats .stat-value.unanswered{color:#b13e3e;}
   .card-panel-stats .divider{width:1px;background:#e2e8f0;margin:0 4px;}
   .card-panel-actions{padding:10px 14px;display:flex;flex-direction:column;gap:9px;flex-shrink:0;border-bottom:1px solid #e9edf4;background:#fff;overflow-y:auto;max-height:45vh;}
-  .card-panel-grid{display:flex;flex-direction:column;gap:0;padding:12px;overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1 1 auto;min-height:0;background:#fff;}
-  .card-panel-grid .question-btn{width:36px;height:36px;border-radius:10px;font-size:12px;}
+  .card-panel-grid{display:flex;flex-direction:column;gap:0;padding:10px 8px;overflow-y:auto;-webkit-overflow-scrolling:touch;flex:1 1 auto;min-height:0;background:#fff;}
+  .card-panel-grid .question-btn{width:34px;height:34px;border-radius:8px;font-size:12px;}
 }
 
 @media (max-width:480px){
@@ -733,6 +733,7 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
     <span class="paper-name" id="cardPaperName">未选择</span>
   </div>
   <div style="display:flex;gap:6px;align-items:center;">
+    <button class="login-top-btn" id="loginBtnM" title="登录">🔑</button>
     <button class="reselect-top-btn" id="reselectTopBtnM" title="重选试卷">🔄</button>
     <button class="close-panel" id="closePanelBtn">×</button>
   </div>
@@ -749,22 +750,16 @@ body{display:flex;justify-content:center;align-items:center;overflow:hidden;}
   </div>
 
   <div class="card-panel-actions" id="cardActions">
-    <button class="btn-primary" id="selectPaperBtnM"><span>📄 选择试卷</span></button>
-    <div class="action-row" id="answerActionRowM" style="display:none;">
-      <button class="action-btn submit" id="submitBtnM">✅ 提交试卷</button>
-      <button class="action-btn reset" id="resetBtnM">🔄 重置试卷</button>
-    </div>
-    <div class="result-action-row" id="resultActionRowM" style="display:none;">
-      <button class="retry-btn" id="retryBtnM">🔄 重新答题</button>
-      <button class="reselect-btn" id="reselectBtnM">📄 重选试卷</button>
-    </div>
-        <!-- 移动端计时器 -->
-    <div class="timer-inline" id="timerInlineM" style="display:none;">
-      <span class="tb-icon">⏱</span>
-      <span id="timerInlineTextM">00:00</span>
-    </div>
-    <button class="btn-primary" id="loginBtnM" style="background:#2a7a4b;"><span>🔑 登录</span></button>
+  <button class="btn-primary" id="selectPaperBtnM"><span>📄 选择试卷</span></button>
+  <div class="action-row" id="answerActionRowM" style="display:none;">
+    <button class="action-btn submit" id="submitBtnM">✅ 提交试卷</button>
+    <button class="action-btn reset" id="resetBtnM">🔄 重置试卷</button>
   </div>
+  <div class="result-action-row" id="resultActionRowM" style="display:none;">
+    <button class="retry-btn" id="retryBtnM">🔄 重新答题</button>
+    <button class="reselect-btn" id="reselectBtnM">📄 重选试卷</button>
+  </div>
+</div>
 
   <div class="card-panel-grid" id="questionGrid"></div>
 
@@ -1172,8 +1167,6 @@ const historyArrowM = $('historyArrowM');
 const historyListM = $('historyListM');
 const loginBtnM = $('loginBtnM');
 const userBarContainerM = $('userBarContainer');
-const timerInlineM = $('timerInlineM');
-const timerInlineTextM = $('timerInlineTextM');
 
 const modalOverlay = $('modalOverlay');
 const paperList = $('paperList');
@@ -1326,30 +1319,23 @@ function startTimer(){
   timerRunning = true;
   timerStartTs = Date.now() - timerElapsedSec * 1000;
   timerInline.classList.add('running');
-  timerInlineM.classList.add('running');
   timerInterval = setInterval(()=>{
     timerElapsedSec = Math.floor((Date.now() - timerStartTs) / 1000);
-    const txt = formatTime(timerElapsedSec);
-    timerInlineText.textContent = txt;
-    timerInlineTextM.textContent = txt;
+    timerInlineText.textContent = formatTime(timerElapsedSec);
   }, 1000);
-  const txt = formatTime(timerElapsedSec);
-  timerInlineText.textContent = txt;
-  timerInlineTextM.textContent = txt;
+  timerInlineText.textContent = formatTime(timerElapsedSec);
 }
 function stopTimer(){
   if(!timerRunning) return;
   timerRunning = false;
   if(timerInterval){ clearInterval(timerInterval); timerInterval = null; }
   timerInline.classList.remove('running');
-  timerInlineM.classList.remove('running');
 }
 function resetTimer(){
   stopTimer();
   timerElapsedSec = 0;
   timerStartTs = 0;
   timerInlineText.textContent = '00:00';
-  timerInlineTextM.textContent = '00:00';
 }
 
 // ============================================================
@@ -1650,10 +1636,6 @@ function updateActionButtons(){
   // 顶部计时器跟随试卷选择状态显示
   if(timerInline){
     timerInline.style.display = hasPaper ? 'flex' : 'none';
-  }
-  // 移动端卡片面板计时器跟随试卷选择状态显示
-  if(timerInlineM){
-    timerInlineM.style.display = hasPaper ? 'flex' : 'none';
   }
   if(reselectTopBtnM){
     reselectTopBtnM.disabled = !hasPaper;
